@@ -1,0 +1,5 @@
+module System
+
+singleton System 1.0 System.qml
+singleton ColorTheme 1.0 ColorTheme.qml
+singleton FontSettings 1.0 FontSettings.qml

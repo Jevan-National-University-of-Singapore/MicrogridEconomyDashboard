@@ -1,0 +1,3 @@
+IconButton {
+    iconSource: "confirmIcon.png"
+}

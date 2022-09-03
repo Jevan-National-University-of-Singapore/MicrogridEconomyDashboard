@@ -1,0 +1,3 @@
+IconButton {
+    iconSource: "deleteIcon.png"
+}
