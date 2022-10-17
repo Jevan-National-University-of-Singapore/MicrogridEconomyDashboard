@@ -32,9 +32,10 @@ class EssSystem(QObject):
     ******************************** '''
     def __init__(self,
         # required
-        charge_rate_cRate: float,
-        maximum_power_kw: float,
+        charge_rate_cRate: float = None,
+        maximum_power_kw: float = None,
 
+        # optional ()
         installed_capacity: float = 0,
         operational_time_percentage: float = 0,
         state_of_charge_upper_limit: float = 0,
@@ -57,9 +58,83 @@ class EssSystem(QObject):
         self._maximum_power_kw = maximum_power_kw
         self._depth_of_discharge_percentage = state_of_charge_upper_limit - state_of_charge_lower_limit
 
-    ''' *****************************
-                properties
-    ******************************** '''
+    ''' *********************************************
+            Python getters and setters (Backend)
+    ********************************************* '''
+    @property
+    def installed_capacity(self) -> float:
+        return self._installed_capacity_kwh
+
+    @installed_capacity.setter
+    def set_installed_capacity(self, value: float):
+        self._installed_capacity_kwh = value
+
+    @property
+    def operational_time(self) -> float:
+        return self._state_of_charge_upper_limit_percentage
+
+    @operational_time.setter
+    def operational_time(self, value: float):
+        self._operational_time_percentage = value
+
+    @property
+    def state_of_charge_upper_limit(self) -> float:
+        return self._state_of_charge_upper_limit_percentage
+
+    @state_of_charge_upper_limit.setter
+    def state_of_charge_upper_limit(self, value:float):
+        self._state_of_charge_upper_limit_percentage = value
+
+    @property
+    def state_of_charge_lower_limit(self) -> float:
+        return self._state_of_charge_lower_limit_percentage
+
+    @state_of_charge_lower_limit.setter
+    def state_of_charge_lower_limit(self, value:float):
+        self._state_of_charge_upper_limit_percentage = value
+
+    @property
+    def end_of_life_capacity(self) -> float:
+        return self._end_of_life_capacity_percentage
+
+    @end_of_life_capacity.setter
+    def end_of_life_capacity(self, value:float):
+        self._end_of_life_capacity_percentage = value
+
+    @property
+    def ess_nameplate_lifecycle(self) -> int:
+        return self._end_of_life_capacity_percentage
+
+    @ess_nameplate_lifecycle.setter
+    def ess_nameplate_lifecycle(self, value:int):
+        self._ess_nameplate_lifecycle = value
+
+    @property
+    def charge_rate(self) -> float:
+        return self._charge_rate_cRate
+
+    @charge_rate.setter
+    def charge_rate(self, value:float):
+        self._charge_rate_cRate = value
+
+    @property
+    def maximum_power(self) -> float:
+        return self._maximum_power_kw
+    
+    @maximum_power.setter
+    def maximum_power(self, value: float):
+        self._maximum_power_kw = value
+
+    @property
+    def depth_of_discharge(self)->float:
+        return self._depth_of_discharge_percentage
+    
+    @depth_of_discharge.setter
+    def depth_of_discharge(self, value: float):
+        self._depth_of_discharge_percentage = value
+    ''' *****************************************************
+                QML(UI) getters and setters (front-end)
+    ***************************************************** '''
     ### User Assumptions
     # ======== Installed Capacity ========
     @Property(str, notify=installedCapacityChanged) #getter
@@ -86,8 +161,8 @@ class EssSystem(QObject):
 
     @stateOfChargeUpperLimit.setter
     def stateOfChargeUpperLimit(self, state_of_charge_upper_limit):
-        self._depth_of_discharge_percentage = state_of_charge_upper_limit - float(self._state_of_charge_lower_limit_percentage)
         self._state_of_charge_upper_limit_percentage = float(state_of_charge_upper_limit)
+        self.depthOfDischargePercentage = self._state_of_charge_upper_limit_percentage
 
     # ======== State of Charge Lower Limit ========
     @Property(str, notify=stateOfChargeLowerLimitChanged)
@@ -96,8 +171,8 @@ class EssSystem(QObject):
 
     @stateOfChargeLowerLimit.setter
     def stateOfChargeLowerLimit(self, state_of_charge_lower_limit):
-        self._depth_of_discharge_percentage = self._state_of_charge_upper_limit_percentage - float(state_of_charge_lower_limit)
         self._state_of_charge_lower_limit_percentage = float(state_of_charge_lower_limit)
+        self.depthOfDischargePercentage = self._state_of_charge_upper_limit_percentage - self._state_of_charge_lower_limit_percentage
 
     # ======== End of Life Capacity ========
     @Property(str, notify=endOfLifeCapacityChanged)
@@ -144,6 +219,5 @@ class EssSystem(QObject):
     @depthOfDischargePercentage.setter
     def depthOfDischargePercentage(self, depth_of_discharge_percentage):
         self._depth_of_discharge_percentage = float(depth_of_discharge_percentage)
-
 
 

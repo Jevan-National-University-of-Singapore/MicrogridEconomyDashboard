@@ -13,34 +13,21 @@ class BatteryStorage(QObject):
     gridChargingChanged = Signal()
 
     def __init__(self, 
-        ess_system_charge_rate: float,
-        ess_system_maximum_power: float,
+        ess_system: EssSystem = None,
+        discharge: Discharge = None,
+        grid_charging: GridCharging = None
 
-        discharge_power_continuous: float,
-        discharge_power_max: float,
-
-        grid_charging_off_peak_electricity_required: float,
-        grid_charging_peak_electricity_charged_from_grid: float,
-        grid_charging_grid_electricity_required: float
     ):
         super().__init__()
+        self._ess_system = EssSystem() if ess_system is None else ess_system
+        self._discharge = Discharge() if discharge is None else discharge
+        self._grid_charging = GridCharging() if grid_charging is None else grid_charging
 
-        self._ess_system = EssSystem (
-                                charge_rate_cRate=ess_system_charge_rate,
-                                maximum_power_kw=ess_system_maximum_power
-                            )
+        self._ess_system.installedCapacityChanged.connect(self.updateDischargePowerMax)
 
-        self._discharge = Discharge (
-                                power_continuous=discharge_power_continuous,
-                                power_max=discharge_power_max
-                            )
+        if self._discharge.power_max is None:
+            self._discharge.powerMax = self._ess_system.installed_capacity
 
-        self._grid_charging = GridCharging (
-                                off_peak_electricity_required=grid_charging_off_peak_electricity_required,
-                                peak_electricity_charged_from_grid=grid_charging_peak_electricity_charged_from_grid,
-                                grid_electricity_required=grid_charging_grid_electricity_required
-                            )
-       
     @Property(EssSystem, notify=essSystemChanged) #getter
     def essSystem(self) -> EssSystem:
         return self._ess_system
@@ -52,3 +39,7 @@ class BatteryStorage(QObject):
     @Property(GridCharging, notify=gridChargingChanged) #getter
     def gridCharging(self) -> GridCharging:
         return self._grid_charging
+
+    @Slot
+    def updateDischargePowerMax(self):
+        self._discharge.powerMax = self._ess_system.installed_capacity

@@ -34,7 +34,7 @@ class ChargingAndDemand(QObject):
         return self._charging_ports
         
     @Property(Demand, notify=demandChanged) #getter
-    def demand(self) -> ChargingPorts:
+    def demand(self) -> Demand:
         return self._demand
 
     @Property(Load, notify=loadChanged) #getter

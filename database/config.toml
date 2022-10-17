@@ -1,0 +1,7 @@
+database_path = "database/
+
+[constant]
+board_size = 3
+
+[server]
+url = https://tictactoe.example.com

@@ -10,18 +10,52 @@ class GridCharging(QObject):
     gridElectricityRequiredChanged = Signal()
 
     def __init__(self,
-        grid_draw_limit_kw: float = 0,
+        off_peak_electricity_required_kwh_per_day: float = None,
+        peak_electricity_charged_from_grid_kwh_per_day: float = None,
 
-        off_peak_electricity_required_kwh_per_day: float = 0,
-        peak_electricity_charged_from_grid_kwh_per_day: float = 0,
-        grid_electricity_required_kwh_per_day: float = 0
+        grid_draw_limit_kw: float = 0
     ): 
         super().__init__()
         self._grid_draw_limit_kw = grid_draw_limit_kw
 
         self._off_peak_electricity_required_kwh_per_day = off_peak_electricity_required_kwh_per_day
         self._peak_electricity_charged_from_grid_kwh_per_day = peak_electricity_charged_from_grid_kwh_per_day
-        self._grid_electricity_required_kwh_per_day = grid_electricity_required_kwh_per_day
+        self._grid_electricity_required_kwh_per_day = off_peak_electricity_required_kwh_per_day + peak_electricity_charged_from_grid_kwh_per_day
+
+    ''' *********************************************
+            Python getters and setters (Backend)
+    ********************************************* '''
+    @property
+    def grid_draw_limit(self) -> float:
+        return self._grid_draw_limit_kw
+
+    @grid_draw_limit.setter
+    def grid_draw_limit(self, value:float):
+        self._grid_draw_limit_kw = value
+
+    @property
+    def off_peak_electricity_required(self)->float:
+        return self._off_peak_electricity_required_kwh_per_day
+
+    @off_peak_electricity_required.setter
+    def off_peak_electricity_required(self, value:float):
+        self._off_peak_electricity_required_kwh_per_day = value
+
+    @property
+    def peak_electricity_charged_from_grid(self)->float:
+        return self._peak_electricity_charged_from_grid_kwh_per_day
+
+    @peak_electricity_charged_from_grid.setter
+    def peak_electricity_charged_from_grid(self, value:float):
+        self._peak_electricity_charged_from_grid_kwh_per_day = value
+
+    @property
+    def grid_electricity_required(self) -> float:
+        return self._grid_electricity_required_kwh_per_day
+
+    @grid_electricity_required.setter
+    def grid_electricity_required(self, value:float):
+        self._grid_electricity_required_kwh_per_day = value
 
     ### User Assumptions
     # ======== Grid Draw Limit ========

@@ -11,11 +11,34 @@ class Discharge(QObject):
     powerContinuousChanged = Signal()
     powerMaxChanged = Signal()
 
-    def __init__(self, power_continuous:float=0, power_max:float=0) -> None:
+    def __init__(self, power_max:float=None) -> None:
         super().__init__()
-        self._power_continuous = power_continuous
         self._power_max = power_max
+        self._power_continuous = 0.75 * power_max
 
+    ''' *********************************************
+            Python getters and setters (Backend)
+    ********************************************* '''
+    @property
+    def power_max(self) -> float:
+        return self._power_max
+
+    @power_max.setter
+    def power_max(self, value:float):
+        self._power_max = value
+        self.powerContinuous = 0.75 * value
+
+    @property
+    def power_continuous(self) -> float:
+        return self._power_continuous
+
+    @power_continuous.setter
+    def power_continuous(self, value:float):
+        self._power_continuous = value
+        
+    ''' *****************************************************
+                QML(UI) getters and setters (front-end)
+    ***************************************************** '''
     # ======== Power Continuous ========
     @Property(str, notify=powerContinuousChanged) #getter
     def powerContinuous(self) -> str:
@@ -24,6 +47,7 @@ class Discharge(QObject):
     @powerContinuous.setter #setter
     def powerContinuous(self, value:str) -> None:
         self._power_continuous = float(value)
+        self.powerContinuous = 0.75 * value
 
     # ======== Power Max ========
     @Property(str, notify=powerMaxChanged) #getter
