@@ -14,7 +14,6 @@ class EssSystem(QObject):
             property signals
     ******************************** '''
     # user assumptions signals
-
     installedCapacityChanged = Signal()
     operationalTimeChanged = Signal()
     stateOfChargeUpperLimitChanged = Signal()
