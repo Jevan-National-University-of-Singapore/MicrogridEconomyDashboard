@@ -1,3 +1,4 @@
+from msilib.schema import tables
 import os
 
 import sqlite3
@@ -24,12 +25,12 @@ from Database.Tables.EvCharacteristicsTable import EvCharacteristicsTable
 class Database:
     def __init__(self, path:str):
         self.path = path
-        self.ess_system_table = EssSystemTable()
-        self.grid_charging_table = GridChargingTable()
-        self.charging_ports_table = ChargingPortsTable()
-        self.demand_table = DemandTable()
-        self.excess_to_facility_table = ExcessToFacilityTable()
-        self.ev_characteristics_table = EvCharacteristicsTable()
+        self.ess_system_table = EssSystemTable(self)
+        self.grid_charging_table = GridChargingTable(self)
+        self.charging_ports_table = ChargingPortsTable(self)
+        self.demand_table = DemandTable(self)
+        self.excess_to_facility_table = ExcessToFacilityTable(self)
+        self.ev_characteristics_table = EvCharacteristicsTable(self)
 
         self.tables = {
             "ess_system": self.ess_system_table,
@@ -48,12 +49,17 @@ class Database:
     def exists(cls, path):
         return os.path.exists(path)
 
-    def query(self, query_string:str , query_arguments: Iterable):
+    def scenario_exists(self, scenario: str) -> bool:
+        return True if self.ess_system_table.query(scenario) else False
+
+
+    def query(self, query_string:str , query_arguments: Iterable = ()):
         try:
             with self._connect() as connection:
                 cursor = connection.cursor()
                 cursor.execute(query_string, query_arguments)
                 connection.commit()
+                return cursor
         except Error as e:
             print(e)
 

@@ -1,3 +1,0 @@
-IconButton {
-    iconSource: "confirmIcon.png"
-}

@@ -11,3 +11,6 @@ _Currently only have 1 dependecy so have no requirements.txt_
 `qml` contains all the .qml file which dictates the UI of the program
 
 entry point is `main.py` which can be found in src.
+
+
+<!-- diagram for software architecture and features -->

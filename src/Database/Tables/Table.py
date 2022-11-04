@@ -22,6 +22,16 @@ class Table(ABC):
     @abstractmethod
     def insert(self): pass
 
+    def query(self, scenario: str):
+        cursor = self._database.query(
+            query_string = f'''
+                SELECT * FROM {self.name}
+                WHERE scenario={scenario}
+            '''
+        )
+        return cursor.fetchall()
+        
+
     # @abstractmethod #not implemented
     # def delete(self): pass
 
@@ -79,6 +89,7 @@ class Table(ABC):
             ''',
             query_arguments=query_arguments
         )
+
 
         
 

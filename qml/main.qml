@@ -2,9 +2,8 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Window 2.2
 
-// import "System"
+import "Technical"
 
-// import "./Viewfinder"
 
 ApplicationWindow {
     id: root 
@@ -19,8 +18,7 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: Material.Teal
     Material.primary: "#4a4a4e"
-    // Material.primary: "#2a2a2e"
-    // Material.primary: Material.Teal
+    Material.foreground: "white"
 
     menuBar: MenuBar {
         Menu {
@@ -44,6 +42,8 @@ ApplicationWindow {
         }
     }
     header: ToolBar{
+                Material.primary: Material.background
+
                 Row {
                     ToolButton {
                         text: qsTr("⋮")
@@ -52,14 +52,18 @@ ApplicationWindow {
                     }
                     ToolButton {
                         text: qsTr("Technical")
-                        // onClicked: menu.open()
+                        onClicked: {
+                            technical.visible = true
+                        }
                     }
 
                     ToolSeparator{}
 
                     ToolButton {
                         text: qsTr("Financial")
-                        // onClicked: menu.open()
+                        onClicked: {
+                            technical.visible = false
+                        }
                     }
                     
 
@@ -67,10 +71,11 @@ ApplicationWindow {
                 }
             }
 
+
     Technical{
+        id: technical
 
         anchors.fill: parent
-        anchors.topMargin: parent.height/10
     }
 
 
