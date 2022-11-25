@@ -47,7 +47,7 @@ class ChargingPorts(QObject):
 
     @dcCharger1Rating.setter #setter
     def dcCharger1Rating(self, value:str) -> None:
-        self.dc_charger_1_rating = float(value)
+        self.dc_charger_1_rating = round(float(value), 2)
         self.dcCharger1RatingChanged.emit()
 
     @Property(str, notify=numOfDcCharger1Changed) #getter
@@ -65,7 +65,7 @@ class ChargingPorts(QObject):
 
     @dc1ChargingTimePerUser.setter #setter
     def dc1ChargingTimePerUser(self, value:str) -> None:
-        self.dc_1_charging_time_per_user = float(value)
+        self.dc_1_charging_time_per_user = round(float(value), 2)
         self.dc1ChargingTimePerUserChanged.emit()
 
     @Property(str, notify=dcCharger2RatingChanged) #getter
@@ -74,7 +74,7 @@ class ChargingPorts(QObject):
 
     @dcCharger2Rating.setter #setter
     def dcCharger2Rating(self, value:str) -> None:
-        self.dc_charger_2_rating = float(value)
+        self.dc_charger_2_rating = round(float(value), 2)
         self.dcCharger1RatingChanged.emit()
 
     @Property(str, notify=numOfDcCharger2Changed) #getter
@@ -92,5 +92,5 @@ class ChargingPorts(QObject):
 
     @dc2ChargingTimePerUser.setter #setter
     def dc2ChargingTimePerUser(self, value:str) -> None:
-        self.dc_2_charging_time_per_user = float(value)
+        self.dc_2_charging_time_per_user = round(float(value), 2)
         self.dc2ChargingTimePerUserChanged.emit()

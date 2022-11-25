@@ -13,7 +13,7 @@ class ExcessToFacility(QObject):
         super().__init__()
         self.electricity_per_day = electricity_per_day
 
-        self.electricity_per_year = self.electricity_per_day * 365
+        self.electricity_per_year = round(self.electricity_per_day * 365)
 
         self.electricityPerDayChanged.connect(self.updateElectricityPerYear)
 
@@ -27,7 +27,7 @@ class ExcessToFacility(QObject):
 
     @electricityPerDay.setter
     def electricityPerDay(self, electricity_per_day:str):
-        self.electricity_per_day = float(electricity_per_day)
+        self.electricity_per_day = round(float(electricity_per_day))
         self.electricityPerDayChanged.emit()
 
     @Property(str, notify=electricityPerYearChanged) #getter
@@ -36,10 +36,10 @@ class ExcessToFacility(QObject):
 
     @electricityPerYear.setter
     def electricityPerYear(self, electricity_per_year:str):
-        self.electricity_per_year = float(electricity_per_year)
+        self.electricity_per_year = round(float(electricity_per_year))
         self.electricityPerYearChanged.emit()
 
     @Slot()
     def updateElectricityPerYear(self):
-        self.electricity_per_year = self.electricity_per_day * 365
+        self.electricity_per_year = round(self.electricity_per_day * 365)
         self.electricityPerYearChanged.emit()

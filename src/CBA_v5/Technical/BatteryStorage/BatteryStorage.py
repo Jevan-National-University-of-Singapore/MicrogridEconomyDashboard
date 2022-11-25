@@ -23,6 +23,8 @@ class BatteryStorage(QObject):
         self.discharge_ = Discharge()
         self.grid_charging = GridCharging()
 
+        self.discharge_.power_max = self.ess_system.installed_capacity_kwh
+
         self.ess_system.installedCapacityChanged.connect(self.updateDischargePowerMax)
 
     def emitUpdateSignals(self):
@@ -45,5 +47,5 @@ class BatteryStorage(QObject):
 
     @Slot()
     def updateDischargePowerMax(self):
-        self.discharge_.power_max = self.ess_system._installed_capacity_kwh
+        self.discharge_.power_max = self.ess_system.installed_capacity_kwh
         self.discharge_.powerMaxChanged.emit()

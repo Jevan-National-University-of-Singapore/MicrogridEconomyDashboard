@@ -77,5 +77,5 @@ class GridCharging(QObject):
 
     @Slot()
     def updateGridElectricityRequiredPerDay(self):
-        self.grid_electricity_required_kwh_per_day = self.off_peak_electricity_required_kwh_per_day + self.peak_electricity_charged_from_grid_kwh_per_day
+        self.grid_electricity_required_kwh_per_day = round(self.off_peak_electricity_required_kwh_per_day + self.peak_electricity_charged_from_grid_kwh_per_day, 2)
         self.gridElectricityRequiredChanged.emit()

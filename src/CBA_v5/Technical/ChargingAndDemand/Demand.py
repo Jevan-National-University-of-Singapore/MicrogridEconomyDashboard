@@ -80,7 +80,7 @@ class Demand(QObject):
 
     @stateOfChargeAtEntry.setter
     def stateOfChargeAtEntry(self, state_of_charge_at_entry:str):
-        self.state_of_charge_at_entry = float(state_of_charge_at_entry)
+        self.state_of_charge_at_entry = round(float(state_of_charge_at_entry), 2)
         self.stateOfChargeAtEntryChanged.emit()
     
     @Property(str, notify=stateOfChargeLimitChanged) #getter
@@ -89,7 +89,7 @@ class Demand(QObject):
 
     @stateOfChargeLimit.setter
     def stateOfChargeLimit(self, state_of_charge_limit:str):
-        self.state_of_charge_limit = float(state_of_charge_limit)
+        self.state_of_charge_limit = round(float(state_of_charge_limit), 2)
         self.stateOfChargeLimitChanged.emit()
     
     @Property(str, notify=stateOfChargeToBeChargedChanged) #getter
@@ -98,7 +98,7 @@ class Demand(QObject):
 
     @stateOfChargeToBeCharged.setter
     def stateOfChargeToBeCharged(self, state_of_charge_to_be_charged:str):
-        self.state_of_charge_to_be_charged = float(state_of_charge_to_be_charged)
+        self.state_of_charge_to_be_charged = round(float(state_of_charge_to_be_charged), 2)
         self.stateOfChargeToBeChargedChanged.emit()
     
     @Property(str, notify=totalWaitingTimeChanged) #getter
@@ -107,7 +107,7 @@ class Demand(QObject):
 
     @totalWaitingTime.setter
     def totalWaitingTime(self, total_waiting_time:str):
-        self.total_waiting_time = float(total_waiting_time)
+        self.total_waiting_time = round(float(total_waiting_time), 2)
         self.totalWaitingTimeChanged.emit()
     
     @Property(str, notify=actualUsersServedPerDayChanged) #getter
@@ -125,17 +125,17 @@ class Demand(QObject):
 
     @actualEnergyServedPerDay.setter
     def actualEnergyServedPerDay(self, actual_energy_served_per_day:str):
-        self.actual_energy_served_per_day = float(actual_energy_served_per_day)
+        self.actual_energy_served_per_day = round(float(actual_energy_served_per_day), 2)
         self.actualEnergyServedPerDayChanged.emit()
 
     @Slot()
     def updateStateOfChargeToBeCharged(self):
-        self.state_of_charge_to_be_charged = self.state_of_charge_limit - self.state_of_charge_at_entry
+        self.state_of_charge_to_be_charged = round(self.state_of_charge_limit - self.state_of_charge_at_entry, 2)
         self.stateOfChargeLimitChanged.emit()
 
     @Slot()
     def updateNumOfUsersPerYear(self):
-        self.num_of_users_per_year = self.num_of_users_per_day * 365
+        self.num_of_users_per_year = round(self.num_of_users_per_day * 365, 2)
         self.numOfUsersPerYearChanged.emit()
 
 

@@ -14,7 +14,10 @@ class Discharge(QObject):
     def __init__(self, power_max:float=354) -> None:
         super().__init__()
         self.power_max = power_max
-        self.power_continuous = 0.75 * power_max
+
+        self.power_continuous = round(0.75 * power_max, 2)
+
+        self.powerMaxChanged.connect(self.updatePowerContinuous)
 
     def emitUpdateSignals(self):
         self.powerContinuousChanged.emit()
@@ -30,7 +33,7 @@ class Discharge(QObject):
 
     @powerContinuous.setter #setter
     def powerContinuous(self, value:str) -> None:
-        self.power_continuous = float(value)
+        self.power_continuous = round(float(value), 2)
         self.powerContinuousChanged.emit()
 
     # ======== Power Max ========
@@ -40,9 +43,10 @@ class Discharge(QObject):
 
     @powerMax.setter #setter
     def powerMax(self, value:str) -> None:
-        self.power_max = float(value)
+        self.power_max = round(float(value),2)
         self.powerMaxChanged.emit()
 
     @Slot()
     def updatePowerContinuous(self):
-        self.powerContinuous = self.power_max * 0.75
+        self.power_continuous = round(self.power_max * 0.75, 2)
+        self.powerContinuousChanged.emit()

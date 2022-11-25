@@ -19,6 +19,13 @@ class Technical(QObject):
         self._battery_storage:BatteryStorage = battery_storage
         self._charging_and_demand:ChargingAndDemand = charging_and_demand
 
+        self._battery_storage.ess_system.charge_rate_cRate = round(self._charging_and_demand.charging_ports.dc_charger_1_rating /  self._battery_storage.ess_system.installed_capacity_kwh, 2)
+        self._battery_storage.ess_system.maximum_power_kw = min(
+                self._charging_and_demand.charging_ports.dc_charger_1_rating,
+                self._charging_and_demand.ev_characteristics.max_power_rating,
+                self._battery_storage.discharge_.power_max
+            )
+
         self._charging_and_demand.charging_ports.dcCharger2RatingChanged.connect(self.updateBatteryStorageChargeRate)
         self._battery_storage.ess_system.installedCapacityChanged.connect(self.updateBatteryStorageChargeRate)
         
@@ -40,12 +47,12 @@ class Technical(QObject):
 
     @Slot()
     def updateBatteryStorageChargeRate(self):
-        self._battery_storage.ess_system._charge_rate_cRate = self._charging_and_demand.charging_ports.dc_charger_1_rating /  self._battery_storage.ess_system._installed_capacity_kwh
+        self._battery_storage.ess_system.charge_rate_cRate = round(self._charging_and_demand.charging_ports.dc_charger_1_rating /  self._battery_storage.ess_system.installed_capacity_kwh, 2)
         self._battery_storage.ess_system.chargeRateChanged.emit()
 
     @Slot()
     def updateBatteryStorageMaximumPower(self):
-        self._battery_storage.ess_system._maximum_power_kw = min(
+        self._battery_storage.ess_system.maximum_power_kw = min(
                 self._charging_and_demand.charging_ports.dc_charger_1_rating,
                 self._charging_and_demand.ev_characteristics.max_power_rating,
                 self._battery_storage.discharge_.power_max
