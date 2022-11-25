@@ -22,6 +22,8 @@ class GridCharging(QObject):
         self._peak_electricity_charged_from_grid_kwh_per_day = peak_electricity_charged_from_grid_kwh_per_day
         self._grid_electricity_required_kwh_per_day = off_peak_electricity_required_kwh_per_day + peak_electricity_charged_from_grid_kwh_per_day
 
+        self._grid_electricity_required_kwh_per_day = self._off_peak_electricity_required_kwh_per_day + self._peak_electricity_charged_from_grid_kwh_per_day
+
         self.offPeakElectricityRequiredChanged.connect(self.updateGridElectricityRequiredPerDay)
         self.peakElectricityChargedFromGridChanged.connect(self.updateGridElectricityRequiredPerDay)
 

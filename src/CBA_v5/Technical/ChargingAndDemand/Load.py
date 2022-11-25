@@ -15,7 +15,8 @@ class Load(QObject):
         super().__init__()
         self._required_energy_per_user = required_energy_per_user
         self._required_energy_per_day = required_energy_per_day
-        # self._required_energy_per_year = required_energy_per_day * 365
+        
+        self._required_energy_per_year = required_energy_per_day * 365
 
         self.requiredEnergyPerDayChanged.connect(self.updateRequiredEnergyPerYear)
 

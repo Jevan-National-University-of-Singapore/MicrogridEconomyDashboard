@@ -22,6 +22,8 @@ class EvCharacteristics(QObject):
         self._max_power_rating = max_power_rating
         self._ampere_hour_rating = ampere_hour_rating
 
+        self._ampere_hour_rating = (self._capacity / self._ev_battery_voltage) * 1000
+
         self.capacityChanged.connect(self.updateAmpereHourRating)
         self.evBatteryVoltageChanged.connect(self.updateAmpereHourRating)
 

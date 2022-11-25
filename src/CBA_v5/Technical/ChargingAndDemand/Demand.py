@@ -38,6 +38,9 @@ class Demand(QObject):
         self._actual_users_served_per_day = actual_users_served_per_day
         self._actual_energy_served_per_day = actual_energy_served_per_day
 
+        self._state_of_charge_to_be_charged = self._state_of_charge_limit - self._state_of_charge_at_entry
+        self._num_of_users_per_year = self._num_of_users_per_day * 365
+
         self.stateOfChargeLimitChanged.connect(self.updateStateOfChargeToBeCharged)
         self.numOfUsersPerDayChanged.connect(self.updateNumOfUsersPerYear)
 
@@ -129,11 +132,6 @@ class Demand(QObject):
     def updateStateOfChargeToBeCharged(self):
         self._state_of_charge_to_be_charged = self._state_of_charge_limit - self._state_of_charge_at_entry
         self.stateOfChargeLimitChanged.emit()
-
-    # @Slot()
-    # def updateStateOfChargeAtEntry(self):
-    #     self._state_of_charge_to_be_charged = self._state_of_charge_limit - self._state_of_charge_at_entry
-    #     self.stateOfChargeToBeChargedChanged.emit()
 
     @Slot()
     def updateNumOfUsersPerYear(self):

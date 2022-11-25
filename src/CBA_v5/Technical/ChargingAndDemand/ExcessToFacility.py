@@ -13,6 +13,8 @@ class ExcessToFacility(QObject):
         super().__init__()
         self._electricity_per_day = electricity_per_day
 
+        self._electricity_per_year = self._electricity_per_day * 365
+
         self.electricityPerDayChanged.connect(self.updateElectricityPerYear)
 
     def emitUpdateSignals(self):
