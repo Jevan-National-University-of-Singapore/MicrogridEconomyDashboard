@@ -1,27 +1,34 @@
-import "../../../../Templates"
+import QtQuick
 
+import "../../../../Templates"
 
 SubSection {
     id: root
 
     subsection: "Load"
 
-    LabelledInput {
+    LabelledText {
         id: requiredEnergyPerUser
 
-        label: "Required energy / user"
+        labelText: "Required energy / user"
+
+        text: Scenario.chargingAndDemand.load.requiredEnergyPerUser
     }
 
-    LabelledInput {
+    LabelledText {
         id: requiredEnergyPerDay
 
-        label: "Required energy / day"
+        labelText: "Required energy / day"
+
+        text: Scenario.chargingAndDemand.load.requiredEnergyPerDay
     }
 
-    LabelledInput {
+    LabelledText {
         id: requiredEnergyPerYear
 
-        label: "Required energy / year"
+        labelText: "Required energy / year"
+
+        text: Scenario.chargingAndDemand.load.requiredEnergyPerYear
     }
 
 }

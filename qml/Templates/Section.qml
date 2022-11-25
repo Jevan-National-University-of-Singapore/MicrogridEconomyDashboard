@@ -10,8 +10,6 @@ Card {
 
     property alias section: sectionLabel.text
 
-    radius: Math.max(height, width)/20
-
     Label {
         id: sectionLabel
 
@@ -26,6 +24,7 @@ Card {
         verticalAlignment: Text.AlignVCenter
 
         text: ""
+        color: "lightSteelBlue"
         font.pixelSize: 36
     }
 
@@ -42,7 +41,7 @@ Card {
             horizontalCenter: root.horizontalCenter
         }
 
-        width: root.width-root.radius
+        width: root.width-(0.02*root.width)//root.radius
     }
 
 

@@ -71,7 +71,6 @@ ApplicationWindow {
                 }
             }
 
-
     Technical{
         id: technical
 

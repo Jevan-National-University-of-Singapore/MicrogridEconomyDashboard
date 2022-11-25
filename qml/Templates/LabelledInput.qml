@@ -5,6 +5,8 @@ Row {
     id: root
 
     property string label: ""
+    property alias input: input
+    property alias inputText: input.text
 
     spacing: height/5
 

@@ -19,7 +19,7 @@ Item {
         }
 
         height: root.height/1.5
-        width: root.width/2.5
+        width: root.width/2.4
     }
 
     ChargingAndDemand {

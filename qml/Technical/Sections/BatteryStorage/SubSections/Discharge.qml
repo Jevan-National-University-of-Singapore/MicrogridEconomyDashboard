@@ -1,21 +1,26 @@
-import "../../../../Templates"
+import QtQuick
 
+import "../../../../Templates"
 
 SubSection {
     id: root
 
     subsection: "Discharge"
 
-    LabelledInput {
-        id: installedCapacity
+    LabelledText {
+        id: powerContinuous
 
-        label: "Power (Continuous, 0.75C)"
+        labelText: "Power (Continuous, 0.75C)"
+
+        text: Scenario.batteryStorage.discharge.powerContinuous
     }
 
-    LabelledInput {
-        id: chargeRate
+    LabelledText {
+        id: powerMax
 
-        label: "Power (max, 1C)"
+        labelText: "Power (max, 1C)"
+
+        text: Scenario.batteryStorage.discharge.powerMax
     }
 
 }

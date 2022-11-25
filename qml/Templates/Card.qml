@@ -12,7 +12,7 @@ Rectangle {
         
     Material.elevation: 6
 
-    radius: Math.max(root.height, root.width)/20
+    radius: 5// Math.max(root.height, root.width)/20
 
     layer.enabled: root.enabled && root.Material.elevation > 0
     layer.effect: ElevationEffect {
@@ -40,6 +40,6 @@ Rectangle {
 
         drag.target: root
         drag.minimumX: 0
-        drag.maximumX: overlay.width - surface.width
+        drag.maximumX: overlay.width - root.width
     }
 }

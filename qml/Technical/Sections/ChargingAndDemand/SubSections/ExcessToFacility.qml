@@ -1,5 +1,6 @@
-import "../../../../Templates"
+import QtQuick
 
+import "../../../../Templates"
 
 SubSection {
     id: root
@@ -10,14 +11,21 @@ SubSection {
         id: electricityPerDay
 
         label: "Electricity / day"
+
+        input.onEditingFinished: Scenario.chargingAndDemand.excessToFacility.electricityPerDay = electricityPerDay.inputText
+
     }
 
-    LabelledInput {
+    LabelledText {
         id: electricityPerYear
 
-        label: "Electricity / year"
+        labelText: "Electricity / year"
+
+        text: Scenario.chargingAndDemand.excessToFacility.electricityPerYear
     }
 
-
+    Component.onCompleted: {
+        electricityPerDay.inputText = Scenario.chargingAndDemand.excessToFacility.electricityPerDay
+    }
 
 }
