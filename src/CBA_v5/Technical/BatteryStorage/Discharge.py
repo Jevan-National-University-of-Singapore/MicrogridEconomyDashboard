@@ -19,26 +19,6 @@ class Discharge(QObject):
     def emitUpdateSignals(self):
         self.powerContinuousChanged.emit()
         self.powerMaxChanged.emit()
-
-    ''' *********************************************
-            Python getters and setters (Backend)
-    ********************************************* '''
-    # @property
-    # def power_max(self) -> float:
-    #     return self._power_max
-
-    # @power_max.setter
-    # def power_max(self, value:float):
-    #     self._power_max = value
-    #     self.powerContinuous = 0.75 * value
-
-    # @property
-    # def power_continuous(self) -> float:
-    #     return self._power_continuous
-
-    # @power_continuous.setter
-    # def power_continuous(self, value:float):
-    #     self._power_continuous = value
         
     ''' *****************************************************
                 QML(UI) getters and setters (front-end)

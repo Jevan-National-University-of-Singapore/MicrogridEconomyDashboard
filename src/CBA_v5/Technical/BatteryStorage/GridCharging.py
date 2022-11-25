@@ -32,47 +32,6 @@ class GridCharging(QObject):
         self.peakElectricityChargedFromGridChanged.emit()
         self.gridElectricityRequiredChanged.emit()
 
-
-    ''' *********************************************
-            Python getters and setters (Backend)
-    ********************************************* '''
-    # @property
-    # def grid_draw_limit(self) -> float:
-    #     return self._grid_draw_limit_kw
-
-    # @grid_draw_limit.setter
-    # def grid_draw_limit(self, value:float):
-    #     self._grid_draw_limit_kw = value
-    #     self.gridDrawLimitChanged.emit()
-
-    # @property
-    # def off_peak_electricity_required(self)->float:
-    #     return self._off_peak_electricity_required_kwh_per_day
-
-    # @off_peak_electricity_required.setter
-    # def off_peak_electricity_required(self, value:float):
-    #     self._off_peak_electricity_required_kwh_per_day = value
-    #     self.offPeakElectricityRequiredChanged.emit()
-    #     self._grid_electricity_required_kwh_per_day = self._off_peak_electricity_required_kwh_per_day + self._peak_electricity_charged_from_grid_kwh_per_day
-
-    # @property
-    # def peak_electricity_charged_from_grid(self)->float:
-    #     return self._peak_electricity_charged_from_grid_kwh_per_day
-
-    # @peak_electricity_charged_from_grid.setter
-    # def peak_electricity_charged_from_grid(self, value:float):
-    #     self._peak_electricity_charged_from_grid_kwh_per_day = value
-    #     self.peakElectricityChargedFromGridChanged.emit()
-
-    # @property
-    # def grid_electricity_required(self) -> float:
-    #     return self._grid_electricity_required_kwh_per_day
-
-    # @grid_electricity_required.setter
-    # def grid_electricity_required(self, value:float):
-    #     self._grid_electricity_required_kwh_per_day = value
-    #     self.gridElectricityRequiredChanged.emit()
-
     ### User Assumptions
     # ======== Grid Draw Limit ========
     @Property(str, notify=gridDrawLimitChanged) #getter
