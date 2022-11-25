@@ -13,8 +13,8 @@ class Discharge(QObject):
 
     def __init__(self, power_max:float=354) -> None:
         super().__init__()
-        self._power_max = power_max
-        self._power_continuous = 0.75 * power_max
+        self.power_max = power_max
+        self.power_continuous = 0.75 * power_max
 
     def emitUpdateSignals(self):
         self.powerContinuousChanged.emit()
@@ -26,23 +26,23 @@ class Discharge(QObject):
     # ======== Power Continuous ========
     @Property(str, notify=powerContinuousChanged) #getter
     def powerContinuous(self) -> str:
-        return str(self._power_continuous)
+        return str(self.power_continuous)
 
     @powerContinuous.setter #setter
     def powerContinuous(self, value:str) -> None:
-        self._power_continuous = float(value)
+        self.power_continuous = float(value)
         self.powerContinuousChanged.emit()
 
     # ======== Power Max ========
     @Property(str, notify=powerMaxChanged) #getter
     def powerMax(self) -> str:
-        return str(self._power_max)
+        return str(self.power_max)
 
     @powerMax.setter #setter
     def powerMax(self, value:str) -> None:
-        self._power_max = float(value)
+        self.power_max = float(value)
         self.powerMaxChanged.emit()
 
     @Slot()
     def updatePowerContinuous(self):
-        self.powerContinuous = self._power_max * 0.75
+        self.powerContinuous = self.power_max * 0.75

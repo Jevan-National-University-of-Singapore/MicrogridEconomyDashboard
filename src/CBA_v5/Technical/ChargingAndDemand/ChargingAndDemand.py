@@ -23,78 +23,78 @@ class ChargingAndDemand(QObject):
         ev_characteristics = EvCharacteristics()
     ):
         super().__init__()
-        self._charging_ports: ChargingPorts = charging_ports
-        self._demand: Demand = demand
-        self._load: Load = load
-        self._excess_to_facility: ExcessToFacility = excess_to_facility
-        self._ev_characteristics: EvCharacteristics = ev_characteristics
+        self.charging_ports: ChargingPorts = charging_ports
+        self.demand_: Demand = demand
+        self.load_: Load = load
+        self.excess_to_facility: ExcessToFacility = excess_to_facility
+        self.ev_characteristics: EvCharacteristics = ev_characteristics
 
-        self._demand.stateOfChargeToBeChargedChanged.connect(self.updateDc1ChargingTimePerUser)
-        self._ev_characteristics.capacityChanged.connect(self.updateDc1ChargingTimePerUser)
-        self._charging_ports.dcCharger1RatingChanged.connect(self.updateDc1ChargingTimePerUser)
+        self.demand_.stateOfChargeToBeChargedChanged.connect(self.updateDc1ChargingTimePerUser)
+        self.ev_characteristics.capacityChanged.connect(self.updateDc1ChargingTimePerUser)
+        self.charging_ports.dcCharger1RatingChanged.connect(self.updateDc1ChargingTimePerUser)
 
-        self._demand.stateOfChargeToBeChargedChanged.connect(self.updateDc2ChargingTimePerUser)
-        self._ev_characteristics.capacityChanged.connect(self.updateDc2ChargingTimePerUser)
-        self._charging_ports.dcCharger2RatingChanged.connect(self.updateDc2ChargingTimePerUser)
+        self.demand_.stateOfChargeToBeChargedChanged.connect(self.updateDc2ChargingTimePerUser)
+        self.ev_characteristics.capacityChanged.connect(self.updateDc2ChargingTimePerUser)
+        self.charging_ports.dcCharger2RatingChanged.connect(self.updateDc2ChargingTimePerUser)
 
-        self._demand.actualEnergyServedPerDayChanged.connect(self.updateActualEnergyServedPerDay)
-        self._load.requiredEnergyPerUserChanged.connect(self.updateActualEnergyServedPerDay)
+        self.demand_.actualEnergyServedPerDayChanged.connect(self.updateActualEnergyServedPerDay)
+        self.load_.requiredEnergyPerUserChanged.connect(self.updateActualEnergyServedPerDay)
 
-        self._demand.stateOfChargeToBeChargedChanged.connect(self.updateRequiredEnergyPerUser)
-        self._ev_characteristics.capacityChanged.connect(self.updateRequiredEnergyPerUser)
+        self.demand_.stateOfChargeToBeChargedChanged.connect(self.updateRequiredEnergyPerUser)
+        self.ev_characteristics.capacityChanged.connect(self.updateRequiredEnergyPerUser)
 
-        self._load.requiredEnergyPerUserChanged.connect(self.updateRequiredEnergyPerDay)
-        self._demand.numOfUsersPerDayChanged.connect(self.updateRequiredEnergyPerDay)
+        self.load_.requiredEnergyPerUserChanged.connect(self.updateRequiredEnergyPerDay)
+        self.demand_.numOfUsersPerDayChanged.connect(self.updateRequiredEnergyPerDay)
 
     def emitUpdateSignals(self):
-        self._charging_ports.emitUpdateSignals()
-        self._demand.emitUpdateSignals()
-        self._load.emitUpdateSignals()
-        self._excess_to_facility.emitUpdateSignals()
-        self._ev_characteristics.emitUpdateSignals()
+        self.charging_ports.emitUpdateSignals()
+        self.demand_.emitUpdateSignals()
+        self.load_.emitUpdateSignals()
+        self.excess_to_facility.emitUpdateSignals()
+        self.ev_characteristics.emitUpdateSignals()
 
     @Property(ChargingPorts, notify=chargingPortsChanged) #getter
     def chargingPorts(self) -> ChargingPorts:
-        return self._charging_ports
+        return self.charging_ports
         
     @Property(Demand, notify=demandChanged) #getter
     def demand(self) -> Demand:
-        return self._demand
+        return self.demand_
 
     @Property(Load, notify=loadChanged) #getter
     def load(self) -> Load:
-        return self._load
+        return self.load_
 
     @Property(ExcessToFacility, notify=excessToFacilityChanged) #getter
     def excessToFacility(self) -> ExcessToFacility:
-        return self._excess_to_facility
+        return self.excess_to_facility
 
     @Property(EvCharacteristics, notify=evCharacteristicsChanged) #getter
     def evCharacteristics(self) -> EvCharacteristics:
-        return self._ev_characteristics
+        return self.ev_characteristics
 
     @Slot()
     def updateDc1ChargingTimePerUser(self):
-        self._charging_ports._dc_1_charging_time_per_user = self._demand._state_of_charge_to_be_charged * self._ev_characteristics._capacity / self._charging_ports._dc_charger_1_rating
-        self._charging_ports.dc1ChargingTimePerUserChanged.emit()
+        self.charging_ports.dc_1_charging_time_per_user = self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_1_rating
+        self.charging_ports.dc1ChargingTimePerUserChanged.emit()
 
     @Slot()
     def updateDc2ChargingTimePerUser(self):
-        self._charging_ports._dc_2_charging_time_per_user = self._demand._state_of_charge_to_be_charged * self._ev_characteristics._capacity / self._charging_ports._dc_charger_2_rating
-        self._charging_ports.dc2ChargingTimePerUserChanged.emit()
+        self.charging_ports.dc_2_charging_time_per_user = self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_2_rating
+        self.charging_ports.dc2ChargingTimePerUserChanged.emit()
 
     @Slot()
     def updateActualEnergyServedPerDay(self):
-        self._demand._actual_energy_served_per_day = self._demand._actual_users_served_per_day * self._load._required_energy_per_user
-        self._demand.actualEnergyServedPerDayChanged.emit()
+        self.demand_.actual_energy_served_per_day = self.demand_.actual_users_served_per_day * self.load_.required_energy_per_user
+        self.demand_.actualEnergyServedPerDayChanged.emit()
 
     @Slot()
     def updateRequiredEnergyPerUser(self):
-        self._load._required_energy_per_user = self._demand._state_of_charge_to_be_charged * self._ev_characteristics._capacity
-        self._load.requiredEnergyPerUserChanged.emit()
+        self.load_.required_energy_per_user = self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_
+        self.load_.requiredEnergyPerUserChanged.emit()
 
     @Slot()
     def updateRequiredEnergyPerDay(self):
-        self._load._required_energy_per_day = self._load._required_energy_per_user * self._demand._num_of_users_per_day
-        self._load.requiredEnergyPerDayChanged.emit()
+        self.load_.required_energy_per_day = self.load_.required_energy_per_user * self.demand_.num_of_users_per_day
+        self.load_.requiredEnergyPerDayChanged.emit()
 

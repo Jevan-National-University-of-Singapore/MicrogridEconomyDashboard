@@ -17,12 +17,12 @@ class EvCharacteristics(QObject):
         max_power_rating:float = 270
     ):
         super().__init__()
-        self._ev_battery_voltage = ev_battery_voltage
-        self._capacity = capacity
-        self._max_power_rating = max_power_rating
-        self._ampere_hour_rating = ampere_hour_rating
+        self.ev_battery_voltage = ev_battery_voltage
+        self.capacity_ = capacity
+        self.max_power_rating = max_power_rating
+        self.ampere_hour_rating = ampere_hour_rating
 
-        self._ampere_hour_rating = (self._capacity / self._ev_battery_voltage) * 1000
+        self.ampere_hour_rating = (self.capacity_ / self.ev_battery_voltage) * 1000
 
         self.capacityChanged.connect(self.updateAmpereHourRating)
         self.evBatteryVoltageChanged.connect(self.updateAmpereHourRating)
@@ -35,41 +35,41 @@ class EvCharacteristics(QObject):
 
     @Property(str, notify=evBatteryVoltageChanged) #getter
     def evBatteryVoltage(self) -> str:
-        return str(self._ev_battery_voltage)
+        return str(self.ev_battery_voltage)
 
     @evBatteryVoltage.setter
     def evBatteryVoltage(self, ev_battery_voltage:str):
-        self._ev_battery_voltage = float(ev_battery_voltage)
+        self.ev_battery_voltage = float(ev_battery_voltage)
         self.evBatteryVoltageChanged.emit()
 
     @Property(str, notify=capacityChanged) #getter
     def capacity(self) -> str:
-        return str(self._capacity)
+        return str(self.capacity_)
 
     @capacity.setter
     def capacity(self, capacity:str):
-        self._capacity = float(capacity)
+        self.capacity_ = float(capacity)
         self.capacityChanged.emit()
 
     @Property(str, notify=maxPowerRatingChanged) #getter
     def maxPowerRating(self) -> str:
-        return str(self._max_power_rating)
+        return str(self.max_power_rating)
 
     @maxPowerRating.setter
     def maxPowerRating(self, max_power_rating:str):
-        self._max_power_rating = float(max_power_rating)
+        self.max_power_rating = float(max_power_rating)
         self.maxPowerRatingChanged.emit()
     
     @Property(str, notify=ampereHourRatingChanged) #getter
     def ampereHourRating(self) -> str:
-        return str(self._ampere_hour_rating)
+        return str(self.ampere_hour_rating)
 
     @ampereHourRating.setter
     def ampereHourRating(self, ampere_hour_rating:str):
-        self._ampere_hour_rating = float(ampere_hour_rating)
+        self.ampere_hour_rating = float(ampere_hour_rating)
         self.ampereHourRatingChanged.emit()
 
     @Slot()
     def updateAmpereHourRating(self):
-        self._ampere_hour_rating = (self._capacity / self._ev_battery_voltage) * 1000
+        self.ampere_hour_rating = (self.capacity_ / self.ev_battery_voltage) * 1000
         self.ampereHourRatingChanged.emit()

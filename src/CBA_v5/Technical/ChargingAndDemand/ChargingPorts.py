@@ -24,13 +24,13 @@ class ChargingPorts(QObject):
         num_of_dc_charger2:int=1
     ):
         super().__init__()
-        self._dc_charger_1_rating = dc_charger_1_rating
-        self._num_of_dc_charger1 = num_of_dc_charger1
-        self._dc_1_charging_time_per_user = dc_1_charging_time_per_user
+        self.dc_charger_1_rating = dc_charger_1_rating
+        self.num_of_dc_charger1 = num_of_dc_charger1
+        self.dc_1_charging_time_per_user = dc_1_charging_time_per_user
 
-        self._dc_charger_2_rating = dc_charger_2_rating
-        self._num_of_dc_charger2 = num_of_dc_charger2
-        self._dc_2_charging_time_per_user = dc_2_charging_time_per_user
+        self.dc_charger_2_rating = dc_charger_2_rating
+        self.num_of_dc_charger2 = num_of_dc_charger2
+        self.dc_2_charging_time_per_user = dc_2_charging_time_per_user
 
     def emitUpdateSignals(self):
         self.dcCharger1RatingChanged.emit()
@@ -43,54 +43,54 @@ class ChargingPorts(QObject):
 
     @Property(str, notify=dcCharger1RatingChanged) #getter
     def dcCharger1Rating(self) -> str:
-        return str(self._dc_charger_1_rating)
+        return str(self.dc_charger_1_rating)
 
     @dcCharger1Rating.setter #setter
     def dcCharger1Rating(self, value:str) -> None:
-        self._dc_charger_1_rating = float(value)
+        self.dc_charger_1_rating = float(value)
         self.dcCharger1RatingChanged.emit()
 
     @Property(str, notify=numOfDcCharger1Changed) #getter
     def numOfDcCharger1(self) -> str:
-        return str(self._num_of_dc_charger1)
+        return str(self.num_of_dc_charger1)
 
     @numOfDcCharger1.setter #setter
     def numOfDcCharger1(self, value:str) -> None:
-        self._num_of_dc_charger1 = int(value)
+        self.num_of_dc_charger1 = int(value)
         self.numOfDcCharger1Changed.emit()
 
     @Property(str, notify=dc1ChargingTimePerUserChanged) #getter
     def dc1ChargingTimePerUser(self) -> str:
-        return str(self._dc_1_charging_time_per_user)
+        return str(self.dc_1_charging_time_per_user)
 
     @dc1ChargingTimePerUser.setter #setter
     def dc1ChargingTimePerUser(self, value:str) -> None:
-        self._dc_1_charging_time_per_user = float(value)
+        self.dc_1_charging_time_per_user = float(value)
         self.dc1ChargingTimePerUserChanged.emit()
 
     @Property(str, notify=dcCharger2RatingChanged) #getter
     def dcCharger2Rating(self) -> str:
-        return str(self._dc_charger_2_rating)
+        return str(self.dc_charger_2_rating)
 
     @dcCharger2Rating.setter #setter
     def dcCharger2Rating(self, value:str) -> None:
-        self._dc_charger_2_rating = float(value)
+        self.dc_charger_2_rating = float(value)
         self.dcCharger1RatingChanged.emit()
 
     @Property(str, notify=numOfDcCharger2Changed) #getter
     def numOfDcCharger2(self) -> str:
-        return str(self._num_of_dc_charger2)
+        return str(self.num_of_dc_charger2)
 
     @numOfDcCharger2.setter #setter
     def numOfDcCharger2(self, value:str) -> None:
-        self._num_of_dc_charger2 = int(value)
+        self.num_of_dc_charger2 = int(value)
         self.numOfDcCharger2Changed.emit()
     
     @Property(str, notify=dc2ChargingTimePerUserChanged) #getter
     def dc2ChargingTimePerUser(self) -> str:
-        return str(self._dc_2_charging_time_per_user)
+        return str(self.dc_2_charging_time_per_user)
 
     @dc2ChargingTimePerUser.setter #setter
     def dc2ChargingTimePerUser(self, value:str) -> None:
-        self._dc_2_charging_time_per_user = float(value)
+        self.dc_2_charging_time_per_user = float(value)
         self.dc2ChargingTimePerUserChanged.emit()
