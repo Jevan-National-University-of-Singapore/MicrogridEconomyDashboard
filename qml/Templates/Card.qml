@@ -8,7 +8,7 @@ Rectangle {
 
     color: Material.background
 
-    property bool draggable: true
+    property bool draggable: false
         
     Material.elevation: 6
 

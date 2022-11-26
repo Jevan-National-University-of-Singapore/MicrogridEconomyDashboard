@@ -17,7 +17,7 @@ Section {
 
         anchors {
             left: essSystem.right
-            leftMargin: essSystem.width/5
+            leftMargin: essSystem.width/8
             verticalCenter: essSystem.verticalCenter
         }
 

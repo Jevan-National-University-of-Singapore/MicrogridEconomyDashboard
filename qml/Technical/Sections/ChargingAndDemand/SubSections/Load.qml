@@ -11,24 +11,27 @@ SubSection {
         id: requiredEnergyPerUser
 
         labelText: "Required energy / user"
+        units: "kWh"
 
-        text: Scenario.chargingAndDemand.load.requiredEnergyPerUser
+        text: Scenario.technical.chargingAndDemand.load.requiredEnergyPerUser
     }
 
     LabelledText {
         id: requiredEnergyPerDay
 
         labelText: "Required energy / day"
+        units: "kWh"
 
-        text: Scenario.chargingAndDemand.load.requiredEnergyPerDay
+        text: Scenario.technical.chargingAndDemand.load.requiredEnergyPerDay
     }
 
     LabelledText {
         id: requiredEnergyPerYear
 
         labelText: "Required energy / year"
+        units: "kWh"
 
-        text: Scenario.chargingAndDemand.load.requiredEnergyPerYear
+        text: Scenario.technical.chargingAndDemand.load.requiredEnergyPerYear
     }
 
 }

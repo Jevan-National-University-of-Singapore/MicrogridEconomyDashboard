@@ -6,6 +6,7 @@ Row {
 
     property string labelText: ""
     property alias text: text.text
+    property alias units: units.text
 
     spacing: height/5
 
@@ -25,6 +26,14 @@ Row {
         verticalAlignment: Text.AlignVCenter
         height: label.height
     }
+
+    Label {
+        id: units
+
+        verticalAlignment: Text.AlignVCenter
+        height: label.height
+    }
+
 
 
 }

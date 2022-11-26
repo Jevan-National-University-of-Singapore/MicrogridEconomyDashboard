@@ -12,7 +12,10 @@ SubSection {
 
         label: "EV battery voltage"
 
-        input.onEditingFinished: Scenario.chargingAndDemand.evCharacteristics.evBatteryVoltage = evBatteryVoltage.inputText
+        input.onEditingFinished: Scenario.technical.chargingAndDemand.evCharacteristics.evBatteryVoltage = evBatteryVoltage.inputText
+        units: "V"
+
+        inputText: Scenario.technical.chargingAndDemand.evCharacteristics.evBatteryVoltage
 
     }
 
@@ -21,7 +24,10 @@ SubSection {
 
         label: "Capacity (79.2)"
 
-        input.onEditingFinished: Scenario.chargingAndDemand.evCharacteristics.capacity = capacity.inputText
+        input.onEditingFinished: Scenario.technical.chargingAndDemand.evCharacteristics.capacity = capacity.inputText
+        units: "kWh"
+
+        inputText: Scenario.technical.chargingAndDemand.evCharacteristics.capacity
 
     }
 
@@ -30,7 +36,10 @@ SubSection {
 
         label: "Max. kW rating"
 
-        input.onEditingFinished: Scenario.chargingAndDemand.evCharacteristics.maxPowerRating = maxKwPowerRating.inputText
+        input.onEditingFinished: Scenario.technical.chargingAndDemand.evCharacteristics.maxPowerRating = maxKwPowerRating.inputText
+        units: "kW"
+
+        inputText: Scenario.technical.chargingAndDemand.evCharacteristics.maxPowerRating
 
     }
 
@@ -38,15 +47,16 @@ SubSection {
         id: ampereHourRating
 
         labelText: "Ampere-hour rating"
+        units: "Ah"
 
-        text: Scenario.chargingAndDemand.evCharacteristics.ampereHourRating
+        text: Scenario.technical.chargingAndDemand.evCharacteristics.ampereHourRating
     }
 
-    Component.onCompleted: {
-        evBatteryVoltage.inputText = Scenario.chargingAndDemand.evCharacteristics.evBatteryVoltage
-        capacity.inputText = Scenario.chargingAndDemand.evCharacteristics.capacity
-        maxKwPowerRating.inputText = Scenario.chargingAndDemand.evCharacteristics.maxPowerRating
-    }
+    // Component.onCompleted: {
+    //     evBatteryVoltage.inputText = Scenario.chargingAndDemand.evCharacteristics.evBatteryVoltage
+    //     capacity.inputText = Scenario.chargingAndDemand.evCharacteristics.capacity
+    //     maxKwPowerRating.inputText = Scenario.chargingAndDemand.evCharacteristics.maxPowerRating
+    // }
 
 
 }

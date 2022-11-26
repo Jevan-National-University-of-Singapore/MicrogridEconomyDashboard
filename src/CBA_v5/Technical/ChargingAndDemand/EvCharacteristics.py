@@ -22,7 +22,7 @@ class EvCharacteristics(QObject):
         self.max_power_rating = max_power_rating
         self.ampere_hour_rating = ampere_hour_rating
 
-        self.ampere_hour_rating = round((self.capacity_ / self.ev_battery_voltage) * 1000)
+        self.ampere_hour_rating = round((self.capacity_ / self.ev_battery_voltage) * 1000, 2)
 
         self.capacityChanged.connect(self.updateAmpereHourRating)
         self.evBatteryVoltageChanged.connect(self.updateAmpereHourRating)
@@ -39,7 +39,7 @@ class EvCharacteristics(QObject):
 
     @evBatteryVoltage.setter
     def evBatteryVoltage(self, ev_battery_voltage:str):
-        self.ev_battery_voltage = round(float(ev_battery_voltage))
+        self.ev_battery_voltage = round(float(ev_battery_voltage), 2)
         self.evBatteryVoltageChanged.emit()
 
     @Property(str, notify=capacityChanged) #getter
@@ -48,7 +48,7 @@ class EvCharacteristics(QObject):
 
     @capacity.setter
     def capacity(self, capacity:str):
-        self.capacity_ = round(float(capacity))
+        self.capacity_ = round(float(capacity), 2)
         self.capacityChanged.emit()
 
     @Property(str, notify=maxPowerRatingChanged) #getter
@@ -57,7 +57,7 @@ class EvCharacteristics(QObject):
 
     @maxPowerRating.setter
     def maxPowerRating(self, max_power_rating:str):
-        self.max_power_rating = round(float(max_power_rating))
+        self.max_power_rating = round(float(max_power_rating), 2)
         self.maxPowerRatingChanged.emit()
     
     @Property(str, notify=ampereHourRatingChanged) #getter
@@ -66,10 +66,10 @@ class EvCharacteristics(QObject):
 
     @ampereHourRating.setter
     def ampereHourRating(self, ampere_hour_rating:str):
-        self.ampere_hour_rating = round(float(ampere_hour_rating))
+        self.ampere_hour_rating = round(float(ampere_hour_rating), 2)
         self.ampereHourRatingChanged.emit()
 
     @Slot()
     def updateAmpereHourRating(self):
-        self.ampere_hour_rating = round((self.capacity_ / self.ev_battery_voltage) * 1000)
+        self.ampere_hour_rating = round((self.capacity_ / self.ev_battery_voltage) * 1000, 2)
         self.ampereHourRatingChanged.emit()

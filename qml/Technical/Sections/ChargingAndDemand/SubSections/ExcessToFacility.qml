@@ -11,8 +11,11 @@ SubSection {
         id: electricityPerDay
 
         label: "Electricity / day"
+        units: "kWh"
 
-        input.onEditingFinished: Scenario.chargingAndDemand.excessToFacility.electricityPerDay = electricityPerDay.inputText
+        input.onEditingFinished: Scenario.technical.chargingAndDemand.excessToFacility.electricityPerDay = electricityPerDay.inputText
+
+        inputText: Scenario.technical.chargingAndDemand.excessToFacility.electricityPerDay
 
     }
 
@@ -20,12 +23,13 @@ SubSection {
         id: electricityPerYear
 
         labelText: "Electricity / year"
+        units: "kWh"
 
-        text: Scenario.chargingAndDemand.excessToFacility.electricityPerYear
+        text: Scenario.technical.chargingAndDemand.excessToFacility.electricityPerYear
     }
 
-    Component.onCompleted: {
-        electricityPerDay.inputText = Scenario.chargingAndDemand.excessToFacility.electricityPerDay
-    }
+    // Component.onCompleted: {
+    //     electricityPerDay.inputText = Scenario.chargingAndDemand.excessToFacility.electricityPerDay
+    // }
 
 }

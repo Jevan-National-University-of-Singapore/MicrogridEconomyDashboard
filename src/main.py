@@ -4,18 +4,19 @@ import os
 from PySide6.QtGui import *
 from PySide6.QtQml import *
 
-from CBA_v5.Technical.Technical import Technical
+from CBA_v5.Scenario import Scenario
 
 PWD = dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 if __name__ == '__main__':
+
     app = QGuiApplication(sys.argv)
 
-    technical = Technical()
+    scenario = Scenario()
 
     engine = QQmlApplicationEngine()
 
-    engine.rootContext().setContextProperty("Scenario", technical)
+    engine.rootContext().setContextProperty("Scenario", scenario)
     engine.quit.connect(app.quit)
 
 

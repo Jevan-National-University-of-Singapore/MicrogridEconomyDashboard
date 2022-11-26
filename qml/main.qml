@@ -3,6 +3,7 @@ import QtQuick.Controls.Material
 import QtQuick.Window 2.2
 
 import "Technical"
+import "ChargingAndDemand"
 
 
 ApplicationWindow {
@@ -11,14 +12,16 @@ ApplicationWindow {
     visible: true
     // visibility: "FullScreen"
 
-    width: Screen.width/1.1
-    height: Screen.height/1.1
+    width: Screen.width
+    height: Screen.height/1.08
     title: "TechnoEconomic"
 
     Material.theme: Material.Dark
     Material.accent: Material.Teal
     Material.primary: "#4a4a4e"
     Material.foreground: "white"
+
+    property int activePage: 0
 
     menuBar: MenuBar {
         Menu {
@@ -44,16 +47,30 @@ ApplicationWindow {
     header: ToolBar{
                 Material.primary: Material.background
 
+                // visible: false
+
                 Row {
                     ToolButton {
                         text: qsTr("⋮")
                         font.pixelSize:24
                         // onClicked: menu.open()
                     }
+
+                    ToolButton {
+                        text: qsTr("Charging and Demand")
+                        onClicked: {
+                            // technical.visible = true
+                            root.activePage = 0
+                        }
+                    }
+
+                    ToolSeparator{}
+
+
                     ToolButton {
                         text: qsTr("Technical")
                         onClicked: {
-                            technical.visible = true
+                            root.activePage = 1
                         }
                     }
 
@@ -62,7 +79,7 @@ ApplicationWindow {
                     ToolButton {
                         text: qsTr("Financial")
                         onClicked: {
-                            technical.visible = false
+                            root.activePage = 2
                         }
                     }
                     
@@ -71,11 +88,21 @@ ApplicationWindow {
                 }
             }
 
-    Technical{
-        id: technical
+
+    ChargingAndDemand {
+        id: chargingAndDemand
+        
+        visible: root.activePage == 0
 
         anchors.fill: parent
     }
 
 
+    Technical{
+        id: technical
+
+        visible: root.activePage == 1
+
+        anchors.fill: parent
+    }
 }

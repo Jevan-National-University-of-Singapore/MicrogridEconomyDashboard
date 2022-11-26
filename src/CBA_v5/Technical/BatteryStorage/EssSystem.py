@@ -55,9 +55,8 @@ class EssSystem(QObject):
         # read-only/derived variables
         self.charge_rate_cRate = charge_rate_cRate
         self.maximum_power_kw = maximum_power_kw
-        self.depth_of_discharge_percentage = state_of_charge_upper_limit - state_of_charge_lower_limit
 
-        self.depth_of_discharge_percentage = round(self.state_of_charge_upper_limit_percentage - self.state_of_charge_lower_limit_percentage, 2)
+        self.depth_of_discharge_percentage = round(self.state_of_charge_upper_limit_percentage - self.state_of_charge_lower_limit_percentage, 4)
 
         self.stateOfChargeLowerLimitChanged.connect(self.updateDepthOfDischarge)
         self.stateOfChargeUpperLimitChanged.connect(self.updateDepthOfDischarge)
@@ -91,41 +90,41 @@ class EssSystem(QObject):
     # ======== Operational Time ========
     @Property(str, notify=operationalTimeChanged)
     def operationalTime(self):
-        return str(self.operational_time_percentage)
+        return str(round(self.operational_time_percentage*100, 2))
 
     @operationalTime.setter
     def operationalTime(self, operational_time_percentage):
-        self.operational_time_percentage = round(float(operational_time_percentage), 2)
+        self.operational_time_percentage = round(float(operational_time_percentage)/100, 4)
         self.operationalTimeChanged.emit()
 
     # ======== State of Charge Upper Limit ========
     @Property(str, notify=stateOfChargeUpperLimitChanged)
     def stateOfChargeUpperLimit(self):
-        return str(self.state_of_charge_upper_limit_percentage)
+        return str(round(self.state_of_charge_upper_limit_percentage*100, 2))
 
     @stateOfChargeUpperLimit.setter
     def stateOfChargeUpperLimit(self, state_of_charge_upper_limit):
-        self.state_of_charge_upper_limit_percentage = round(float(state_of_charge_upper_limit), 2)
+        self.state_of_charge_upper_limit_percentage = round(float(state_of_charge_upper_limit)/100, 4)
         self.stateOfChargeUpperLimitChanged.emit()
 
     # ======== State of Charge Lower Limit ========
     @Property(str, notify=stateOfChargeLowerLimitChanged)
     def stateOfChargeLowerLimit(self):
-        return str(self.state_of_charge_lower_limit_percentage)
+        return str(round(self.state_of_charge_lower_limit_percentage*100, 2))
 
     @stateOfChargeLowerLimit.setter
     def stateOfChargeLowerLimit(self, state_of_charge_lower_limit):
-        self.state_of_charge_lower_limit_percentage = round(float(state_of_charge_lower_limit), 2)
+        self.state_of_charge_lower_limit_percentage = round(float(state_of_charge_lower_limit)/100, 4)
         self.stateOfChargeLowerLimitChanged.emit()
 
     # ======== End of Life Capacity ========
     @Property(str, notify=endOfLifeCapacityChanged)
     def endOfLifeCapacity(self):
-        return str(self.end_of_life_capacity_percentage)
+        return str(round(self.end_of_life_capacity_percentage*100, 2))
 
     @endOfLifeCapacity.setter
     def endOfLifeCapacity(self, end_of_life_capacity_percentage):
-        self.end_of_life_capacity_percentage = round(float(end_of_life_capacity_percentage), 2)
+        self.end_of_life_capacity_percentage = round(float(end_of_life_capacity_percentage)/100, 4)
         self.essNameplateLifecycleChanged.emit()
 
     # ======== ESS Namplate Lifecycle ========
@@ -162,14 +161,14 @@ class EssSystem(QObject):
     # ======== Depth of Discharge ========    
     @Property(str, notify=depthOfDischargePercentageChanged)
     def depthOfDischargePercentage(self):
-        return str(self.depth_of_discharge_percentage)
+        return str(round(self.depth_of_discharge_percentage * 100, 2))
 
     @depthOfDischargePercentage.setter
     def depthOfDischargePercentage(self, depth_of_discharge_percentage):
-        self.depth_of_discharge_percentage = round(float(depth_of_discharge_percentage), 2)
+        self.depth_of_discharge_percentage = round(float(depth_of_discharge_percentage)/100, 4)
         self.depthOfDischargePercentageChanged.emit()
 
     @Slot()
     def updateDepthOfDischarge(self):
-        self.depth_of_discharge_percentage = round(self.state_of_charge_upper_limit_percentage - self.state_of_charge_lower_limit_percentage, 2)
+        self.depth_of_discharge_percentage = round(self.state_of_charge_upper_limit_percentage - self.state_of_charge_lower_limit_percentage, 4)
         self.depthOfDischargePercentageChanged.emit()

@@ -76,29 +76,29 @@ class Demand(QObject):
     
     @Property(str, notify=stateOfChargeAtEntryChanged) #getter
     def stateOfChargeAtEntry(self) -> str:
-        return str(self.state_of_charge_at_entry)
+        return str(round(self.state_of_charge_at_entry*100, 2))
 
     @stateOfChargeAtEntry.setter
     def stateOfChargeAtEntry(self, state_of_charge_at_entry:str):
-        self.state_of_charge_at_entry = round(float(state_of_charge_at_entry), 2)
+        self.state_of_charge_at_entry = round(float(state_of_charge_at_entry)/100, 4)
         self.stateOfChargeAtEntryChanged.emit()
     
     @Property(str, notify=stateOfChargeLimitChanged) #getter
     def stateOfChargeLimit(self) -> str:
-        return str(self.state_of_charge_limit)
+        return str(round(self.state_of_charge_limit*100, 2))
 
     @stateOfChargeLimit.setter
     def stateOfChargeLimit(self, state_of_charge_limit:str):
-        self.state_of_charge_limit = round(float(state_of_charge_limit), 2)
+        self.state_of_charge_limit = round(float(state_of_charge_limit)/100, 4)
         self.stateOfChargeLimitChanged.emit()
     
     @Property(str, notify=stateOfChargeToBeChargedChanged) #getter
     def stateOfChargeToBeCharged(self) -> str:
-        return str(self.state_of_charge_to_be_charged)
+        return str(round(self.state_of_charge_to_be_charged * 100, 2))
 
     @stateOfChargeToBeCharged.setter
     def stateOfChargeToBeCharged(self, state_of_charge_to_be_charged:str):
-        self.state_of_charge_to_be_charged = round(float(state_of_charge_to_be_charged), 2)
+        self.state_of_charge_to_be_charged = round(float(state_of_charge_to_be_charged)/100, 4)
         self.stateOfChargeToBeChargedChanged.emit()
     
     @Property(str, notify=totalWaitingTimeChanged) #getter

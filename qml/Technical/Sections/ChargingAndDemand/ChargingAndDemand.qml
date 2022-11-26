@@ -48,7 +48,7 @@ Section {
 
         anchors {
             left: column1.right
-            leftMargin: column1.width/20
+            leftMargin: column1.width/4
 
             verticalCenter: column1.verticalCenter
         }
