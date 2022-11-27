@@ -9,37 +9,40 @@ class FixedOAndM(QObject):
 
     def __init__(self,
         # all optional
-        solar_pv_o_and_m: float = 0,
-        ev_charger_o_and_m: float = 0,
-        lfp_o_and_m: float = 0
+        solar_pv_o_and_m: float = 25,
+        ev_charger_o_and_m: float = 400,
+        lfp_o_and_m: float = 4.4
     ):
         super().__init__()
-        self._solar_pv_o_and_m = solar_pv_o_and_m
-        self._ev_charger_o_and_m = ev_charger_o_and_m
-        self._lfp_o_and_m = lfp_o_and_m
+        self.solar_pv_o_and_m = solar_pv_o_and_m
+        self.ev_charger_o_and_m = ev_charger_o_and_m
+        self.lfp_o_and_m = lfp_o_and_m
 
     @Property(str, notify=solarPvOAndMChanged) #getter
     def solarPvOAndM(self) -> str:
-        return str(self._solar_pv_o_and_m)
+        return str(self.solar_pv_o_and_m)
 
     @solarPvOAndM.setter
-    def solarPvOAndM(self, value:str) -> None:
-        self._solar_pv_o_and_m = float(value)
+    def solarPvOAndM(self, solar_pv_o_and_m:str) -> None:
+        self.solar_pv_o_and_m = float(solar_pv_o_and_m)
+        self.solarPvOAndMChanged.emit()
 
     @Property(str, notify=evChargerOAndMChanged) #getter
     def evChargerOAndM(self) -> str:
-        return str(self._ev_charger_o_and_m)
+        return str(self.ev_charger_o_and_m)
 
     @evChargerOAndM.setter
-    def evChargerOAndM(self, value:str) -> None:
-        self._ev_charger_o_and_m = float(value)
+    def evChargerOAndM(self, ev_charger_o_and_m:str) -> None:
+        self.ev_charger_o_and_m = float(ev_charger_o_and_m)
+        self.evChargerOAndMChanged.emit()
 
     @Property(str, notify=lfpAndMChanged) #getter
     def lfpAndM(self) -> str:
-        return str(self._lfp_o_and_m)
+        return str(self.lfp_o_and_m)
 
     @lfpAndM.setter
-    def lfpAndM(self, value:str) -> None:
-        self._lfp_o_and_m = float(value)
+    def lfpAndM(self, lfp_o_and_m:str) -> None:
+        self.lfp_o_and_m = float(lfp_o_and_m)
+        self.lfpAndMChanged.emit()
 
     

@@ -9,6 +9,8 @@ import "../Templates"
 Card {
     id: surface
 
+	property alias chart: canvasBars
+
 	Connections {
 		id: updateChart
 

@@ -2,9 +2,9 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 
-from CaptialExpenditureItems import CapitalExpenditureItems
-from Depreciation import Depreciation
-from ExchangeRate import ExchangeRate
+from .CaptialExpenditureItems import CapitalExpenditureItems
+from .Depreciation import Depreciation
+from .ExchangeRate import ExchangeRate
 
 class CapitalExpenditure(QObject):
     capitalExpenditureItemsChanged = Signal()
@@ -12,23 +12,23 @@ class CapitalExpenditure(QObject):
     exchangeRateChanged = Signal()
 
     def __init__(self,
-        capital_expenditure_items: CapitalExpenditureItems,
-        depreciation: Depreciation,
-        exchange_rate = ExchangeRate
+        capital_expenditure_items: CapitalExpenditureItems = CapitalExpenditureItems(),
+        depreciation: Depreciation = Depreciation(),
+        exchange_rate: ExchangeRate = ExchangeRate()
     ):
         super().__init__()
-        self._capital_expenditure_items = capital_expenditure_items
-        self._depreciation = depreciation
-        self._exchange_rate = exchange_rate
+        self.capital_expenditure_items = capital_expenditure_items
+        self.depreciation_ = depreciation
+        self.exchange_rate = exchange_rate
 
     @Property(CapitalExpenditureItems, notify=capitalExpenditureItemsChanged) #getter
     def capitalExpenditureItems(self) -> CapitalExpenditureItems:
-        return self._capital_expenditure_items
+        return self.capital_expenditure_items
         
     @Property(Depreciation, notify=depreciationChanged) #getter
     def depreciation(self) -> Depreciation:
-        return self._depreciation
+        return self.depreciation_
 
     @Property(ExchangeRate, notify=exchangeRateChanged) #getter
     def exchangeRate(self) -> ExchangeRate:
-        return self._exchange_rate
+        return self.exchange_rate

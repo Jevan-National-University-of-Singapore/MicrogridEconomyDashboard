@@ -22,6 +22,7 @@ Card {
 
         width: root.width/2
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
 
         text: ""
         color: "lightSteelBlue"

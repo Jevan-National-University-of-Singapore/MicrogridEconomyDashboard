@@ -5,6 +5,11 @@ import "../Templates"
 
 Item {
     id: root
+    // onVisibleChanged: {
+    //     if (visible){
+    //         usersPerHourChart.chart.animateToNewData()
+    //     }
+    // }
 
     UsersPerHourChart {
         id: usersPerHourChart

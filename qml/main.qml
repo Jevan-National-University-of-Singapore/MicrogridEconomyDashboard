@@ -4,6 +4,7 @@ import QtQuick.Window 2.2
 
 import "Technical"
 import "ChargingAndDemand"
+import "Financial"
 
 
 ApplicationWindow {
@@ -102,6 +103,14 @@ ApplicationWindow {
         id: technical
 
         visible: root.activePage == 1
+
+        anchors.fill: parent
+    }
+
+    Financial{
+        id: financial
+
+        visible: root.activePage == 2
 
         anchors.fill: parent
     }
