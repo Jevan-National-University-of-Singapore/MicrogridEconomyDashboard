@@ -32,13 +32,20 @@ class CapitalExpenditureItems(QObject):
                             2
                         )
 
+    def emitUpdateSignals(self):
+        self.solarPvRectificationChanged.emit()
+        self.dcChargersChanged.emit()
+        self.ess301Changed.emit()
+        self.pcs200Changed.emit()
+        self.totalCapexChanged.emit()
+
     @Property(str, notify=solarPvRectificationChanged) #getter
     def solarPvRectification(self) -> str:
         return str(self.solar_pv_rectification)
  
     @solarPvRectification.setter #setter
     def solarPvRectification(self, solar_pv_rectification:str) -> None:
-        self.solar_pv_rectification = float(solar_pv_rectification)
+        self.solar_pv_rectification = round(float(solar_pv_rectification), 2)
         self.solarPvRectificationChanged.emit()
 
     @Property(str, notify=dcChargersChanged) #getter
@@ -47,7 +54,7 @@ class CapitalExpenditureItems(QObject):
 
     @dcChargers.setter #setter
     def dcChargers(self, dc_chargers:str) -> None:
-        self.dc_chargers = float(dc_chargers)
+        self.dc_chargers = round(float(dc_chargers), 2)
         self.dcChargersChanged.emit()
 
     @Property(str, notify=pcs200Changed) #getter
@@ -56,7 +63,7 @@ class CapitalExpenditureItems(QObject):
 
     @pcs200kW.setter #setter
     def pcs200kW(self, pcs200_:str) -> None:
-        self.pcs_200kw = float(pcs200_)
+        self.pcs_200kw = round(float(pcs200_), 2)
         self.pcs200Changed.emit()
 
     @Property(str, notify=totalCapexChanged) #getter
@@ -65,7 +72,7 @@ class CapitalExpenditureItems(QObject):
 
     @totalCapex.setter #setter
     def totalCapex(self, ess301_:str) -> None:
-        self.total_capex = float(ess301_)
+        self.total_capex = round(float(ess301_), 2)
         self.totalCapexChanged.emit()
  
     @Property(str, notify=ess301Changed) #getter
@@ -74,7 +81,7 @@ class CapitalExpenditureItems(QObject):
 
     @ess301kWh.setter #setter
     def ess301kWh(self, ess301_:str) -> None:
-        self.ess_301kwh = float(ess301_)
+        self.ess_301kwh = round(float(ess301_), 2)
         self.ess301Changed.emit()
 
     @Slot()

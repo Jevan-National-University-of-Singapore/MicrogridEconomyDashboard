@@ -21,6 +21,11 @@ class ChargingAndDemand(QObject):
 
         self.numberOfUsersPerDayChanged.connect(self.updateUsersPerHour)
 
+    def emitUpdateSignals(self):
+        self.numberOfUsersPerDayChanged.emit()
+        self.additionalNumberOfUsersPerYearChanged.emit()
+        self.usersPerHourChanged.emit()
+
 
     @Property(str, notify=numberOfUsersPerDayChanged) #getter
     def numberOfUsersPerDay(self) -> str:

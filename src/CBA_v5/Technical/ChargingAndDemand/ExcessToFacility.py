@@ -8,7 +8,7 @@ class ExcessToFacility(QObject):
 
     def __init__(self,
         # required
-        electricity_per_day:float = 550.8
+        electricity_per_day:float = 87
     ):
         super().__init__()
         self.electricity_per_day = electricity_per_day

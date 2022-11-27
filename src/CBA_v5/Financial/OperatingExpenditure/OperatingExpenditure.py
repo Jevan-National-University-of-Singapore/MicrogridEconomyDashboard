@@ -14,8 +14,12 @@ class OperatingExpenditure(QObject):
         fixed_o_and_m: FixedOAndM = FixedOAndM()
     ):
         super().__init__()
-        self.operating_expenditure_items = operating_expenditure_items
-        self.fixed_o_and_m = fixed_o_and_m
+        self.operating_expenditure_items: OperatingExpenditureItems = operating_expenditure_items
+        self.fixed_o_and_m: FixedOAndM = fixed_o_and_m
+
+    def emitUpdateSignals(self):
+        self.operating_expenditure_items.emitUpdateSignals()
+        self.fixed_o_and_m.emitUpdateSignals()
 
     @Property(OperatingExpenditureItems, notify=operatingExpenditureItemsChanged) #getter
     def operatingExpenditureItems(self) -> OperatingExpenditureItems:

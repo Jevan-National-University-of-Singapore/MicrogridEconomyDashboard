@@ -5,10 +5,9 @@ from PySide6.QtGui import *
 class TariffAssumption(QObject):
     '''
     Electricity tariff rate
-Margin on electricity sold to facility
-Peak tariff rate
-Off-peak tariff rate
-
+    Margin on electricity sold to facility
+    Peak tariff rate
+    Off-peak tariff rate
     '''
     electricityTariffRateChanged = Signal()
     marginOnElectricitySoldToFacilityChanged = Signal()
@@ -28,6 +27,12 @@ Off-peak tariff rate
         self.peak_tariff_rate:float = peak_tariff_rate
         self.off_peak_tariff_rate:float = off_peak_tariff_rate
 
+    def emitUpdateSignals(self):
+        self.electricityTariffRateChanged.emit()
+        self.marginOnElectricitySoldToFacilityChanged.emit()
+        self.peakTariffRateChanged.emit()
+        self.offPeakTariffRateChanged.emit()
+
     
     @Property(str, notify=electricityTariffRateChanged) #getter
     def electricityTariffRate(self) -> str:
@@ -35,18 +40,18 @@ Off-peak tariff rate
 
     @electricityTariffRate.setter
     def electricityTariffRate(self, electricity_tariff_rate:str) -> None:
-        self.electricity_tariff_rate = float(electricity_tariff_rate)
-        self.electricity_tariff_rate.emit()
+        self.electricity_tariff_rate = round(float(electricity_tariff_rate), 2)
+        self.electricityTariffRateChanged.emit()
 
 
 
     @Property(str, notify=marginOnElectricitySoldToFacilityChanged) #getter
     def marginOnElectricitySoldToFacility(self) -> str:
-        return str(self.margin_on_electricity_sold_to_facility)
+        return str(round(self.margin_on_electricity_sold_to_facility*100, 2))
 
     @marginOnElectricitySoldToFacility.setter
     def marginOnElectricitySoldToFacility(self, margin_on_electricity_sold_to_facility:str) -> None:
-        self.margin_on_electricity_sold_to_facility = float(margin_on_electricity_sold_to_facility)
+        self.margin_on_electricity_sold_to_facility = round(float(margin_on_electricity_sold_to_facility)/100, 4)
         self.marginOnElectricitySoldToFacilityChanged.emit()
 
 
@@ -57,7 +62,7 @@ Off-peak tariff rate
 
     @peakTariffRate.setter
     def peakTariffRate(self, peak_tariff_rate:str) -> None:
-        self.peak_tariff_rate = float(peak_tariff_rate)
+        self.peak_tariff_rate = round(float(peak_tariff_rate), 2)
         self.peakTariffRateChanged.emit()
 
 
@@ -68,6 +73,6 @@ Off-peak tariff rate
 
     @offPeakTariffRate.setter
     def offPeakTariffRate(self, off_peak_tariff_rate:str) -> None:
-        self.off_peak_tariff_rate = float(off_peak_tariff_rate)
+        self.off_peak_tariff_rate = round(float(off_peak_tariff_rate), 2)
         self.offPeakTariffRateChanged.emit()
 

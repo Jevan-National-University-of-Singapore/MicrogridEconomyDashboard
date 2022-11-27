@@ -26,7 +26,7 @@ SubSection {
 
         input.onEditingFinished: Scenario.financial.operatingExpenditure.fixedOAndM.evChargerOAndM = evChargerOAndM.inputText
 
-        inputText: Scenario.financial.operatingExpenditure.fixedOAndM.solarPvOAndM
+        inputText: Scenario.financial.operatingExpenditure.fixedOAndM.evChargerOAndM
     }
 
 
@@ -38,7 +38,7 @@ SubSection {
 
         input.onEditingFinished: Scenario.financial.operatingExpenditure.fixedOAndM.lfpAndM = lfpAndM.inputText
 
-        inputText: Scenario.financial.operatingExpenditure.fixedOAndM.solarPvOAndM
+        inputText: Scenario.financial.operatingExpenditure.fixedOAndM.lfpAndM
     }
 
 

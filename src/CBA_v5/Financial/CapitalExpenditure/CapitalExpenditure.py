@@ -17,9 +17,14 @@ class CapitalExpenditure(QObject):
         exchange_rate: ExchangeRate = ExchangeRate()
     ):
         super().__init__()
-        self.capital_expenditure_items = capital_expenditure_items
-        self.depreciation_ = depreciation
-        self.exchange_rate = exchange_rate
+        self.capital_expenditure_items: CapitalExpenditureItems = capital_expenditure_items
+        self.depreciation_: Depreciation = depreciation
+        self.exchange_rate: ExchangeRate = exchange_rate
+
+    def emitUpdateSignals(self):
+        self.capital_expenditure_items.emitUpdateSignals()
+        self.depreciation_.emitUpdateSignals()
+        self.exchange_rate.emitUpdateSignals()
 
     @Property(CapitalExpenditureItems, notify=capitalExpenditureItemsChanged) #getter
     def capitalExpenditureItems(self) -> CapitalExpenditureItems:

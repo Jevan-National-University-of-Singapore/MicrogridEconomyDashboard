@@ -51,7 +51,7 @@ Item {
             bottomMargin: operatingExpenditure.anchors.topMargin*2.5
         }
 
-        width: operatingExpenditure.width
+        width: operatingExpenditure.width * 1.1
 
     }
 

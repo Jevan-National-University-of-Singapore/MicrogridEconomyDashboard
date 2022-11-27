@@ -25,6 +25,12 @@ class Revenue(QObject):
         
         self.five_year_lifetime.requiredFromChargersChanged.connect(self.update_PerAnnum_ChargingRevenueRequired)
 
+    def emitUpdateSignals(self):
+        self.five_year_lifetime.emitUpdateSignals()
+        self.per_annum.emitUpdateSignals()
+        self.tariff_assumption.emitUpdateSignals()
+
+
     @Property(FiveYearLifetime, notify=fiveYearLifetimeChanged) #getter
     def fiveYearLifetime(self) -> FiveYearLifetime:
         return self.five_year_lifetime

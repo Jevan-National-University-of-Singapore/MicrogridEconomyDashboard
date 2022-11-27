@@ -33,13 +33,20 @@ class OperatingExpenditureItems(QObject):
         self.essOAndMChanged.connect(self.updateTotalOpex)
         self.gridElectricityChanged.connect(self.updateTotalOpex)
 
+    def emitUpdateSignals(self):
+        self.solarPvOAndMChanged.emit()
+        self.dcChargesOAndMChanged.emit()
+        self.essOAndMChanged.emit()
+        self.gridElectricityChanged.emit()
+        self.totalOpexChanged.emit()
+
     @Property(str, notify=solarPvOAndMChanged) #getter
     def solarPvOAndM(self) -> str:
         return str(self.solar_pv_o_and_m)
 
     @solarPvOAndM.setter
     def solarPvOAndM(self, value:str) -> None:
-        self.solar_pv_o_and_m = float(value)
+        self.solar_pv_o_and_m = round(float(value), 2)
         self.solarPvOAndMChanged.emit()
 
     @Property(str, notify=dcChargesOAndMChanged) #getter
@@ -48,7 +55,7 @@ class OperatingExpenditureItems(QObject):
 
     @dcChargesOAndM.setter
     def dcChargesOAndM(self, value:str) -> None:
-        self.dc_chargers_o_and_m = float(value)
+        self.dc_chargers_o_and_m = round(float(value), 2)
         self.dcChargesOAndMChanged.emit()
 
     @Property(str, notify=essOAndMChanged) #getter
@@ -57,7 +64,7 @@ class OperatingExpenditureItems(QObject):
 
     @essOAndM.setter
     def essOAndM(self, value:str) -> None:
-        self.ess_o_and_m = float(value)
+        self.ess_o_and_m = round(float(value), 2)
         self.essOAndMChanged.emit()
 
     @Property(str, notify=gridElectricityChanged) #getter
@@ -66,7 +73,7 @@ class OperatingExpenditureItems(QObject):
 
     @gridElectricity.setter
     def gridElectricity(self, value:str) -> None:
-        self.grid_electricity = float(value)
+        self.grid_electricity = round(float(value), 2)
         self.gridElectricityChanged.emit()
 
     @Property(str, notify=totalOpexChanged) #getter
@@ -75,7 +82,7 @@ class OperatingExpenditureItems(QObject):
 
     @totalOpex.setter
     def totalOpex(self, value:str) -> None:
-        self.total_opex = float(value)
+        self.total_opex = round(float(value), 2)
         self.totalOpexChanged.emit()
 
     @Slot()

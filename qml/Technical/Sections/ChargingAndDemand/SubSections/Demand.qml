@@ -7,14 +7,12 @@ SubSection {
 
     subsection: "Demand"
 
-    LabelledInput {
+    LabelledText {
         id: numberOfUsersPerDay
 
-        label: "Number of Users / day"
+        labelText: "Number of Users / day"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.demand.numOfUsersPerDay = numberOfUsersPerDay.inputText
-
-        inputText: Scenario.technical.chargingAndDemand.demand.numOfUsersPerDay
+        text: Scenario.technical.chargingAndDemand.demand.numOfUsersPerDay
     }
 
     LabelledText {

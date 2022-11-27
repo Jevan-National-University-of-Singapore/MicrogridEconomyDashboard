@@ -20,6 +20,10 @@ class FiveYearLifetime(QObject):
         self.revenueRequiredToBreakEvenChanged.connect(self.updateRequiredFromChargers)
         self.retailToFacilityChanged.connect(self.updateRequiredFromChargers)
 
+    def emitUpdateSignals(self):        
+        self.requiredFromChargersChanged.emit()
+        self.retailToFacilityChanged.emit()
+        self.revenueRequiredToBreakEvenChanged.emit()
 
     @Property(str, notify=requiredFromChargersChanged) #getter
     def requiredFromChargers(self) -> str:
@@ -27,7 +31,7 @@ class FiveYearLifetime(QObject):
 
     @requiredFromChargers.setter
     def requiredFromChargers(self, required_from_chargers:str) -> None:
-        self.required_from_chargers = float(required_from_chargers)
+        self.required_from_chargers = round(float(required_from_chargers), 2)
         self.requiredFromChargersChanged.emit()
 
     @Property(str, notify=retailToFacilityChanged) #getter
@@ -36,7 +40,7 @@ class FiveYearLifetime(QObject):
 
     @retailToFacility.setter
     def retailToFacility(self, retail_to_facility:str) -> None:
-        self.retail_to_facility = float(retail_to_facility)
+        self.retail_to_facility = round(float(retail_to_facility), 2)
         self.retailToFacilityChanged.emit()
 
     @Property(str, notify=requiredFromChargersChanged) #getter
@@ -45,7 +49,7 @@ class FiveYearLifetime(QObject):
 
     @revenueRequiredToBreakEven.setter
     def revenueRequiredToBreakEven(self, revenue_required_to_break_even:str) -> None:
-        self.revenue_required_to_break_even = float(revenue_required_to_break_even)
+        self.revenue_required_to_break_even = round(float(revenue_required_to_break_even), 2)
         self.revenueRequiredToBreakEvenChanged.emit()
 
     @Slot()

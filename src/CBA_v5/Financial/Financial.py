@@ -30,9 +30,10 @@ class Financial(QObject):
                 2
             )
 
-    # def emitUpdateSignals(self):
-    #     self.capitalExpenditureChanged.emitUpdateSignals()
-    #     self._charging_and_demand.emitUpdateSignals()
+    def emitUpdateSignals(self):
+        self.capital_expenditure.emitUpdateSignals()
+        self.operating_expenditure.emitUpdateSignals()
+        self.revenue_.emitUpdateSignals()
 
     @Property(CapitalExpenditure, notify=capitalExpenditureChanged) #getter
     def capitalExpenditure(self) -> CapitalExpenditure:

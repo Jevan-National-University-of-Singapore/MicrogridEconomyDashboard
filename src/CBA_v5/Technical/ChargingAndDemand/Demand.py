@@ -16,8 +16,8 @@ class Demand(QObject):
 
     def __init__(self,
         # required
-        state_of_charge_at_entry:float = 20,
-        state_of_charge_limit:float = 80,
+        state_of_charge_at_entry:float = 0.2,
+        state_of_charge_limit:float = 0.8,
 
         # optional
         num_of_users_per_day:int = 17,
@@ -131,7 +131,7 @@ class Demand(QObject):
     @Slot()
     def updateStateOfChargeToBeCharged(self):
         self.state_of_charge_to_be_charged = round(self.state_of_charge_limit - self.state_of_charge_at_entry, 2)
-        self.stateOfChargeLimitChanged.emit()
+        self.stateOfChargeToBeChargedChanged.emit()
 
     @Slot()
     def updateNumOfUsersPerYear(self):

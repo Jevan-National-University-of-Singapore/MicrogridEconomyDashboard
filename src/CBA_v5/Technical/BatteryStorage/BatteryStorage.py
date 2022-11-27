@@ -19,9 +19,9 @@ class BatteryStorage(QObject):
 
     ):
         super().__init__()
-        self.ess_system = EssSystem()
-        self.discharge_ = Discharge()
-        self.grid_charging = GridCharging()
+        self.ess_system:EssSystem = EssSystem()
+        self.discharge_:Discharge = Discharge()
+        self.grid_charging:GridCharging = GridCharging()
 
         self.discharge_.power_max = self.ess_system.installed_capacity_kwh
 

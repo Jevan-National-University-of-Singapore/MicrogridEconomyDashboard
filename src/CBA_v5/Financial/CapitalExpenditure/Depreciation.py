@@ -26,13 +26,21 @@ class Depreciation(QObject):
 
         self.ess_depreciation = round(self.ess_capex_per_kwh/self.actual_ess_lifecycle, 2)
 
+    def emitUpdateSignals(self):
+        self.actualEssLifecycleChanged.emit()
+        self.essCapexPerKwhChanged.emit()
+        self.essDepreciationChanged.emit()
+        self.chargerLifecycleCapacityChanged.emit()
+        self.chargerCapexPerKwChanged.emit()
+        self.chargerDepreciationChanged.emit()
+
     @Property(str, notify=actualEssLifecycleChanged) #getter
     def actualEssLifecycle(self) -> str:
         return str(self.actual_ess_lifecycle)
 
     @actualEssLifecycle.setter
     def actualEssLifecycle(self, actual_ess_lifecycle:str) -> None:
-        self.actual_ess_lifecycle = float(actual_ess_lifecycle)
+        self.actual_ess_lifecycle = round(float(actual_ess_lifecycle), 2)
         self.actualEssLifecycleChanged.emit()
 
     @Property(str, notify=essCapexPerKwhChanged) #getter
@@ -41,7 +49,7 @@ class Depreciation(QObject):
 
     @essCapexPerKwh.setter
     def essCapexPerKwh(self, ess_capex_per_kwh:str) -> None:
-        self.ess_capex_per_kwh = float(ess_capex_per_kwh)
+        self.ess_capex_per_kwh = round(float(ess_capex_per_kwh), 2)
         self.essCapexPerKwhChanged.emit()
         
     @Property(str, notify=essDepreciationChanged) #getter
@@ -50,7 +58,7 @@ class Depreciation(QObject):
 
     @essDepreciation.setter
     def essDepreciation(self, ess_depreciation:str) -> None:
-        self.ess_depreciation = float(ess_depreciation)
+        self.ess_depreciation = round(float(ess_depreciation), 2)
         self.essDepreciationChanged.emit()
 
     @Property(str, notify=chargerLifecycleCapacityChanged) #getter
@@ -59,7 +67,7 @@ class Depreciation(QObject):
 
     @chargerLifecycleCapacity.setter
     def chargerLifecycleCapacity(self, charger_lifecycle_capacity:str) -> None:
-        self.charger_lifecycle_capacity = float(charger_lifecycle_capacity)
+        self.charger_lifecycle_capacity = round(float(charger_lifecycle_capacity), 2)
         self.chargerLifecycleCapacityChanged.emit()
 
     @Property(str, notify=chargerCapexPerKwChanged) #getter
@@ -68,7 +76,7 @@ class Depreciation(QObject):
 
     @chargerCapexPerKw.setter
     def chargerCapexPerKw(self, charger_capex_per_kw:str) -> None:
-        self.charger_capex_per_kw = float(charger_capex_per_kw)
+        self.charger_capex_per_kw = round(float(charger_capex_per_kw), 2)
         self.chargerCapexPerKwChanged.emit()
 
     @Property(str, notify=chargerDepreciationChanged) #getter
@@ -77,7 +85,7 @@ class Depreciation(QObject):
 
     @chargerDepreciation.setter
     def chargerDepreciation(self, charger_depreciation:str) -> None:
-        self.charger_depreciation = float(charger_depreciation)
+        self.charger_depreciation = round(float(charger_depreciation), 2)
         self.chargerDepreciationChanged.emit()
 
     @Slot()
