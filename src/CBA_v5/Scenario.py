@@ -5,20 +5,23 @@ from PySide6.QtGui import *
 from .ChargingAndDemand.ChargingAndDemand import ChargingAndDemand
 from .Technical.Technical import Technical
 from .Financial.Financial import Financial
+from .SolarPowerGeneration.SolarPowerGeneration import SolarPowerGeneration
 
 class Scenario(QObject):
-    
     chargingAndDemandChanged = Signal()
+    solarPowerGenerationChanged = Signal()
     technicalChanged = Signal()
     financialChanged = Signal()
 
     def __init__(self, 
         name: str = None,
-        charging_and_demand = ChargingAndDemand(),
-        technical = Technical(),
-        financial = Financial()
+        solar_power_generation: SolarPowerGeneration = SolarPowerGeneration(),
+        charging_and_demand: ChargingAndDemand = ChargingAndDemand(),
+        technical: Technical = Technical(),
+        financial: Financial = Financial()
     ):
         super().__init__()
+        self.solar_power_generation: SolarPowerGeneration = solar_power_generation
         self.charging_and_demand: ChargingAndDemand = charging_and_demand
         self.technical_: Technical = technical
         self.financial_: Financial = financial
@@ -31,10 +34,12 @@ class Scenario(QObject):
 
         '''======= financial ======='''
         '''------- capital expenditure -------''' 
-        self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = \
-            self.technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
-            * self.technical_.battery_storage.ess_system.depth_of_discharge_percentage \
-            * ( 1 + self.technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2
+        self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = round(
+                        self.technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
+                            * self.technical_.battery_storage.ess_system.depth_of_discharge_percentage \
+                            * ( 1 + self.technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2,
+                        2
+                    )    
 
         self.financial_.capital_expenditure.depreciation_.ess_capex_per_kwh = round (
                                     self.financial_.capital_expenditure.capital_expenditure_items.ess_301kwh \
@@ -179,6 +184,15 @@ class Scenario(QObject):
         self.charging_and_demand = charging_and_demand
         self.chargingAndDemandChanged.emit()
 
+    @Property(SolarPowerGeneration, notify=solarPowerGenerationChanged) #getter
+    def solarPowerGeneration(self) -> SolarPowerGeneration:
+        return self.solar_power_generation
+
+    @solarPowerGeneration.setter
+    def solarPowerGeneration(self, solar_power_generation: SolarPowerGeneration):
+        self.solar_power_generation = solar_power_generation
+        self.solarPowerGenerationChanged.emit()
+
     @Property(Technical, notify=technicalChanged) #getter
     def technical(self) -> Technical:
         return self.technical_
@@ -186,7 +200,6 @@ class Scenario(QObject):
     @technical.setter
     def technical(self, technical:Technical):
         self.technical_ = technical
-
 
     @Property(Financial, notify=financialChanged) #getter
     def financial(self) -> Financial:
@@ -209,12 +222,14 @@ class Scenario(QObject):
     '''------- capital expenditure -------''' 
     @Slot()
     def update_financial_capitalExpenditure_depreciation_actualEssLifecycle(self):
-        self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = \
-            self.technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
-            * self.technical_.battery_storage.ess_system.depth_of_discharge_percentage \
-            * ( 1 + self.technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2
-            
+        self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = round(
+                            self.technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
+                                * self.technical_.battery_storage.ess_system.depth_of_discharge_percentage \
+                                * ( 1 + self.technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2,
+                            2
+                        )    
         self.financial_.capital_expenditure.depreciation_.actualEssLifecycleChanged.emit()
+
           
     @Slot()
     def update_financial_capitalExpenditure_depreciation_essCapex(self):

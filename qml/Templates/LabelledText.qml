@@ -8,14 +8,14 @@ Row {
     property alias text: text.text
     property alias units: units.text
 
-    spacing: height/5
+    spacing: label.font.pixelSize
 
     Label {
         id: label
 
         text: root.labelText + ":"
         verticalAlignment: Text.AlignVCenter
-        height: implicitHeight * 2.5
+        height: font.pixelSize * 2.5
     }
 
     Label {

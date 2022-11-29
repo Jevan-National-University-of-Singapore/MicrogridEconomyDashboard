@@ -9,6 +9,9 @@ Rectangle {
     color: Material.background
 
     property bool draggable: false
+
+    height: childrenRect.height
+    width: childrenRect.width
         
     Material.elevation: 6
 

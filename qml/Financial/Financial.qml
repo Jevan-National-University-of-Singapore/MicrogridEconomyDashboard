@@ -13,29 +13,23 @@ Item {
 
         anchors {
             top: root.top
-            topMargin: root.height/40
+            topMargin: capitalExpenditure.label.height
 
             left: root.left
-            leftMargin: root.width/40
         }
 
-        height: root.height/1.6
-        width: root.width/2.8
     }
 
     OperatingExpenditure {
         id: operatingExpenditure
 
         anchors {
-            top: root.top
-            topMargin: root.height/40
+            top: capitalExpenditure.top
 
             left: capitalExpenditure.right
-            leftMargin: root.width/40
+            leftMargin: operatingExpenditure.label.height
         }
 
-        width: root.width/2.5
-        height: root.height/2.5
     }
 
     Revenue {
@@ -43,15 +37,11 @@ Item {
 
         anchors {
             top: operatingExpenditure.bottom
-            topMargin: operatingExpenditure.anchors.topMargin
+            topMargin: revenue.label.height
 
             left: operatingExpenditure.left
 
-            bottom: root.bottom
-            bottomMargin: operatingExpenditure.anchors.topMargin*2.5
         }
-
-        width: operatingExpenditure.width * 1.1
 
     }
 

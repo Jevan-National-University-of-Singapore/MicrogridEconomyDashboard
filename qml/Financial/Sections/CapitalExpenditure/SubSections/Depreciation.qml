@@ -5,7 +5,7 @@ import "../../../../Templates"
 SubSection {
     id: root
 
-    subsection: "Grid Charging"
+    subsection: "Depreciation"
 
 
     LabelledText {

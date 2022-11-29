@@ -13,7 +13,7 @@ Section {
     ColumnLayout {
         id: column1
 
-        spacing: root.height/40
+        spacing: fiveYearLifetime.label.font.pixelSize
 
         FiveYearLifetime {
             id: fiveYearLifetime
@@ -23,7 +23,8 @@ Section {
             id: fiveYearLifetimeSeparator
 
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: 200
+
+            length: fiveYearLifetime.width - column1.spacing
         }
 
         PerAnnum {
@@ -37,12 +38,12 @@ Section {
 
         anchors {
             left: column1.right
-            leftMargin: column1.width/4
+            leftMargin: column1.spacing
 
             verticalCenter: column1.verticalCenter
         }
 
-        length: column1.height/1.2
+        length: column1.height - column1.spacing
     }
 
     TariffAssumption {
@@ -50,7 +51,7 @@ Section {
 
         anchors {
             left: column1Separator.right
-            leftMargin: column1.width/20
+            leftMargin: tariffAssumption.label.font.pixelSize
         }
 
     }

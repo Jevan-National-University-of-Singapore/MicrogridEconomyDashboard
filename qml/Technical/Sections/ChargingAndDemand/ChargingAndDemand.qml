@@ -14,16 +14,18 @@ Section {
     ColumnLayout {
         id: column1
 
-        spacing: root.height/40
+        spacing: chargingPorts.label.font.pixelSize
 
         ChargingPorts {
             id: chargingPorts
         }
+
         HorizontalSeparator {
             id: chargingPortsSeparator
 
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: 200
+
+            length: chargingPorts.width - column1.spacing
         }
 
         Load {
@@ -34,7 +36,8 @@ Section {
             id: evCharacteristicsSeparator
 
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: 200
+
+            length: load.width - column1.spacing
         }
 
         ExcessToFacility {
@@ -48,22 +51,22 @@ Section {
 
         anchors {
             left: column1.right
-            leftMargin: column1.width/4
+            leftMargin: column1.spacing
 
             verticalCenter: column1.verticalCenter
         }
 
-        length: column1.height/1.2
+        length: column1.height - column1.spacing
     }
 
     ColumnLayout {
         id: column2
 
-        spacing: root.height/40
+        spacing: column1.spacing
 
         anchors {
             left: column1Separator.right
-            leftMargin: column1.width/20
+            leftMargin: column1.spacing
         }
 
         Demand {
@@ -74,7 +77,7 @@ Section {
             id: demandSeparator
 
             Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: 200
+            length: demand.width - column2.spacing
         }
 
         EvCharacteristics {

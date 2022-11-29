@@ -17,11 +17,11 @@ Section {
 
         anchors {
             left: essSystem.right
-            leftMargin: essSystem.width/8
+            leftMargin: essSystem.label.font.pixelSize
             verticalCenter: essSystem.verticalCenter
         }
 
-        length: essSystem.height/1.2
+        length: essSystem.height - essSystem.label.font.pixelSize
     }
 
 
@@ -30,7 +30,7 @@ Section {
 
         anchors {
             left: essSystemSeparator.right
-            leftMargin: discharge.width/8
+            leftMargin: discharge.label.font.pixelSize
         }
     }
 
@@ -39,11 +39,12 @@ Section {
 
         anchors {
             top: discharge.bottom
-            topMargin: discharge.height/5
+            topMargin: discharge.label.font.pixelSize
+
             horizontalCenter: discharge.horizontalCenter
         }
 
-        length: discharge.width/1.2
+        length: discharge.width - discharge.label.font.pixelSize
     }
 
     GridCharging {
@@ -51,7 +52,7 @@ Section {
 
         anchors {
             top: dischargeSeparator.bottom
-            topMargin: gridCharging.height/8
+            topMargin: gridCharging.label.font.pixelSize
 
             left: discharge.left
         }

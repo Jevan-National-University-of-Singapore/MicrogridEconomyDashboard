@@ -5,23 +5,15 @@ import "../Templates"
 
 Item {
     id: root
-    // onVisibleChanged: {
-    //     if (visible){
-    //         usersPerHourChart.chart.animateToNewData()
-    //     }
-    // }
+
 
     UsersPerHourChart {
         id: usersPerHourChart
-
-        height: root.height/1.5
-        width: root.width/1.8
 
         anchors {
             horizontalCenter: root.horizontalCenter
 
             top: root.top
-            topMargin: height/20
         }
     }
 
@@ -30,7 +22,7 @@ Item {
 
         anchors {
             top: usersPerHourChart.bottom
-            topMargin: usersPerHourChart.anchors.topMargin
+            topMargin: numberOfUsersPerDay.height
 
             left: usersPerHourChart.left
         }

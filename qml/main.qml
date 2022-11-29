@@ -1,9 +1,10 @@
 import QtQuick 
 import QtQuick.Controls.Material
-import QtQuick.Window 2.2
+// import QtQuick.Window 2.2
 
-import "Technical"
+import "SolarPowerGeneration"
 import "ChargingAndDemand"
+import "Technical"
 import "Financial"
 
 
@@ -21,8 +22,6 @@ ApplicationWindow {
     Material.accent: Material.Teal
     Material.primary: "#4a4a4e"
     Material.foreground: "white"
-
-    property int activePage: 0
 
     menuBar: MenuBar {
         Menu {
@@ -48,20 +47,25 @@ ApplicationWindow {
     header: ToolBar{
                 Material.primary: Material.background
 
-                // visible: false
-
                 Row {
                     ToolButton {
                         text: qsTr("⋮")
                         font.pixelSize:24
                         // onClicked: menu.open()
                     }
+                    ToolButton {
+                        text: qsTr("Solar Power Generation")
+                        onClicked: {
+                            applicationStack.currentIndex = 0
+                        }
+                    }
+
+                    ToolSeparator{}
 
                     ToolButton {
                         text: qsTr("Charging and Demand")
                         onClicked: {
-                            // technical.visible = true
-                            root.activePage = 0
+                            applicationStack.currentIndex = 1
                         }
                     }
 
@@ -71,7 +75,7 @@ ApplicationWindow {
                     ToolButton {
                         text: qsTr("Technical")
                         onClicked: {
-                            root.activePage = 1
+                            applicationStack.currentIndex = 2
                         }
                     }
 
@@ -80,7 +84,7 @@ ApplicationWindow {
                     ToolButton {
                         text: qsTr("Financial")
                         onClicked: {
-                            root.activePage = 2
+                            applicationStack.currentIndex = 3
                         }
                     }
                     
@@ -88,30 +92,42 @@ ApplicationWindow {
 
                 }
             }
-
-
-    ChargingAndDemand {
-        id: chargingAndDemand
-        
-        visible: root.activePage == 0
-
+    SwipeView{
+        id: applicationStack
         anchors.fill: parent
-    }
+
+        SolarPowerGeneration {
+            id: solarPowerGeneration
 
 
-    Technical{
-        id: technical
+            height: root.height
+            width: root.width
+        }
 
-        visible: root.activePage == 1
 
-        anchors.fill: parent
-    }
+        ChargingAndDemand {
+            id: chargingAndDemand
+            
 
-    Financial{
-        id: financial
+            height: root.height
+            width: root.width
+        }
 
-        visible: root.activePage == 2
 
-        anchors.fill: parent
+        Technical{
+            id: technical
+
+
+            height: root.height
+            width: root.width
+        }
+
+        Financial{
+            id: financial
+
+
+            height: root.height
+            width: root.width
+        }
     }
 }

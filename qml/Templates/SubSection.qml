@@ -6,6 +6,7 @@ ColumnLayout {
     id: root
 
     property alias subsection: subsectionLabel.text
+    property alias label: subsectionLabel
     
 
     Label {

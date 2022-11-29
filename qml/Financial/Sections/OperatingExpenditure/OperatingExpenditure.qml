@@ -16,11 +16,12 @@ Section {
 
         anchors {
             left: operatingExpenditureItems.right
-            leftMargin: operatingExpenditureItems.width/8
+            leftMargin: operatingExpenditureItems.label.font.pixelSize
+
             verticalCenter: operatingExpenditureItems.verticalCenter
         }
 
-        length: operatingExpenditureItems.height/1.2
+        length: operatingExpenditureItems.height - operatingExpenditureItems.label.font.pixelSize
     }
 
 
@@ -29,7 +30,7 @@ Section {
 
         anchors {
             left: operatingExpenditureItemsSeparator.right
-            leftMargin: fixedOAndM.width/8
+            leftMargin: fixedOAndM.label.font.pixelSize
         }
     }
 

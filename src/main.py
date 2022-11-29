@@ -3,6 +3,7 @@ import os
 
 from PySide6.QtGui import *
 from PySide6.QtQml import *
+from PySide6.QtWidgets import *
 
 from CBA_v5.Scenario import Scenario
 
@@ -10,7 +11,7 @@ PWD = dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 if __name__ == '__main__':
 
-    app = QGuiApplication(sys.argv)
+    app = QApplication(sys.argv)
 
     scenario = Scenario()
 

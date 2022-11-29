@@ -1,5 +1,4 @@
 import QtQuick
-// import QtQuick.Layouts
 import QtQuick.Controls.Material
 
 
@@ -7,8 +6,15 @@ Card {
     id: root
 
     default property alias data: subSections.data
+    
+    height: sectionLabel.height + sectionLabel.anchors.topMargin 
+            + subSections.anchors.topMargin + subSections.height 
+            + root.radius/2
+            
+    width: Math.max(sectionLabel.width, subSections.width) + radius
 
     property alias section: sectionLabel.text
+    property alias label: sectionLabel
 
     Label {
         id: sectionLabel
@@ -20,7 +26,6 @@ Card {
             horizontalCenter: root.horizontalCenter
         }
 
-        width: root.width/2
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
 
@@ -34,35 +39,13 @@ Card {
 
         anchors {
             top: sectionLabel.bottom
-            topMargin: sectionLabel.height/4
+            topMargin: sectionLabel.font.pixelSize/2
 
-            bottom: root.bottom
-            bottomMargin: root.radius/2
-
-            horizontalCenter: root.horizontalCenter
+            horizontalCenter: sectionLabel.horizontalCenter
         }
 
-        width: root.width-(0.02*root.width)//root.radius
+        width: childrenRect.width
+        height: childrenRect.height
+
     }
-
-
-    // ColumnLayout {
-    //     id: column
-
-    //     anchors.centerIn : root
-
-    //     height: root.height - root.radius
-    //     width: root.width - root.radius
-        
-    //     Label {
-    //         id: sectionLabel
-
-    //         text: ""
-
-    //         verticalAlignment: Text.AlignVCenter
-
-    //         font.pixelSize: 36
-    //     }
-
-    // }
 }

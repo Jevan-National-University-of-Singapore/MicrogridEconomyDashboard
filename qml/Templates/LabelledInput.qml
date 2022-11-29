@@ -9,13 +9,13 @@ Row {
     property alias inputText: input.text
     property alias units: units.text
 
-    spacing: height/5
+    spacing: label.font.pixelSize
 
     Label {
         id: label
 
         text: root.label + ":"
-        height: root.height
+        height: font.pixelSize * 2.5
         verticalAlignment: Text.AlignVCenter
     }
 
@@ -30,7 +30,7 @@ Row {
     Label {
         id: units
 
-        height: root.height
+        height: label.height
         verticalAlignment: Text.AlignVCenter
     }
 

@@ -1,63 +1,73 @@
+import QtQuick.Layouts
+
 import "../../../Templates"
 import "../../../Templates/Separators"
 
 import "SubSections"
 
-
+import QtQuick
 Section {
     id: root
 
     section: "Capital Expenditure"
 
-    CapitalExpenditureItems {
-        id: capitalExpenditureItems
+    ColumnLayout {
+        id: rightColumn
 
-        anchors.verticalCenter: capitalExpenditureItemsSeparator.verticalCenter
+        spacing: exchangeRate.label.font.pixelSize
+
+        anchors {
+            top: parent.top
+
+            left: parent.left
+            leftMargin: capitalExpenditureItems.width + capitalExpenditureItems.anchors.rightMargin
+                        + rightColumnSeparator.anchors.rightMargin
+
+        }
+
+        ExchangeRate {
+            id: exchangeRate
+
+        }
+
+    
+        HorizontalSeparator {
+            id: exchangeRateSeparator
+            Layout.alignment: Qt.AlignCenter
+
+            length: exchangeRate.width - rightColumn.spacing
+        }
+
+        Depreciation {
+            id: depreciation
+
+        }
     }
 
     VerticalSeparator {
-        id: capitalExpenditureItemsSeparator
+        id: rightColumnSeparator
 
         anchors {
-            left: capitalExpenditureItems.right
-            leftMargin: capitalExpenditureItems.width/8
-            verticalCenter: root.verticalCenter
+            right: rightColumn.left
+            rightMargin: rightColumn.spacing
         }
 
-        length: root.height/1.2
+        length: rightColumn.height - rightColumn.spacing
     }
 
-    ExchangeRate {
-        id: exchangeRate
 
-        anchors {
-            left: capitalExpenditureItemsSeparator.right
-            leftMargin: exchangeRate.width/8
+    CapitalExpenditureItems {
+        id: capitalExpenditureItems
+
+        anchors{
+            right: rightColumnSeparator.right
+            rightMargin: rightColumn.spacing
+
+            verticalCenter: rightColumn.verticalCenter
         }
     }
 
-    
-    HorizontalSeparator {
-        id: exchangeRateSeparator
 
-        anchors {
-            top: exchangeRate.bottom
-            topMargin: exchangeRate.height/5
-            horizontalCenter: exchangeRate.horizontalCenter
-        }
 
-        length: exchangeRate.width/1.2
-    }
-
-    Depreciation {
-        id: depreciation
-
-        anchors {
-            top: exchangeRateSeparator.bottom
-            topMargin: exchangeRate.height/8
-
-            left: exchangeRate.left
-        }
-    }
 
 }

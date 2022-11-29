@@ -7,35 +7,30 @@ import "Sections/ChargingAndDemand"
 Item {
     id: root
 
+    height: childrenRect.height
+    width: childrenRect.width
+
     BatteryStorage{
         id: batteryStorage
 
         anchors {
             top: root.top
-            topMargin: root.height/40
+            topMargin: batteryStorage.label.font.pixelSize
 
             left: root.left
-            leftMargin: root.width/40
+            leftMargin: batteryStorage.label.font.pixelSize
         }
-
-        height: root.height/1.5
-        width: root.width/2.2
     }
 
     ChargingAndDemand {
         id: chargingAndDemand
         anchors {
-            top: root.top
-            topMargin: root.height/40
+            top: batteryStorage.top
 
             left: batteryStorage.right
-            leftMargin: root.width/40
-
-            bottom: root.bottom
-            bottomMargin: root.height/40
+            leftMargin: chargingAndDemand.label.font.pixelSize
         }
 
-        width: root.width/2.2
     }
 
 }
