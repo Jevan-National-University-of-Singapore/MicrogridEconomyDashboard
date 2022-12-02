@@ -3,7 +3,7 @@ import QtQuick.Controls.Material
 
 import "../Templates"
 
-Item {
+ScrollView {
     id: root
 
 
@@ -11,9 +11,9 @@ Item {
         id: usersPerHourChart
 
         anchors {
-            horizontalCenter: root.horizontalCenter
+            horizontalCenter: parent.horizontalCenter
 
-            top: root.top
+            top: parent.top
         }
     }
 

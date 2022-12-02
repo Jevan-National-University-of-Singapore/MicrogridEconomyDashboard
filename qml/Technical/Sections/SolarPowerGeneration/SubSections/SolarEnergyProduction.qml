@@ -13,7 +13,7 @@ SubSection {
         labelText: "Specific Yield"
         units: "kWh/kWp"
 
-        text: Scenario.solarPowerGeneration.solarEnergyProduction.specificYield
+        text: Scenario.technical.solarPowerGeneration.solarEnergyProduction.specificYield
     }
 
     LabelledInput {
@@ -22,9 +22,9 @@ SubSection {
         label: "Boost Inverter Efficiency"
         units: "%"
 
-        input.onEditingFinished: Scenario.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency = boostInverterEfficiency.inputText
+        input.onEditingFinished: Scenario.technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency = boostInverterEfficiency.inputText
 
-        inputText: Scenario.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency
+        inputText: Scenario.technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency
     }
 
 
@@ -34,7 +34,7 @@ SubSection {
         labelText: "Estimated Generation / day"
         units: "kWh"
 
-        text: Scenario.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerDay
+        text: Scenario.technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerDay
     }
 
     LabelledText {
@@ -43,7 +43,7 @@ SubSection {
         labelText: "Estimated Generation / year"
         units: "kWh"
 
-        text: Scenario.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerYear
+        text: Scenario.technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerYear
     }    
 
 }

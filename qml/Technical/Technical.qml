@@ -3,23 +3,38 @@ import QtQuick.Controls.Material
 
 import "Sections/BatteryStorage"
 import "Sections/ChargingAndDemand"
+import "Sections/SolarPowerGeneration"
 
-Item {
+import "../Templates" as Templates
+
+Templates.Page {
     id: root
 
-    height: childrenRect.height
-    width: childrenRect.width
+    bottomMargin: batteryStorage.label.font.pixelSize
 
     BatteryStorage{
         id: batteryStorage
 
         anchors {
-            top: root.top
+            top: parent.top
             topMargin: batteryStorage.label.font.pixelSize
 
-            left: root.left
+            left: parent.left
             leftMargin: batteryStorage.label.font.pixelSize
         }
+    }
+
+
+    SolarPowerGeneration{
+        id: solarPowerGeneration
+
+        anchors {
+            top: batteryStorage.bottom
+            topMargin: batteryStorage.anchors.topMargin
+
+            left: batteryStorage.left
+        }
+
     }
 
     ChargingAndDemand {
@@ -32,5 +47,7 @@ Item {
         }
 
     }
+    
+
 
 }

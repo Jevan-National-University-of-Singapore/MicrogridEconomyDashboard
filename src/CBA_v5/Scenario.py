@@ -171,6 +171,7 @@ class Scenario(QObject):
         self.emitUpdateSignals()
 
     def emitUpdateSignals(self):
+        self.solar_power_generation.emitUpdateSignals()
         self.charging_and_demand.emitUpdateSignals()
         self.technical_.emitUpdateSignals()
         self.financial_.emitUpdateSignals()

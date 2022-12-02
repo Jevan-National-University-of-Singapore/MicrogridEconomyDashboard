@@ -1,41 +1,16 @@
 import QtQuick
 import QtQuick.Controls.Material
 
-import "Sections/SolarPowerGeneration"
-// import "Sections/OperatingExpenditure"
-// import "Sections/Revenue"
+import "Sections/HourlySolarGeneration"
 
-Item {
+ScrollView {
     id: root
 
-
-    SolarPowerGeneration{
-        id: solarPowerGeneration
-
-        anchors {
-            top: root.top
-            topMargin: root.height/40
-
-            left: root.left
-            leftMargin: root.width/40
-        }
-
+    HourlySolarGeneration{
+        
     }
 
-    // OperatingExpenditure {
-    //     id: operatingExpenditure
 
-    //     anchors {
-    //         top: root.top
-    //         topMargin: root.height/40
-
-    //         left: capitalExpenditure.right
-    //         leftMargin: root.width/40
-    //     }
-
-    //     width: root.width/2.5
-    //     height: root.height/2.5
-    // }
 
 
 }

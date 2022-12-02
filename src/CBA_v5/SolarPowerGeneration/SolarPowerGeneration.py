@@ -4,85 +4,98 @@ from PySide6.QtGui import *
 
 from .InstalledCapacity import InstalledCapacity
 from .AyerKerohSiteConditions import AyerKerohSiteConditions
-from .SolarEnergyProduction import SolarEnergyProduction
 
 class SolarPowerGeneration(QObject):
-    installedCapacityChanged = Signal()
-    ayerKerohSiteConditionsChanged = Signal()
-    solarEnergyProductionChanged = Signal()
+    dailyGenerationChanged = Signal()
+    percentageOfMaxKwChanged = Signal()
+    totalPercentageOfMaxKwChanged = Signal()
+    percentageOfDailyKwhChanged = Signal()
+    estimatedKwhGeneratedChanged = Signal()
 
     def __init__(self,
-        installed_capacity: InstalledCapacity = InstalledCapacity(),
-        ayer_keroh_site_conditions: AyerKerohSiteConditions = AyerKerohSiteConditions(),
-        solar_energy_production: SolarEnergyProduction = SolarEnergyProduction()
+        daily_generation: float = 86.99,
+        percentage_of_max_kw: list = [0, 0, 0, 0, 0, 0, 0.05, 0.26, 0.54, 0.76, 0.91, 1, 0.98, 0.9, 0.75, 0.53, 0.3, 0.09, 0, 0, 0, 0, 0, 0]
     ):
         super().__init__()
-        self.installed_capacity: InstalledCapacity = installed_capacity
-        self.ayer_keroh_site_conditions: AyerKerohSiteConditions = ayer_keroh_site_conditions
-        self.solar_energy_production: SolarEnergyProduction = solar_energy_production
+        self.daily_generation: float = daily_generation
+        self.percentage_of_max_kw: list = percentage_of_max_kw
 
-        self.solar_energy_production.specific_yield = round(self.ayer_keroh_site_conditions.specific_pv_power_output_per_year, 2)
+        self.total_percentage_of_max_kw: float = sum(percentage_of_max_kw)
 
-        self.solar_energy_production.estimated_generation_per_day = round(
-            self.ayer_keroh_site_conditions.specific_pv_power_output_per_day
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
+        self.percentage_of_daily_kwh: list = [round(percentage/self.total_percentage_of_max_kw, 4) for percentage in self.percentage_of_max_kw]
+        self.estimated_kwh_generated: list = [round(percentage*self.daily_generation, 4) for percentage in self.percentage_of_daily_kwh]
 
+        self.totalPercentageOfMaxKwChanged.connect(self.updatePercentageOfDailyKwh)
+        self.percentageOfMaxKwChanged.connect(self.updatePercentageOfDailyKwh)
 
-        self.solar_energy_production.estimated_generation_per_year = round(
-            self.solar_energy_production.specific_yield
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
-
-        self.ayer_keroh_site_conditions.specificPvPowerOutputPerYearChanged.connect(self.update_solarEnergyProduction_specificYield)
-
-        self.ayer_keroh_site_conditions.specificPvPowerOutputPerDayChanged.connect(self.update_solarEnergyProduction_estimatedGenerationPerDay)
-        self.installed_capacity.installedCapacityChanged.connect(self.update_solarEnergyProduction_estimatedGenerationPerDay)
-        self.solar_energy_production.boostInverterEfficiencyChanged.connect(self.update_solarEnergyProduction_estimatedGenerationPerDay)
-
-        self.solar_energy_production.specificYieldChanged.connect(self.update_solarEnergyProduction_estimatedGenerationPerYear)
-        self.installed_capacity.installedCapacityChanged.connect(self.update_solarEnergyProduction_estimatedGenerationPerYear)
-        self.solar_energy_production.boostInverterEfficiencyChanged.connect(self.update_solarEnergyProduction_estimatedGenerationPerYear)
+        self.dailyGenerationChanged.connect(self.updateEstimatedKwhGenerated)
+        self.percentageOfDailyKwhChanged.connect(self.updateEstimatedKwhGenerated)
 
     def emitUpdateSignals(self):
-        self.installed_capacity.emitUpdateSignals()
-        self.ayer_keroh_site_conditions.emitUpdateSignals()
-        self.solar_energy_production.emitUpdateSignals()
+        self.dailyGenerationChanged.emit()
+        self.percentageOfMaxKwChanged.emit()
+        self.totalPercentageOfMaxKwChanged.emit()
+        self.percentageOfDailyKwhChanged.emit()
+        self.estimatedKwhGeneratedChanged.emit()
 
-    @Property(InstalledCapacity, notify=installedCapacityChanged) #getter
-    def installedCapacity(self) -> InstalledCapacity:
-        return self.installed_capacity
+    @Property(str, notify=dailyGenerationChanged) #getter
+    def dailyGeneration(self) -> str:
+        return str(self.daily_generation)
+
+    @dailyGeneration.setter
+    def dailyGeneration(self, daily_generation:str) -> None:
+        self.daily_generation = round(float(daily_generation), 2)
+        self.dailyGenerationChanged.emit()
+
+
+    @Property(list, notify=percentageOfMaxKwChanged) #getter
+    def percentageOfMaxKw(self) -> list:
+        return self.percentage_of_max_kw
+
+    @percentageOfMaxKw.setter
+    def percentageOfMaxKw(self, percentage_of_max_kw:list) -> None:
+        self.percentage_of_max_kw = percentage_of_max_kw
+        self.percentageOfMaxKwChanged.emit()     
+
+
+    @Property(str, notify=totalPercentageOfMaxKwChanged) #getter
+    def totalPercentageOfMaxKw(self) -> str:
+        return str(round(self.total_percentage_of_max_kw*100, 2))
+
+    @totalPercentageOfMaxKw.setter
+    def totalPercentageOfMaxKw(self, total_percentage_of_max_kw:str) -> None:
+        self.total_percentage_of_max_kw = round(float(total_percentage_of_max_kw)/100, 4)
+        self.totalPercentageOfMaxKwChanged.emit()
+
+
+    @Property(list, notify=percentageOfDailyKwhChanged) #getter
+    def percentageOfDailyKwh(self) -> list:
+        return self.percentage_of_daily_kwh
+
+    @percentageOfDailyKwh.setter
+    def percentageOfDailyKwh(self, percentage_of_daily_kwh:list) -> None:
+        self.percentage_of_daily_kwh = percentage_of_daily_kwh
+        self.percentageOfDailyKwhChanged.emit()     
+  
+
+    @Property(list, notify=estimatedKwhGeneratedChanged) #getter
+    def estimatedKwhGenerated(self) -> list:
+        return self.estimated_kwh_generated
+
+    @estimatedKwhGenerated.setter
+    def estimatedKwhGenerated(self, estimated_kwh_generated:list) -> None:
+        self.estimated_kwh_generated = estimated_kwh_generated
+        self.estimatedKwhGeneratedChanged.emit()     
         
-    @Property(AyerKerohSiteConditions, notify=ayerKerohSiteConditionsChanged) #getter
-    def ayerKerohSiteConditions(self) -> AyerKerohSiteConditions:
-        return self.ayer_keroh_site_conditions
-
-    @Property(SolarEnergyProduction, notify=solarEnergyProductionChanged) #getter
-    def solarEnergyProduction(self) -> SolarEnergyProduction:
-        return self.solar_energy_production
+    
+    @Slot()
+    def updatePercentageOfDailyKwh(self):
+        self.percentage_of_daily_kwh: list = [round(percentage/self.total_percentage_of_max_kw, 4) for percentage in self.percentage_of_max_kw]
+        self.percentageOfDailyKwhChanged.emit()
+        
 
     @Slot()
-    def update_solarEnergyProduction_specificYield(self):
-        self.solar_energy_production.specific_yield = round(self.ayer_keroh_site_conditions.specific_pv_power_output_per_year, 2)
-        self.solar_energy_production.specificYieldChanged.emit()
+    def updateEstimatedKwhGenerated(self):
+        self.estimated_kwh_generated: list = [round(percentage*self.daily_generation, 4) for percentage in self.percentage_of_daily_kwh]
+        self.estimatedKwhGeneratedChanged.emit()
 
-    @Slot()
-    def update_solarEnergyProduction_estimatedGenerationPerDay(self):
-        self.solar_energy_production.estimated_generation_per_day = round(
-            self.ayer_keroh_site_conditions.specific_pv_power_output_per_day
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
-        self.solar_energy_production.estimatedGenerationPerDayChanged.emit()
-
-
-    @Slot()
-    def update_solarEnergyProduction_estimatedGenerationPerYear(self):
-        self.solar_energy_production.estimated_generation_per_year = round(
-            self.solar_energy_production.specific_yield
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
-        self.solar_energy_production.estimatedGenerationPerYearChanged.emit()

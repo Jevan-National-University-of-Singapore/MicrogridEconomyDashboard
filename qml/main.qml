@@ -100,7 +100,7 @@ ApplicationWindow {
             id: solarPowerGeneration
 
 
-            height: root.height
+            height: root.height - root.menuBar.height - root.header.height
             width: root.width
         }
 
@@ -109,7 +109,7 @@ ApplicationWindow {
             id: chargingAndDemand
             
 
-            height: root.height
+            height: root.height - root.menuBar.height - root.header.height
             width: root.width
         }
 
@@ -118,7 +118,7 @@ ApplicationWindow {
             id: technical
 
 
-            height: root.height
+            height: root.height - root.menuBar.height - root.header.height
             width: root.width
         }
 
@@ -126,7 +126,7 @@ ApplicationWindow {
             id: financial
 
 
-            height: root.height
+            height: root.height - root.menuBar.height - root.header.height
             width: root.width
         }
     }

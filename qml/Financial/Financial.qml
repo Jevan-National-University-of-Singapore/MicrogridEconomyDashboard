@@ -5,17 +5,17 @@ import "Sections/CapitalExpenditure"
 import "Sections/OperatingExpenditure"
 import "Sections/Revenue"
 
-Item {
+ScrollView {
     id: root
 
     CapitalExpenditure{
         id: capitalExpenditure
 
         anchors {
-            top: root.top
+            top: parent.top
             topMargin: capitalExpenditure.label.height
 
-            left: root.left
+            left: parent.left
         }
 
     }
