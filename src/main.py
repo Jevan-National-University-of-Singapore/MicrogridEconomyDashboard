@@ -11,11 +11,11 @@ PWD = dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 if __name__ == '__main__':
 
-    app = QApplication(sys.argv)
+    app:QApplication = QApplication(sys.argv)
 
-    scenario = Scenario()
+    scenario:Scenario = Scenario()
 
-    engine = QQmlApplicationEngine()
+    engine:QQmlApplicationEngine = QQmlApplicationEngine()
 
     engine.rootContext().setContextProperty("Scenario", scenario)
     engine.quit.connect(app.quit)
@@ -26,3 +26,21 @@ if __name__ == '__main__':
     sys.exit(app.exec())
 
     # Database.connect(rf"{PWD}\database\database.db")
+'''
+=IF(O80>0,IF(O85="NO",IF(O88="NO",N81-O80,N81+O76),N81+O76),IF(O88="NO",N81+O76,N81))
+
+if load_on_ess is 0:
+	if insufficient_charge is "NO":
+		if reached_ess_soc is "NO":
+			N81-O81
+			previous_soc_
+		else:
+			N81 + O76
+	else:
+		N81 + O76
+else:
+	if reached_ess_soc is "NO":
+		N81 + O76
+	else:
+		N81
+'''

@@ -4,6 +4,7 @@ import QtQuick.Controls.Material
 import "Sections/BatteryStorage"
 import "Sections/ChargingAndDemand"
 import "Sections/SolarPowerGeneration"
+import "Sections/FiveYearsAnalysis"
 
 import "../Templates" as Templates
 
@@ -47,6 +48,18 @@ Templates.Page {
         }
 
     }
+
+    FiveYearsAnalysis {
+        id: fiveYearsAnalysis
+
+        anchors {
+            top: solarPowerGeneration.bottom
+            topMargin: solarPowerGeneration.anchors.topMargin
+
+            left: solarPowerGeneration.left
+        }
+    }
+
     
 
 

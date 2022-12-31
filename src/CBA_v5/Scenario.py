@@ -32,6 +32,9 @@ class Scenario(QObject):
         # technical
         self.technical_.charging_and_demand.demand_.num_of_users_per_day = self.charging_and_demand.number_of_users_per_day
 
+        # solar generation
+        self.solar_power_generation.daily_generation = self.technical_.solar_power_generation.solar_energy_production.estimated_generation_per_day
+
         '''======= financial ======='''
         '''------- capital expenditure -------''' 
         self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = round(
@@ -68,11 +71,12 @@ class Scenario(QObject):
                         )   
 
         '''------- operating expenditure -------'''         
-        '''
-        
-        Place holder
-        
-        '''
+        self.financial_.operating_expenditure.operating_expenditure_items.solar_pv_o_and_m = round(
+                            self.financial_.operating_expenditure.fixed_o_and_m.solar_pv_o_and_m \
+                                * self.financial_.capital_expenditure.exchange_rate.rm_per_usd \
+                                * self.technical_.solar_power_generation.installed_capacity.installed_capacity,
+                            2
+                        )
 
         self.financial_.operating_expenditure.operating_expenditure_items.ess_o_and_m = round (
                             self.financial_.operating_expenditure.fixed_o_and_m.lfp_o_and_m \
@@ -114,8 +118,11 @@ class Scenario(QObject):
         '''****************************************
                     CONNECTIONS
         ****************************************'''
-        '''=======technical======='''
+        '''======= technical ======='''
         self.charging_and_demand.numberOfUsersPerDayChanged.connect(self.update_technical_chargingAndDemand_demand_numberOfUsersPerDay)
+
+        '''======= solar power generation ======='''
+        self.technical_.solar_power_generation.solar_energy_production.estimatedGenerationPerDayChanged.connect(self.update_solarPowerGeneration_dailyGeneration)
 
         '''======= financial ======='''
         '''------- capital expenditure -------''' 
@@ -140,12 +147,12 @@ class Scenario(QObject):
         self.technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_financial_capitalExpenditure_depreciation_chargerDepreciation)
         self.financial_.capital_expenditure.depreciation_.chargerLifecycleCapacityChanged.connect(self.update_financial_capitalExpenditure_depreciation_chargerDepreciation)
 
-        '''------- operating expenditure -------'''     
-        '''
-        
-        Place holder
-        
-        '''
+        '''------- operating expenditure -------'''   
+        # solar pv o&m  
+        self.financial_.operating_expenditure.fixed_o_and_m.solarPvOAndMChanged.connect(self.update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM)
+        self.financial_.capital_expenditure.exchange_rate.rmPerUsdChanged.connect(self.update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM)
+        self.technical_.solar_power_generation.installed_capacity.installedCapacityChanged.connect(self.update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM)
+
         # ess O&M
         self.financial_.operating_expenditure.fixed_o_and_m.lfpAndMChanged.connect(self.update_financial_operatingExpenditure_operatingExpenditureItems_essOAndM)
         self.financial_.capital_expenditure.exchange_rate.rmPerUsdChanged.connect(self.update_financial_operatingExpenditure_operatingExpenditureItems_essOAndM)
@@ -218,6 +225,11 @@ class Scenario(QObject):
     def update_technical_chargingAndDemand_demand_numberOfUsersPerDay(self):
         self.technical_.charging_and_demand.demand_.num_of_users_per_day = self.charging_and_demand.number_of_users_per_day
         self.technical_.charging_and_demand.demand_.numOfUsersPerDayChanged.emit()
+    '''======= solar power generation ======='''
+    @Slot()
+    def update_solarPowerGeneration_dailyGeneration(self):
+        self.solar_power_generation.daily_generation = self.technical_.solar_power_generation.solar_energy_production.estimated_generation_per_day
+        self.solar_power_generation.dailyGenerationChanged.emit()
 
     '''======= financial ======='''
     '''------- capital expenditure -------''' 
@@ -279,18 +291,18 @@ class Scenario(QObject):
         self.financial_.capital_expenditure.depreciation_.chargerDepreciationChanged.emit()
 
     '''------- operating expenditure -------'''         
-    # @Slot()
-    # def update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM(self):
-    #     '''
-    #     =J15*J5*Technical!E$14
-    #     '''
-    #     self.financial_.operating_expenditure.operating_expenditure_items.solar_pv_o_and_m = round(
-    #         self.financial_.operating_expenditure.fixed_o_and_m.solar_pv_o_and_m \
-    #             * self.financial_.capital_expenditure.exchange_rate.rm_per_usd \
-    #             * self.technical_.
-
-    #     )
-
+    @Slot()
+    def update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM(self):
+        '''
+        =J15*J5*Technical!E$14
+        '''
+        self.financial_.operating_expenditure.operating_expenditure_items.solar_pv_o_and_m = round(
+            self.financial_.operating_expenditure.fixed_o_and_m.solar_pv_o_and_m \
+                * self.financial_.capital_expenditure.exchange_rate.rm_per_usd \
+                * self.technical_.solar_power_generation.installed_capacity.installed_capacity,
+            2
+        )
+        self.financial_.operating_expenditure.operating_expenditure_items.solarPvOAndMChanged.emit()
     @Slot()
     def update_financial_operatingExpenditure_operatingExpenditureItems_essOAndM(self):
         '''

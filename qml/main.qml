@@ -17,6 +17,7 @@ ApplicationWindow {
     width: Screen.width
     height: Screen.height/1.08
     title: "TechnoEconomic"
+    font.capitalization: Font.MixedCase
 
     Material.theme: Material.Dark
     Material.accent: Material.Teal
@@ -54,7 +55,7 @@ ApplicationWindow {
                         // onClicked: menu.open()
                     }
                     ToolButton {
-                        text: qsTr("Solar Power Generation")
+                        text: qsTr("Hourly Solar Power Generation")
                         onClicked: {
                             applicationStack.currentIndex = 0
                         }
@@ -63,7 +64,7 @@ ApplicationWindow {
                     ToolSeparator{}
 
                     ToolButton {
-                        text: qsTr("Charging and Demand")
+                        text: qsTr("Hourly Charging Demand")
                         onClicked: {
                             applicationStack.currentIndex = 1
                         }
@@ -130,4 +131,5 @@ ApplicationWindow {
             width: root.width
         }
     }
+
 }

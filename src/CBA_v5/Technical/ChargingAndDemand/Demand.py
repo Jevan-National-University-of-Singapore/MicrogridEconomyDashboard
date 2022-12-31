@@ -42,6 +42,8 @@ class Demand(QObject):
         self.num_of_users_per_year = self.num_of_users_per_day * 365
 
         self.stateOfChargeLimitChanged.connect(self.updateStateOfChargeToBeCharged)
+        self.stateOfChargeAtEntryChanged.connect(self.updateStateOfChargeToBeCharged)
+
         self.numOfUsersPerDayChanged.connect(self.updateNumOfUsersPerYear)
 
     def emitUpdateSignals(self):

@@ -6,15 +6,13 @@ import Qt.labs.qmlmodels 1.0
 import "../../../Templates"
 import "Delegate"
 
-// import "SubSections"
-
-
 Section {
     id: root
 
-    section: "Hourly Solar Generation"
+    section: "Five Year Analysis"
 
     width: Screen.width/1.2
+
 
     TableView {
         id: tableView

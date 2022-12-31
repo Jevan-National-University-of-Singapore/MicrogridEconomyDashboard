@@ -5,23 +5,27 @@ from PySide6.QtGui import *
 from .SolarPowerGeneration.SolarPowerGeneration import SolarPowerGeneration
 from .BatteryStorage.BatteryStorage import BatteryStorage
 from .ChargingAndDemand.ChargingAndDemand import ChargingAndDemand
+from .FiveYearAnalysis.FiveYearsAnalysis import FiveYearsAnalysis
 
 class Technical(QObject):
     
     batteryStorageChanged = Signal()
     chargingAndDemandChanged = Signal()
     solarPowerGenerationChanged = Signal()
+    fiveYearAnalysisChanged = Signal()
 
     def __init__(self, 
         name: str = None,
         battery_storage = BatteryStorage(),
         solar_power_generation = SolarPowerGeneration(),
-        charging_and_demand = ChargingAndDemand()
+        charging_and_demand = ChargingAndDemand(),
+        five_years_analysis = FiveYearsAnalysis()
     ):
         super().__init__()
         self.battery_storage:BatteryStorage = battery_storage
         self.charging_and_demand:ChargingAndDemand = charging_and_demand
         self.solar_power_generation: SolarPowerGeneration = solar_power_generation
+        self.five_years_analysis:FiveYearsAnalysis = five_years_analysis
 
         self.battery_storage.ess_system.charge_rate_cRate = round(self.charging_and_demand.charging_ports.dc_charger_1_rating /  self.battery_storage.ess_system.installed_capacity_kwh, 2)
         self.battery_storage.ess_system.maximum_power_kw = min(
@@ -41,6 +45,7 @@ class Technical(QObject):
         self.battery_storage.emitUpdateSignals()
         self.charging_and_demand.emitUpdateSignals()
         self.solar_power_generation.emitUpdateSignals()
+        self.five_years_analysis.emitUpdateSignals()
 
     @Property(SolarPowerGeneration, notify=solarPowerGenerationChanged) #getter
     def solarPowerGeneration(self) -> SolarPowerGeneration:
@@ -53,6 +58,10 @@ class Technical(QObject):
     @Property(ChargingAndDemand, notify=chargingAndDemandChanged) #getter
     def chargingAndDemand(self) -> ChargingAndDemand:
         return self.charging_and_demand
+
+    @Property(FiveYearsAnalysis, notify=fiveYearAnalysisChanged) #getter
+    def fiveYearsAnalysis(self) -> FiveYearsAnalysis:
+        return self.five_years_analysis
 
     @Slot()
     def updateBatteryStorageChargeRate(self):

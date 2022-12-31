@@ -1,15 +1,1 @@
-sfa
-fsdfs
-fsf
-
-finally
-
-
-fdsa
-sdfa
-
-
-fdsfa
-fsdaf
-
-df
+print(([28.8]*8) + ([0]*14) + ([28.8, 28.8]))
