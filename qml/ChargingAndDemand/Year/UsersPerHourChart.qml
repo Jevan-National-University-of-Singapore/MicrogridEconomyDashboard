@@ -5,12 +5,13 @@ import QtQuick.Controls.Material
 // import "../../third_parties/ChartJs2QML/Chart.js" as Chart
 // import "../../third_parties/ChartJs2QML/"
 
-import "../Templates"
+import "../../Templates"
 
 Card {
     id: surface
 
 	property alias chart: chart
+	property int currentYear: 0
 
 	height: chart.height + surface.radius
 	width: chart.width + xAxisTicks.elementWidth + surface.radius
@@ -49,7 +50,7 @@ Card {
 			}
 
 			BarSet { 
-				values: Scenario.chargingAndDemand.usersPerHour 
+				values: Scenario.chargingAndDemand.years[currentYear].usersPerHour 
 				color: parent.Material.accent
 				borderColor: parent.Material.foreground
 			}

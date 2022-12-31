@@ -41,6 +41,9 @@ class Technical(QObject):
         self.charging_and_demand.ev_characteristics.maxPowerRatingChanged.connect(self.updateBatteryStorageMaximumPower)
         self.battery_storage.discharge_.powerMaxChanged.connect(self.updateBatteryStorageMaximumPower)
 
+        self.battery_storage.grid_charging.gridDrawLimitChanged.connect(self.update_fiveYearsAnalysis_years_totalChargeSupplySection_gridOffPeak)
+        self.battery_storage.grid_charging.gridDrawLimitChanged.connect(self.update_fiveYearsAnalysis_years_totalChargeSupplySection_gridPeak)
+
     def emitUpdateSignals(self):
         self.battery_storage.emitUpdateSignals()
         self.charging_and_demand.emitUpdateSignals()
@@ -76,4 +79,18 @@ class Technical(QObject):
                 self.battery_storage.discharge_.power_max
             )
         self.battery_storage.ess_system.maximumPowerChanged.emit()
+                           
+    @Slot()
+    def update_fiveYearsAnalysis_years_totalChargeSupplySection_gridOffPeak(self):
+        for year_index in range(5):
+            for hour_index in [0,1,2,3,4,5,6,7,22,23]:
+                new_value:float = self.battery_storage.grid_charging.grid_draw_limit_kw
+                self.five_years_analysis.years_[year_index].total_charge_supply_section.setGridOffPeakElement(hour_index, new_value)
+
+    @Slot()
+    def update_fiveYearsAnalysis_years_totalChargeSupplySection_gridPeak(self):
+        for year_index in range(5):
+            for hour_index in [8,9,10,11,12,13,14,15,16,17,18,19,20,21]:
+                new_value:float = self.battery_storage.grid_charging.grid_draw_limit_kw
+                self.five_years_analysis.years_[year_index].total_charge_supply_section.setGridPeakElement(hour_index, new_value)                
         

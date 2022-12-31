@@ -4,26 +4,26 @@ from PySide6.QtGui import *
 
 class StatusSection(QObject):
     chargeSufficiencyChanged = Signal()
-    chargeSufficiencyElementChanged = Signal(int, name="index")
+    chargeSufficiencyElementChanged = Signal(int)
 
     chargeStatusChanged = Signal()
-    chargeStatusElementChanged = Signal(int, name="index")
+    chargeStatusElementChanged = Signal(int)
 
     chargerNeededChanged = Signal()
-    chargerNeededElementChanged = Signal(int, name="index")
+    chargerNeededElementChanged = Signal(int)
 
     reachedEssStateOfChargeChanged = Signal()
-    reachedEssStateOfChargeElementChanged = Signal(int, name="index")
+    reachedEssStateOfChargeElementChanged = Signal(int)
 
     avilabilityChanged = Signal()
-    avilabilityElementChanged = Signal(int, name="index")
+    avilabilityElementChanged = Signal(int)
 
     def __init__(self,
         charge_sufficiency: list = [True]*24,
         charge_status: list = (["Charge"]*5)+(["Discharge"]*17)+(["Charge", "Charge"]),
         charger_needed: list = ([False]*5)+([True]*17)+([False, False]),
         reached_ess_state_of_charge : list = [False]*24,
-        avilability: list = [False] *24
+        availability: list = [False] *24
     ):
         super().__init__()
 
@@ -31,7 +31,7 @@ class StatusSection(QObject):
         self.charge_status: list = charge_status
         self.charger_needed: list = charger_needed
         self.reached_ess_state_of_charge: list = reached_ess_state_of_charge
-        self.avilability_: list = avilability
+        self.avilability_: list = availability
 
     def emitUpdateSignals(self):
         self.chargeSufficiencyChanged.emit()

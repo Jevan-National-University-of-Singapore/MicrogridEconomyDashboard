@@ -4,16 +4,16 @@ from PySide6.QtGui import *
 
 class TotalChargeSupplySection(QObject):
     solarPowerGenerationChanged = Signal()
-    solarPowerGenerationElementChanged = Signal(int, name="index")
+    solarPowerGenerationElementChanged = Signal(int)
 
     gridOffPeakChanged = Signal()
-    gridOffPeakElementChanged = Signal(int, name="index")
+    gridOffPeakElementChanged = Signal(int)
 
     gridPeakChanged = Signal()
-    gridPeakElementChanged = Signal(int, name="index")
+    gridPeakElementChanged = Signal(int)
     
     totalChargeSupplyChanged = Signal()
-    totalChargeSupplyElementChanged = Signal(int, name="index")
+    totalChargeSupplyElementChanged = Signal(int)
 
     def __init__(self,
         solar_power_generation: list = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 3.3,	6.6, 9.4, 11.2,	12.3,
@@ -78,7 +78,7 @@ class TotalChargeSupplySection(QObject):
     def gridPeak(self) -> list:
         return self.grid_peak
 
-    @gridOffPeak.setter
+    @gridPeak.setter
     def gridPeak(self, grid_peak:list) -> None:
         self.grid_peak = grid_peak
         self.gridPeakChanged.emit()     

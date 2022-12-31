@@ -19,17 +19,12 @@ Section {
 
         spacing: label.font.pixelSize/2
 
-        // height: previous.height
-        // width: previous.width + year.width + next.width
+
 
         Button {
             id: previous
 
             height: year.height; width: height
-
-            // text: "‹"
-            // font.pixelSize: root.label.font.pixelSize
-
 
             contentItem: Label {
                 text: "‹"

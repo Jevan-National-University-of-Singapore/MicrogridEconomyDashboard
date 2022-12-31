@@ -4,16 +4,16 @@ from PySide6.QtGui import *
 
 class DcChargerDemandSection(QObject):
     dcChargerDemandChanged = Signal()
-    dcChargerDemandElementChanged = Signal(int, name="index")
+    dcChargerDemandElementChanged = Signal(int)
 
     loadOnEssChanged = Signal()
-    loadOnEssElementChanged = Signal(int, name="index")
+    loadOnEssElementChanged = Signal(int)
 
     essChargeChanged = Signal()
-    essChargeElementChanged = Signal(int, name="index")
+    essChargeElementChanged = Signal(int)
 
     essStateOfChargeChanged = Signal()
-    essStateOfChargeElementChanged = Signal(int, name="index")
+    essStateOfChargeElementChanged = Signal(int)
 
 
     def __init__(self,
