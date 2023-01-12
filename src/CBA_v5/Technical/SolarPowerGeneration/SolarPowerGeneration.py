@@ -12,14 +12,14 @@ class SolarPowerGeneration(QObject):
     solarEnergyProductionChanged = Signal()
 
     def __init__(self,
-        installed_capacity: InstalledCapacity = InstalledCapacity(),
-        ayer_keroh_site_conditions: AyerKerohSiteConditions = AyerKerohSiteConditions(),
-        solar_energy_production: SolarEnergyProduction = SolarEnergyProduction()
+        installed_capacity: InstalledCapacity|None = None,
+        ayer_keroh_site_conditions: AyerKerohSiteConditions|None = None,
+        solar_energy_production: SolarEnergyProduction|None = None
     ):
         super().__init__()
-        self.installed_capacity: InstalledCapacity = installed_capacity
-        self.ayer_keroh_site_conditions: AyerKerohSiteConditions = ayer_keroh_site_conditions
-        self.solar_energy_production: SolarEnergyProduction = solar_energy_production
+        self.installed_capacity: InstalledCapacity = InstalledCapacity() if installed_capacity is None else installed_capacity
+        self.ayer_keroh_site_conditions: AyerKerohSiteConditions = AyerKerohSiteConditions() if ayer_keroh_site_conditions is None else ayer_keroh_site_conditions
+        self.solar_energy_production: SolarEnergyProduction = SolarEnergyProduction() if solar_energy_production is None else solar_energy_production
 
         self.solar_energy_production.specific_yield = round(self.ayer_keroh_site_conditions.specific_pv_power_output_per_year, 2)
 

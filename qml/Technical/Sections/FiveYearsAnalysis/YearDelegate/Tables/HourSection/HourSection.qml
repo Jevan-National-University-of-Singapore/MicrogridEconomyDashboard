@@ -19,7 +19,7 @@ TableView {
         TableModelColumn { display: "3" }
         TableModelColumn { display: "4" }
         TableModelColumn { display: "5" }
-        TableModelColumn { display: "8" }
+        TableModelColumn { display: "6" }
         TableModelColumn { display: "7" }
         TableModelColumn { display: "8" }
         TableModelColumn { display: "9" }

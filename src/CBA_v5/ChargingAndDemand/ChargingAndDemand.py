@@ -10,15 +10,12 @@ class ChargingAndDemand(QObject):
     additionalNumberOfUsersPerYearChanged = Signal()
 
     def __init__(self,
-        years: list[Year] = [Year(), Year(), Year(), Year(), Year()],
+        years: list[Year]|None = None,
         additional_number_of_users_per_year: int = 2
     ):
         super().__init__()
-
-        for year_index, year in enumerate(years[1:]):
-            year.number_of_users_per_day = years[0].number_of_users_per_day + ((year_index+1) * additional_number_of_users_per_year)
             
-        self.years_ = years
+        self.years_ = [Year(), Year(), Year(), Year(), Year()] if years is None else years
         self.additional_number_of_users_per_year: int = additional_number_of_users_per_year
 
         self.years_[0].numberOfUsersPerDayChanged.connect(self.update_years_numberOfUsersPerDay)

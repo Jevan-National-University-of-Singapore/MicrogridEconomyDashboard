@@ -12,14 +12,14 @@ class CapitalExpenditure(QObject):
     exchangeRateChanged = Signal()
 
     def __init__(self,
-        capital_expenditure_items: CapitalExpenditureItems = CapitalExpenditureItems(),
-        depreciation: Depreciation = Depreciation(),
-        exchange_rate: ExchangeRate = ExchangeRate()
+        capital_expenditure_items: CapitalExpenditureItems|None = None,
+        depreciation: Depreciation|None = None,
+        exchange_rate: ExchangeRate|None = None
     ):
         super().__init__()
-        self.capital_expenditure_items: CapitalExpenditureItems = capital_expenditure_items
-        self.depreciation_: Depreciation = depreciation
-        self.exchange_rate: ExchangeRate = exchange_rate
+        self.capital_expenditure_items: CapitalExpenditureItems = CapitalExpenditureItems() if capital_expenditure_items is None else capital_expenditure_items
+        self.depreciation_: Depreciation = Depreciation() if depreciation is None else depreciation
+        self.exchange_rate: ExchangeRate = ExchangeRate() if exchange_rate is None else exchange_rate
 
     def emitUpdateSignals(self):
         self.capital_expenditure_items.emitUpdateSignals()

@@ -16,18 +16,18 @@ class ChargingAndDemand(QObject):
     evCharacteristicsChanged = Signal()
 
     def __init__(self,
-        charging_ports = ChargingPorts(),
-        demand = Demand(),
-        load = Load(),
-        excess_to_facility = ExcessToFacility(),
-        ev_characteristics = EvCharacteristics()
+        charging_ports = None,
+        demand = None,
+        load = None,
+        excess_to_facility = None,
+        ev_characteristics = None
     ):
         super().__init__()
-        self.charging_ports: ChargingPorts = charging_ports
-        self.demand_: Demand = demand
-        self.load_: Load = load
-        self.excess_to_facility: ExcessToFacility = excess_to_facility
-        self.ev_characteristics: EvCharacteristics = ev_characteristics
+        self.charging_ports: ChargingPorts = ChargingPorts() if charging_ports is None else charging_ports
+        self.demand_: Demand = Demand() if demand is None else demand
+        self.load_: Load = Load() if load is None else load
+        self.excess_to_facility: ExcessToFacility = ExcessToFacility() if excess_to_facility is None else excess_to_facility
+        self.ev_characteristics: EvCharacteristics = EvCharacteristics() if ev_characteristics is None else ev_characteristics
 
         self.charging_ports.dc_1_charging_time_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_1_rating, 2)
         self.charging_ports.dc_2_charging_time_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_2_rating, 2)

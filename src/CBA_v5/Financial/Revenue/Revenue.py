@@ -12,14 +12,14 @@ class Revenue(QObject):
     tariffAssumptionChanged = Signal()
 
     def __init__(self,
-        five_year_lifetime: FiveYearLifetime = FiveYearLifetime(),
-        per_annum: PerAnnum = PerAnnum(),
-        tariff_assumption: TariffAssumption = TariffAssumption()
+        five_year_lifetime: FiveYearLifetime|None = None,
+        per_annum: PerAnnum|None = None,
+        tariff_assumption: TariffAssumption|None = None
     ):
         super().__init__()
-        self.five_year_lifetime: FiveYearLifetime = five_year_lifetime
-        self.per_annum: PerAnnum = per_annum
-        self.tariff_assumption: TariffAssumption = tariff_assumption
+        self.five_year_lifetime: FiveYearLifetime = FiveYearLifetime() if five_year_lifetime is None else five_year_lifetime
+        self.per_annum: PerAnnum = PerAnnum() if per_annum is None else per_annum
+        self.tariff_assumption: TariffAssumption = TariffAssumption() if tariff_assumption is None else tariff_assumption
 
         self.per_annum.charging_revenue_required = round(self.five_year_lifetime.required_from_chargers/6, 2)
         

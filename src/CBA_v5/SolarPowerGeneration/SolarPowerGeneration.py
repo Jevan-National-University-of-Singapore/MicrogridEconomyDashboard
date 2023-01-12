@@ -23,13 +23,13 @@ class SolarPowerGeneration(QObject):
 
     def __init__(self,
         daily_generation: float = 86.99,
-        percentage_of_max_kw: list = [0, 0, 0, 0, 0, 0, 0.05, 0.26, 0.54, 0.76, 0.91, 1, 0.98, 0.9, 0.75, 0.53, 0.3, 0.09, 0, 0, 0, 0, 0, 0]
+        percentage_of_max_kw: list|None = None
     ):
         super().__init__()
         self.daily_generation: float = daily_generation
-        self.percentage_of_max_kw: list = percentage_of_max_kw
+        self.percentage_of_max_kw: list = [0, 0, 0, 0, 0, 0, 0.05, 0.26, 0.54, 0.76, 0.91, 1, 0.98, 0.9, 0.75, 0.53, 0.3, 0.09, 0, 0, 0, 0, 0, 0] if percentage_of_max_kw is None else percentage_of_max_kw
 
-        self.total_percentage_of_max_kw: float = round(sum(percentage_of_max_kw), 4)
+        self.total_percentage_of_max_kw: float = round(sum(self.percentage_of_max_kw), 4)
 
         self.percentage_of_daily_kwh: list = [round(percentage/self.total_percentage_of_max_kw, 4) for percentage in self.percentage_of_max_kw]
         self.estimated_kwh_generated: list = [round(percentage*self.daily_generation, 4) for percentage in self.percentage_of_daily_kwh]

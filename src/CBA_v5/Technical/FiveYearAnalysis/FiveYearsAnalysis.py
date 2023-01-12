@@ -8,10 +8,10 @@ class FiveYearsAnalysis(QObject):
     yearsChanged = Signal()
 
     def __init__(self,
-        years: list[Year] = [Year()]* 5,
+        years: list[Year]|None = None,# = [Year(), Year(), Year(), Year(), Year()],
     ):
         super().__init__()
-        self.years_: list[Year] = years
+        self.years_: list[Year] = [Year(), Year(), Year(), Year(), Year()] if years is None else years
 
     def emitUpdateSignals(self):
         for year in self.years_:

@@ -23,21 +23,28 @@ class StatusSection(QObject):
         charge_status: list = (["Charge"]*5)+(["Discharge"]*17)+(["Charge", "Charge"]),
         charger_needed: list = ([False]*5)+([True]*17)+([False, False]),
         reached_ess_state_of_charge : list = [False]*24,
-        availability: list = [False] *24
+        availability: list = [True] *24
     ):
         super().__init__()
 
-        self.charge_sufficiency: list = charge_sufficiency
-        self.charge_status: list = charge_status
-        self.charger_needed: list = charger_needed
-        self.reached_ess_state_of_charge: list = reached_ess_state_of_charge
-        self.avilability_: list = availability
+        self.charge_sufficiency: list = charge_sufficiency.copy()
+        self.charge_status: list = charge_status.copy()
+        self.charger_needed: list = charger_needed.copy()
+        self.reached_ess_state_of_charge: list = reached_ess_state_of_charge.copy()
+        self.avilability_: list = availability.copy()
 
     def emitUpdateSignals(self):
         self.chargeSufficiencyChanged.emit()
         self.chargeStatusChanged.emit()
         self.chargerNeededChanged.emit()
         self.reachedEssStateOfChargeChanged.emit()
+
+        for i in range(24):
+            self.chargeSufficiencyElementChanged.emit(i)
+            self.chargeStatusElementChanged.emit(i)
+            self.chargerNeededElementChanged.emit(i)
+            self.reachedEssStateOfChargeElementChanged.emit(i)
+            self.avilabilityElementChanged.emit(i)
 
     # ================================================================
     @Property(list, notify=chargeSufficiencyChanged) #getter
@@ -51,9 +58,10 @@ class StatusSection(QObject):
 
     @Slot(int, float)
     def setChargeSufficiencyElement(self, index:int, charge_sufficiency:float):
-        self.charge_sufficiency[index] = charge_sufficiency
-        self.chargeSufficiencyElementChanged.emit(index)
-        self.chargeSufficiencyChanged.emit()
+        if self.charge_sufficiency[index] != charge_sufficiency:
+            self.charge_sufficiency[index] = charge_sufficiency
+            self.chargeSufficiencyElementChanged.emit(index)
+            self.chargeSufficiencyChanged.emit()
 
     # ================================================================
     @Property(list, notify=chargeStatusChanged) #getter

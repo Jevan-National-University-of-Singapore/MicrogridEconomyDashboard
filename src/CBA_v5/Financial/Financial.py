@@ -14,15 +14,15 @@ class Financial(QObject):
 
     def __init__(self, 
         name: str = None,
-        capital_expenditure: CapitalExpenditure = CapitalExpenditure(),
-        operating_expenditure: OperatingExpenditure = OperatingExpenditure(),
-        revenue: Revenue = Revenue()
+        capital_expenditure: CapitalExpenditure|None = None,
+        operating_expenditure: OperatingExpenditure|None = None,
+        revenue: Revenue|None = None
     ):
         super().__init__()
         self.name: str = name
-        self.capital_expenditure: CapitalExpenditure = capital_expenditure
-        self.operating_expenditure: OperatingExpenditure = operating_expenditure
-        self.revenue_: Revenue = revenue
+        self.capital_expenditure: CapitalExpenditure = CapitalExpenditure() if capital_expenditure is None else capital_expenditure
+        self.operating_expenditure: OperatingExpenditure = OperatingExpenditure() if operating_expenditure is None else operating_expenditure
+        self.revenue_: Revenue = Revenue() if revenue is None else revenue
 
         self.revenue_.five_year_lifetime.revenue_required_to_break_even = round(
                 (self.operating_expenditure.operating_expenditure_items.total_opex * 5)\

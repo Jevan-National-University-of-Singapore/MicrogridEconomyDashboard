@@ -13,15 +13,15 @@ class BatteryStorage(QObject):
     gridChargingChanged = Signal()
 
     def __init__(self, 
-        ess_system: EssSystem = EssSystem(),
-        discharge: Discharge = Discharge(),
-        grid_charging: GridCharging = GridCharging()
+        ess_system: EssSystem|None = None,
+        discharge: Discharge|None = None,
+        grid_charging: GridCharging|None = None
 
     ):
         super().__init__()
-        self.ess_system:EssSystem = EssSystem()
-        self.discharge_:Discharge = Discharge()
-        self.grid_charging:GridCharging = GridCharging()
+        self.ess_system:EssSystem = EssSystem() if ess_system is None else ess_system
+        self.discharge_:Discharge = Discharge() if discharge is None else discharge
+        self.grid_charging:GridCharging = GridCharging() if grid_charging is None else grid_charging
 
         self.discharge_.power_max = self.ess_system.installed_capacity_kwh
 

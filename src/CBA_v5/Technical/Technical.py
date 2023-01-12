@@ -44,6 +44,47 @@ class Technical(QObject):
         self.battery_storage.grid_charging.gridDrawLimitChanged.connect(self.update_fiveYearsAnalysis_years_totalChargeSupplySection_gridOffPeak)
         self.battery_storage.grid_charging.gridDrawLimitChanged.connect(self.update_fiveYearsAnalysis_years_totalChargeSupplySection_gridPeak)
 
+        self.battery_storage.ess_system.installedCapacityChanged.connect(self.update_fiveYearsAnalysis_yearsAll_dcChargerDemandSection_essStateOfChargeAllElement)
+        self.five_years_analysis.years_[0].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years0_dcChargerDemandSection_essStateOfChargeElement)
+        self.five_years_analysis.years_[1].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years1_dcChargerDemandSection_essStateOfChargeElement)
+        self.five_years_analysis.years_[2].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years2_dcChargerDemandSection_essStateOfChargeElement)
+        self.five_years_analysis.years_[3].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years3_dcChargerDemandSection_essStateOfChargeElement)
+        self.five_years_analysis.years_[4].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years4_dcChargerDemandSection_essStateOfChargeElement)
+
+        '''
+        update_fiveYearsAnalysis_years0_statusSection_reachedEssStateOfChargeElement
+        '''
+        self.five_years_analysis.years_[0].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years0_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[1].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years1_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[2].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years2_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[3].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years3_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[4].dc_charger_demand_section.essChargeElementChanged.connect(self.update_fiveYearsAnalysis_years4_statusSection_reachedEssStateOfChargeElement)
+
+        self.five_years_analysis.years_[0].status_section.chargerNeededElementChanged.connect(self.update_fiveYearsAnalysis_years0_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[1].status_section.chargerNeededElementChanged.connect(self.update_fiveYearsAnalysis_years1_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[2].status_section.chargerNeededElementChanged.connect(self.update_fiveYearsAnalysis_years2_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[3].status_section.chargerNeededElementChanged.connect(self.update_fiveYearsAnalysis_years3_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[4].status_section.chargerNeededElementChanged.connect(self.update_fiveYearsAnalysis_years4_statusSection_reachedEssStateOfChargeElement)
+
+        self.five_years_analysis.years_[0].total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_fiveYearsAnalysis_years0_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[1].total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_fiveYearsAnalysis_years1_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[2].total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_fiveYearsAnalysis_years2_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[3].total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_fiveYearsAnalysis_years3_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[4].total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_fiveYearsAnalysis_years4_statusSection_reachedEssStateOfChargeElement)
+
+        self.five_years_analysis.years_[0].dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_fiveYearsAnalysis_years0_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[1].dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_fiveYearsAnalysis_years1_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[2].dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_fiveYearsAnalysis_years2_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[3].dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_fiveYearsAnalysis_years3_statusSection_reachedEssStateOfChargeElement)
+        self.five_years_analysis.years_[4].dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_fiveYearsAnalysis_years4_statusSection_reachedEssStateOfChargeElement)
+
+        self.battery_storage.ess_system.installedCapacityChanged.connect(self.update_fiveYearsAnalysis_yearsAll_statusSection_reachedEssStateOfCharge)
+        self.battery_storage.ess_system.stateOfChargeUpperLimitChanged.connect(self.update_fiveYearsAnalysis_yearsAll_statusSection_reachedEssStateOfCharge)
+        self.battery_storage.ess_system.stateOfChargeLowerLimitChanged.connect(self.update_fiveYearsAnalysis_yearsAll_statusSection_reachedEssStateOfCharge)
+
+
+
+
     def emitUpdateSignals(self):
         self.battery_storage.emitUpdateSignals()
         self.charging_and_demand.emitUpdateSignals()
@@ -94,3 +135,97 @@ class Technical(QObject):
                 new_value:float = self.battery_storage.grid_charging.grid_draw_limit_kw
                 self.five_years_analysis.years_[year_index].total_charge_supply_section.setGridPeakElement(hour_index, new_value)                
         
+    @Slot(int)
+    def update_fiveYearsAnalysis_years0_dcChargerDemandSection_essStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_dcChargerDemandSection_essStateOfChargeElement(0, hour_index)
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years1_dcChargerDemandSection_essStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_dcChargerDemandSection_essStateOfChargeElement(1, hour_index)
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years2_dcChargerDemandSection_essStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_dcChargerDemandSection_essStateOfChargeElement(2, hour_index)
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years3_dcChargerDemandSection_essStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_dcChargerDemandSection_essStateOfChargeElement(3, hour_index)
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years4_dcChargerDemandSection_essStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_dcChargerDemandSection_essStateOfChargeElement(4, hour_index)                                
+
+    @Slot()
+    def update_fiveYearsAnalysis_yearsAll_dcChargerDemandSection_essStateOfChargeAllElement(self):
+        installed_capacity = self.battery_storage.ess_system.installed_capacity_kwh
+        for year in self.five_years_analysis.years_:
+            for i in range(24):
+                year.dc_charger_demand_section.setEssStateOfChargeElement(i, year.dc_charger_demand_section.ess_charge[i] / installed_capacity)
+
+    def _update_fiveYearsAnalysis_years_dcChargerDemandSection_essStateOfChargeElement(self, year_index:int, hour_index:int):
+        new_value:float = self.five_years_analysis.years_[year_index].dc_charger_demand_section.ess_charge[hour_index] / self.battery_storage.ess_system.installed_capacity_kwh
+        self.five_years_analysis.years_[year_index].dc_charger_demand_section.setEssStateOfChargeElement(hour_index, new_value)
+
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years0_statusSection_reachedEssStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(
+            year_index=0,
+            hour_index=hour_index
+        )
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years1_statusSection_reachedEssStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(
+            year_index=1,
+            hour_index=hour_index
+        )
+        
+    @Slot(int)
+    def update_fiveYearsAnalysis_years2_statusSection_reachedEssStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(
+            year_index=2,
+            hour_index=hour_index
+        )
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years3_statusSection_reachedEssStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(
+            year_index=3,
+            hour_index=hour_index
+        )
+
+    @Slot(int)
+    def update_fiveYearsAnalysis_years4_statusSection_reachedEssStateOfChargeElement(self, hour_index:int):
+        self._update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(
+            year_index=4,
+            hour_index=hour_index
+        )              
+    
+    @Slot()
+    def update_fiveYearsAnalysis_yearsAll_statusSection_reachedEssStateOfCharge(self):
+        for year_index in range(5):
+            for hour_index in range(24):
+                self._update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(
+                    year_index=year_index,
+                    hour_index=hour_index    
+                )
+
+    def _update_fiveYearsAnalysis_years_statusSection_reachedEssStateOfChargeElement(self, year_index:int, hour_index:int):
+        if hour_index != 0:
+            charger_needed: bool = self.five_years_analysis.years_[year_index].status_section.charger_needed[hour_index]
+            ess_charge: float = self.five_years_analysis.years_[year_index].dc_charger_demand_section.ess_charge[hour_index-1]
+            total_charge_supply: float = self.five_years_analysis.years_[year_index].total_charge_supply_section.total_charge_supply[hour_index]
+            dc_charger_demand: float = self.five_years_analysis.years_[year_index].dc_charger_demand_section.dc_charger_demand[hour_index]
+
+            installed_capacity: float = self.battery_storage.ess_system.installed_capacity_kwh
+            soc_upper_limit: float = self.battery_storage.ess_system.state_of_charge_upper_limit_percentage
+            soc_lower_limit: float = self.battery_storage.ess_system.state_of_charge_lower_limit_percentage
+
+            if charger_needed:
+                new_value:float = ess_charge-(dc_charger_demand-total_charge_supply) < (soc_lower_limit * installed_capacity)
+                self.five_years_analysis.years_[year_index].status_section.setReachedEssStateOfChargeElement(hour_index, new_value)                
+            else:
+                new_value:float = (ess_charge+total_charge_supply) > (soc_upper_limit*installed_capacity)
+                self.five_years_analysis.years_[year_index].status_section.setReachedEssStateOfChargeElement(hour_index, new_value)
+

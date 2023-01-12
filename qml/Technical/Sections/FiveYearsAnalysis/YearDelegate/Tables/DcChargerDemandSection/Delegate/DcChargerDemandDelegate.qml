@@ -12,4 +12,5 @@ Label {
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
+
 }

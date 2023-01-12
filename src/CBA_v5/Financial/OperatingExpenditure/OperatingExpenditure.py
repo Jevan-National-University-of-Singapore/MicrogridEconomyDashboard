@@ -10,12 +10,12 @@ class OperatingExpenditure(QObject):
     fixedOAndMChanged = Signal()
 
     def __init__(self,
-        operating_expenditure_items: OperatingExpenditureItems = OperatingExpenditureItems(),
-        fixed_o_and_m: FixedOAndM = FixedOAndM()
+        operating_expenditure_items: OperatingExpenditureItems|None = None,
+        fixed_o_and_m: FixedOAndM|None = None
     ):
         super().__init__()
-        self.operating_expenditure_items: OperatingExpenditureItems = operating_expenditure_items
-        self.fixed_o_and_m: FixedOAndM = fixed_o_and_m
+        self.operating_expenditure_items: OperatingExpenditureItems = OperatingExpenditureItems() if operating_expenditure_items is None else operating_expenditure_items
+        self.fixed_o_and_m: FixedOAndM = FixedOAndM() if fixed_o_and_m is None else fixed_o_and_m
 
     def emitUpdateSignals(self):
         self.operating_expenditure_items.emitUpdateSignals()

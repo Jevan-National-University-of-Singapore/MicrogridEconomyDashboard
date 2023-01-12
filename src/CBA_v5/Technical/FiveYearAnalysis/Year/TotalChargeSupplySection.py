@@ -16,19 +16,17 @@ class TotalChargeSupplySection(QObject):
     totalChargeSupplyElementChanged = Signal(int)
 
     def __init__(self,
-        solar_power_generation: list = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 3.3,	6.6, 9.4, 11.2,	12.3,
-                                        12.1, 11.1, 9.3, 6.5, 3.6, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-
-        grid_off_peak: list = ([28.8]*8) + ([0]*14) + ([28.8, 28.8]),
-        grid_peak: list = ([0]*8) + ([28.8]*14) + ([0,0]),
-        total_charge_supply : list = [28.8] * 24
+        solar_power_generation: list|None = None,
+        grid_off_peak: list|None = None,
+        grid_peak: list|None = None,
+        total_charge_supply : list|None = None
     ):
         super().__init__()
 
-        self.solar_power_generation: list = solar_power_generation
-        self.grid_off_peak: list = grid_off_peak
-        self.grid_peak: list = grid_peak
-        self.total_charge_supply: list = total_charge_supply
+        self.solar_power_generation: list = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 3.3, 6.6, 9.4, 11.2,	12.3, 12.1, 11.1, 9.3, 6.5, 3.6, 1.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] if solar_power_generation is None else solar_power_generation
+        self.grid_off_peak: list = ([28.8]*8) + ([0]*14) + ([28.8, 28.8]) if grid_off_peak is None else grid_off_peak
+        self.grid_peak: list = ([0]*8) + ([28.8]*14) + ([0,0]) if grid_peak is None else grid_peak
+        self.total_charge_supply: list = [28.8] * 24 if total_charge_supply is None else total_charge_supply
 
         self.total_charge_supply = [grid_off_peak + grid_peak for grid_off_peak, grid_peak in zip(self.grid_off_peak, self.grid_peak)]
         
@@ -40,6 +38,12 @@ class TotalChargeSupplySection(QObject):
         self.gridOffPeakChanged.emit()
         self.gridPeakChanged.emit()
         self.totalChargeSupplyChanged.emit()
+
+        for i in range(24):
+            self.solarPowerGenerationElementChanged.emit(i)
+            self.gridOffPeakElementChanged.emit(i)
+            self.gridPeakElementChanged.emit(i)
+            self.totalChargeSupplyElementChanged.emit(i)
 
     # ================================================================
     @Property(list, notify=solarPowerGenerationChanged) #getter
@@ -53,9 +57,10 @@ class TotalChargeSupplySection(QObject):
 
     @Slot(int, float)
     def setSolarPowerGenerationElement(self, index:int, solar_power_generation_element:float):
-        self.solar_power_generation[index] = solar_power_generation_element
-        self.solarPowerGenerationElementChanged.emit(index)
-        self.solarPowerGenerationChanged.emit()
+        if self.solar_power_generation[index] != solar_power_generation_element:
+            self.solar_power_generation[index] = solar_power_generation_element
+            self.solarPowerGenerationElementChanged.emit(index)
+            self.solarPowerGenerationChanged.emit()
 
     # ================================================================
     @Property(list, notify=gridOffPeakChanged) #getter

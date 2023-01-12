@@ -27,20 +27,23 @@ if __name__ == '__main__':
 
     # Database.connect(rf"{PWD}\database\database.db")
 '''
-=IF(O80>0,IF(O85="NO",IF(O88="NO",N81-O80,N81+O76),N81+O76),IF(O88="NO",N81+O76,N81))
+O52: charger_needed
+N46: ess_charge
+O41: total_charge_supply
+E27: soc_upper_limit
+E28: soc_lower_limit
+E23: installed_capacity
+O44: dc_charger_demand
 
-if load_on_ess is 0:
-	if insufficient_charge is "NO":
-		if reached_ess_soc is "NO":
-			N81-O81
-			previous_soc_
-		else:
-			N81 + O76
-	else:
-		N81 + O76
-else:
-	if reached_ess_soc is "NO":
-		N81 + O76
-	else:
-		N81
+
+=IF(charger_needed="NO",
+	IF(ess_charge+total_charge_supply>$soc_upper_limit*$installed_capacity,
+		"YES",
+	else
+		 "NO"),
+else
+	IF(ess_charge-(dc_charger_demand-total_charge_supply)<$soc_lower_limit*$installed_capacity,
+		"YES",
+	else
+		"NO"))
 '''

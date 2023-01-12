@@ -26,6 +26,8 @@ Section {
 
             height: year.height; width: height
 
+            enabled: fiveYearsView.currentIndex != 0
+
             contentItem: Label {
                 text: "‹"
 
@@ -38,12 +40,14 @@ Section {
 
             }
 
+            onClicked: fiveYearsView.currentIndex -= 1
+
         }
 
         Label {
             id: year
 
-            text: qsTr("Year %1").arg(fiveYearsView.currentIndex)
+            text: qsTr("Year %1").arg(fiveYearsView.currentIndex + 1)
 
             font.pixelSize: root.label.font.pixelSize
 
@@ -58,6 +62,8 @@ Section {
 
             width: previous.width; height: previous.height
 
+            enabled: fiveYearsView.currentIndex != 4
+
             contentItem: Label {
                 text: "›"
 
@@ -69,12 +75,16 @@ Section {
                 bottomPadding: font.pixelSize/4
 
             }
+
+            onClicked: fiveYearsView.currentIndex += 1
         }
     }
 
 
     ListView {
         id: fiveYearsView
+
+        highlightMoveDuration: 500
 
         anchors{
             top: yearSelection.bottom

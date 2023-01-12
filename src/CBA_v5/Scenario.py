@@ -17,16 +17,16 @@ class Scenario(QObject):
 
     def __init__(self, 
         name: str = None,
-        solar_power_generation: SolarPowerGeneration = SolarPowerGeneration(),
-        charging_and_demand: ChargingAndDemand = ChargingAndDemand(),
-        technical: Technical = Technical(),
-        financial: Financial = Financial()
+        solar_power_generation: SolarPowerGeneration|None = None,
+        charging_and_demand: ChargingAndDemand|None = None,
+        technical: Technical|None = None,
+        financial: Financial|None = None
     ):
         super().__init__()
-        self.solar_power_generation: SolarPowerGeneration = solar_power_generation
-        self.charging_and_demand: ChargingAndDemand = charging_and_demand
-        self.technical_: Technical = technical
-        self.financial_: Financial = financial
+        self.solar_power_generation: SolarPowerGeneration = SolarPowerGeneration() if solar_power_generation is None else solar_power_generation
+        self.charging_and_demand: ChargingAndDemand = ChargingAndDemand() if charging_and_demand is None else charging_and_demand
+        self.technical_: Technical = Technical() if technical is None else technical
+        self.financial_: Financial = Financial() if financial is None else financial
 
         '''****************************************
                 POST ASSIGNMENT UPDATE
@@ -35,28 +35,7 @@ class Scenario(QObject):
         # self.technical_.charging_and_demand.demand_.num_of_users_per_day = self.charging_and_demand.years_[0].number_of_users_per_day
 
         '''======= charging and demand ======='''
-        self.charging_and_demand.years_[0].number_of_users_per_day = self.technical_.charging_and_demand.demand_.num_of_users_per_day
-
-        '''------- five year analysis -------'''
-        self.technical_.five_years_analysis.years_[0].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
-            self.update_technical_fiveYearsAnalysis_years_0_totalChargeSupplySection_solarPowerGeneration
-        )
-
-        self.technical_.five_years_analysis.years_[1].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
-            self.update_technical_fiveYearsAnalysis_years_1_totalChargeSupplySection_solarPowerGeneration
-        )
-
-        self.technical_.five_years_analysis.years_[2].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
-            self.update_technical_fiveYearsAnalysis_years_2_totalChargeSupplySection_solarPowerGeneration
-        )
-
-        self.technical_.five_years_analysis.years_[3].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
-            self.update_technical_fiveYearsAnalysis_years_3_totalChargeSupplySection_solarPowerGeneration
-        )
-
-        self.technical_.five_years_analysis.years_[4].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
-            self.update_technical_fiveYearsAnalysis_years_4_totalChargeSupplySection_solarPowerGeneration
-        )                        
+        self.charging_and_demand.years_[0].number_of_users_per_day = self.technical_.charging_and_demand.demand_.num_of_users_per_day   
 
         '''======= solar generation ======='''
         self.solar_power_generation.daily_generation = self.technical_.solar_power_generation.solar_energy_production.estimated_generation_per_day
@@ -143,11 +122,34 @@ class Scenario(QObject):
         '''****************************************
                     CONNECTIONS
         ****************************************'''
-        # '''======= technical ======='''
-        # self.charging_and_demand.numberOfUsersPerDayChanged.connect(self.update_technical_chargingAndDemand_demand_numberOfUsersPerDay)
-
         '''======= charging and demand =======''' 
         self.technical_.charging_and_demand.demand_.numOfUsersPerDayChanged.connect(self.update_chargingAndDemand_years_0_numberOfUsersPerDay)
+        
+        '''======= technical =======''' 
+
+        '''------- five year analysis -------'''
+        self.technical_.five_years_analysis.years_[0].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
+            self.update_technical_fiveYearsAnalysis_years_0_totalChargeSupplySection_solarPowerGeneration
+        )
+        self.technical_.five_years_analysis.years_[1].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
+            self.update_technical_fiveYearsAnalysis_years_1_totalChargeSupplySection_solarPowerGeneration
+        )
+        self.technical_.five_years_analysis.years_[2].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
+            self.update_technical_fiveYearsAnalysis_years_2_totalChargeSupplySection_solarPowerGeneration
+        )
+        self.technical_.five_years_analysis.years_[3].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
+            self.update_technical_fiveYearsAnalysis_years_3_totalChargeSupplySection_solarPowerGeneration
+        )
+        self.technical_.five_years_analysis.years_[4].total_charge_supply_section.solarPowerGenerationElementChanged.connect(
+            self.update_technical_fiveYearsAnalysis_years_4_totalChargeSupplySection_solarPowerGeneration
+        )             
+
+        self.charging_and_demand.years_[0].usersPerHourElementChanged.connect(self.update_technical_fiveYearsAnalysis_years_0_dcChargerDemandSection_dcChargerDemand)
+        self.charging_and_demand.years_[1].usersPerHourElementChanged.connect(self.update_technical_fiveYearsAnalysis_years_1_dcChargerDemandSection_dcChargerDemand)
+        self.charging_and_demand.years_[2].usersPerHourElementChanged.connect(self.update_technical_fiveYearsAnalysis_years_2_dcChargerDemandSection_dcChargerDemand)
+        self.charging_and_demand.years_[3].usersPerHourElementChanged.connect(self.update_technical_fiveYearsAnalysis_years_3_dcChargerDemandSection_dcChargerDemand)
+        self.charging_and_demand.years_[4].usersPerHourElementChanged.connect(self.update_technical_fiveYearsAnalysis_years_4_dcChargerDemandSection_dcChargerDemand)                
+
 
         '''======= solar power generation ======='''
         self.technical_.solar_power_generation.solar_energy_production.estimatedGenerationPerDayChanged.connect(self.update_solarPowerGeneration_dailyGeneration)
@@ -211,6 +213,7 @@ class Scenario(QObject):
         self.technical_.emitUpdateSignals()
         self.financial_.emitUpdateSignals()
 
+
     @Property(ChargingAndDemand, notify=chargingAndDemandChanged) #getter
     def chargingAndDemand(self) -> ChargingAndDemand:
         return self.charging_and_demand
@@ -255,11 +258,6 @@ class Scenario(QObject):
         self.charging_and_demand.years_[0].numberOfUsersPerDayChanged.emit()
 
     '''======= technical ======='''      
-    # @Slot()
-    # def update_technical_chargingAndDemand_demand_numberOfUsersPerDay(self):
-    #     self.technical_.charging_and_demand.demand_.num_of_users_per_day = self.charging_and_demand.years_[0].number_of_users_per_day
-    #     self.technical_.charging_and_demand.demand_.numOfUsersPerDayChanged.emit()
-
     @Slot(int)
     def update_technical_fiveYearsAnalysis_years_0_totalChargeSupplySection_solarPowerGeneration(self, hour_index:int):
         self._update_technical_fiveYearsAnalysis_years_totalChargeSupplySection_solarPowerGeneration(0, hour_index)
@@ -280,14 +278,36 @@ class Scenario(QObject):
     def update_technical_fiveYearsAnalysis_years_4_totalChargeSupplySection_solarPowerGeneration(self, hour_index:int):
         self._update_technical_fiveYearsAnalysis_years_totalChargeSupplySection_solarPowerGeneration(4, hour_index)
              
-
     def _update_technical_fiveYearsAnalysis_years_totalChargeSupplySection_solarPowerGeneration(self, year_index:int, hour_index:int):
         new_value:float = self.solar_power_generation.estimated_kwh_generated[hour_index]
         self.technical_.five_years_analysis.years_[year_index].total_charge_supply_section.setSolarPowerGenerationElement(hour_index, new_value)
 
-    # def _update_technical_fiveYearsAnalysis_years_totalChargeSupplySection_(self, year_index:int, hour_index:int):
-    #     new_value = self.technical_.charging_and_demand.load_.required_energy_per_user if self.charging_and_demand.users_per_hour[hour_index] > 0 else 0
-    #     self.technical_.five_years_analysis.years_[year_index].
+
+    @Slot(int)
+    def update_technical_fiveYearsAnalysis_years_0_dcChargerDemandSection_dcChargerDemand(self, hour_index:int):
+        self._update_technical_fiveYearsAnalysis_years_dcChargerDemandSection_dcChargerDemand(year_index=0 , hour_index=hour_index)
+
+    @Slot(int)
+    def update_technical_fiveYearsAnalysis_years_1_dcChargerDemandSection_dcChargerDemand(self, hour_index:int):
+        self._update_technical_fiveYearsAnalysis_years_dcChargerDemandSection_dcChargerDemand(year_index=1, hour_index=hour_index)
+
+    @Slot(int)
+    def update_technical_fiveYearsAnalysis_years_2_dcChargerDemandSection_dcChargerDemand(self, hour_index:int):
+        self._update_technical_fiveYearsAnalysis_years_dcChargerDemandSection_dcChargerDemand(year_index=2, hour_index=hour_index)
+
+    @Slot(int)
+    def update_technical_fiveYearsAnalysis_years_3_dcChargerDemandSection_dcChargerDemand(self, hour_index:int):
+        self._update_technical_fiveYearsAnalysis_years_dcChargerDemandSection_dcChargerDemand(year_index=3, hour_index=hour_index)
+
+    @Slot(int)
+    def update_technical_fiveYearsAnalysis_years_4_dcChargerDemandSection_dcChargerDemand(self, hour_index:int):
+        self._update_technical_fiveYearsAnalysis_years_dcChargerDemandSection_dcChargerDemand(year_index=4, hour_index=hour_index)
+
+    def _update_technical_fiveYearsAnalysis_years_dcChargerDemandSection_dcChargerDemand(self, year_index:int, hour_index:int):
+        new_value = self.technical_.charging_and_demand.load_.required_energy_per_user if self.charging_and_demand.years_[year_index].users_per_hour[hour_index] > 0 else 0
+        # if year_index == 0 and hour_index == 22:
+            # print(f"year: {year_index}       hour: {hour_index}      value: {new_value}     users per hour: {self.charging_and_demand.years_[year_index].users_per_hour[hour_index]}")
+        self.technical_.five_years_analysis.years_[year_index].dc_charger_demand_section.setDcChargerDemandElement(hour_index, new_value)
 
     '''======= solar power generation ======='''
     @Slot()
@@ -357,9 +377,6 @@ class Scenario(QObject):
     '''------- operating expenditure -------'''         
     @Slot()
     def update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM(self):
-        '''
-        =J15*J5*Technical!E$14
-        '''
         self.financial_.operating_expenditure.operating_expenditure_items.solar_pv_o_and_m = round(
             self.financial_.operating_expenditure.fixed_o_and_m.solar_pv_o_and_m \
                 * self.financial_.capital_expenditure.exchange_rate.rm_per_usd \
@@ -369,9 +386,6 @@ class Scenario(QObject):
         self.financial_.operating_expenditure.operating_expenditure_items.solarPvOAndMChanged.emit()
     @Slot()
     def update_financial_operatingExpenditure_operatingExpenditureItems_essOAndM(self):
-        '''
-        =J17*J5*Technical!J24
-        '''
         self.financial_.operating_expenditure.operating_expenditure_items.ess_o_and_m = round (
             self.financial_.operating_expenditure.fixed_o_and_m.lfp_o_and_m \
                 * self.financial_.capital_expenditure.exchange_rate.rm_per_usd \
@@ -382,11 +396,6 @@ class Scenario(QObject):
 
     @Slot()
     def update_financial_operatingExpenditure_operatingExpenditureItems_gridElectricity(self):  
-        '''
-        =($J25*Technical!J28+Technical!J27*$J26)*365*0.9
-
-        peak tariff rate * technical_peak electricity charged + tehnical off peak electricity * off peak tariff
-        '''
         self.financial_.operating_expenditure.operating_expenditure_items.grid_electricity = round (
             (
                 (self.financial_.revenue_.tariff_assumption.peak_tariff_rate * self.technical_.battery_storage.grid_charging.peak_electricity_charged_from_grid_kwh_per_day) \
