@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 Card {
     id: root
 
-    default property alias data: subSections.data
+    default property alias defaultData: subSections.data
     
     height: sectionLabel.height + sectionLabel.anchors.topMargin 
             + subSections.anchors.topMargin + subSections.height 

@@ -13,7 +13,7 @@ SubSection {
         labelText: "Power (Continuous, 0.75C)"
         units: "kW"
 
-        text: Scenario.technical.batteryStorage.discharge.powerContinuous
+        text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.discharge.powerContinuous
     }
 
     LabelledText {
@@ -22,7 +22,7 @@ SubSection {
         labelText: "Power (max, 1C)"
         units: "kW"
 
-        text: Scenario.technical.batteryStorage.discharge.powerMax
+        text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.discharge.powerMax
     }
 
 }

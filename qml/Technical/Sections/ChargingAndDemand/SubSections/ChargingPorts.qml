@@ -13,9 +13,9 @@ SubSection {
         label: "DC Charger 1 rating"
         units: "kW"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.chargingPorts.dcCharger1Rating = dcCharger1Rating.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.dcCharger1Rating = dcCharger1Rating.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.chargingPorts.dcCharger1Rating
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.dcCharger1Rating
 
     }
 
@@ -24,9 +24,9 @@ SubSection {
 
         label: "Number of DC Charger 1"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.chargingPorts.numOfDcCharger1 = numOfDcCharger1.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.numOfDcCharger1 = numOfDcCharger1.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.chargingPorts.numOfDcCharger1
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.numOfDcCharger1
 
     }
 
@@ -36,7 +36,7 @@ SubSection {
         labelText: "DC 1 Charging Time / user"
         units: "hr"
 
-        text: Scenario.technical.chargingAndDemand.chargingPorts.dc1ChargingTimePerUser
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.dc1ChargingTimePerUser
 
     }
 
@@ -46,9 +46,9 @@ SubSection {
         label: "DC Charger 2 rating"
         units: "kW"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.chargingPorts.dcCharger2Rating = dcCharger2Rating.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.dcCharger2Rating = dcCharger2Rating.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.chargingPorts.dcCharger2Rating
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.dcCharger2Rating
 
     }
 
@@ -57,9 +57,9 @@ SubSection {
 
         label: "Number of DC Charger 2"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.chargingPorts.numOfDcCharger2 = numOfDcCharger2.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.numOfDcCharger2 = numOfDcCharger2.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.chargingPorts.numOfDcCharger2
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.numOfDcCharger2
 
     }
 
@@ -69,7 +69,7 @@ SubSection {
         labelText: "DC 2 Charging Time / user"
         units: "hr"
 
-        text: Scenario.technical.chargingAndDemand.chargingPorts.dc2ChargingTimePerUser
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.chargingPorts.dc2ChargingTimePerUser
 
     }
 

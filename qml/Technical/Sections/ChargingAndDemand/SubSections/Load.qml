@@ -13,7 +13,7 @@ SubSection {
         labelText: "Required energy / user"
         units: "kWh"
 
-        text: Scenario.technical.chargingAndDemand.load.requiredEnergyPerUser
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerUser
     }
 
     LabelledText {
@@ -22,7 +22,7 @@ SubSection {
         labelText: "Required energy / day"
         units: "kWh"
 
-        text: Scenario.technical.chargingAndDemand.load.requiredEnergyPerDay
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerDay
     }
 
     LabelledText {
@@ -31,7 +31,7 @@ SubSection {
         labelText: "Required energy / year"
         units: "kWh"
 
-        text: Scenario.technical.chargingAndDemand.load.requiredEnergyPerYear
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerYear
     }
 
 }

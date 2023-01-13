@@ -13,9 +13,9 @@ SubSection {
 
         label: "Number of Users / day"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.demand.numOfUsersPerDay = numberOfUsersPerDay.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.numOfUsersPerDay = numberOfUsersPerDay.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.demand.numOfUsersPerDay
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.numOfUsersPerDay
     }
 
     LabelledText {
@@ -23,7 +23,7 @@ SubSection {
 
         labelText: "Number of Users / year"
 
-        text: Scenario.technical.chargingAndDemand.demand.numOfUsersPerYear
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.numOfUsersPerYear
     }
 
     LabelledInput {
@@ -32,9 +32,9 @@ SubSection {
         label: "SoC at entry"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.demand.stateOfChargeAtEntry = socAtEntry.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeAtEntry = socAtEntry.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.demand.stateOfChargeAtEntry
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeAtEntry
 
     }
 
@@ -44,9 +44,9 @@ SubSection {
         label: "SoC limit"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.demand.stateOfChargeLimit = socLimit.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeLimit = socLimit.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.demand.stateOfChargeLimit
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeLimit
 
     }
 
@@ -56,7 +56,7 @@ SubSection {
         labelText: "SoC to be charged"
         units: "%"
 
-        text: Scenario.technical.chargingAndDemand.demand.stateOfChargeToBeCharged
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeToBeCharged
     }
 
     LabelledInput {
@@ -65,9 +65,9 @@ SubSection {
         label: "Total waiting time"
         units: "hr"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.demand.totalWaitingTime = totalWaitingTime.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime = totalWaitingTime.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.demand.totalWaitingTime
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime
 
     }
 
@@ -76,9 +76,9 @@ SubSection {
 
         label: "Actual users served / day"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.demand.actualUsersServedPerDay = actualUsersServed.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualUsersServedPerDay = actualUsersServed.inputText
 
-        inputText: Scenario.technical.chargingAndDemand.demand.actualUsersServedPerDay
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualUsersServedPerDay
 
     }
 
@@ -88,7 +88,7 @@ SubSection {
         labelText: "Actual energy served / day"
         units: "kWh"
 
-        text: Scenario.technical.chargingAndDemand.demand.actualEnergyServedPerDay
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualEnergyServedPerDay
     }
 
     // Component.onCompleted: {

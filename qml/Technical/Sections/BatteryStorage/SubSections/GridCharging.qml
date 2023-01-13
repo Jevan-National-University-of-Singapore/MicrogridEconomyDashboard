@@ -13,9 +13,9 @@ SubSection {
         label: "Off-peak electricity required / day"
         units: "kWh"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.gridCharging.offPeakElectricityRequired = offPeakElectricityRequired.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired = offPeakElectricityRequired.inputText
 
-        inputText: Scenario.technical.batteryStorage.gridCharging.offPeakElectricityRequired
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired
     }
 
     LabelledInput {
@@ -24,9 +24,9 @@ SubSection {
         label: "Peak electricity charged from grid / day"
         units: "kWh"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid = peakElectricityChargedFromGrid.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid = peakElectricityChargedFromGrid.inputText
 
-        inputText: Scenario.technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid
     }
 
     LabelledText {
@@ -35,7 +35,7 @@ SubSection {
         labelText: "Grid electricity required / day"
         units: "kWh"
 
-        text: Scenario.technical.batteryStorage.gridCharging.gridElectricityRequired
+        text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridElectricityRequired
     }
 
     LabelledInput {
@@ -44,9 +44,9 @@ SubSection {
         label: "Grid draw limit / day"
         units: "kWh"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.gridCharging.gridDrawLimit = gridDrawLimit.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridDrawLimit = gridDrawLimit.inputText
 
-        inputText: Scenario.technical.batteryStorage.gridCharging.gridDrawLimit
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridDrawLimit
     }
 
 

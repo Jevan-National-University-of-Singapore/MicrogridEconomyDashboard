@@ -12,10 +12,10 @@ SubSection {
 
         label: "EV battery voltage"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.evCharacteristics.evBatteryVoltage = evBatteryVoltage.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.evBatteryVoltage = evBatteryVoltage.inputText
         units: "V"
 
-        inputText: Scenario.technical.chargingAndDemand.evCharacteristics.evBatteryVoltage
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.evBatteryVoltage
 
     }
 
@@ -24,10 +24,10 @@ SubSection {
 
         label: "Capacity (79.2)"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.evCharacteristics.capacity = capacity.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.capacity = capacity.inputText
         units: "kWh"
 
-        inputText: Scenario.technical.chargingAndDemand.evCharacteristics.capacity
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.capacity
 
     }
 
@@ -36,10 +36,10 @@ SubSection {
 
         label: "Max. kW rating"
 
-        input.onEditingFinished: Scenario.technical.chargingAndDemand.evCharacteristics.maxPowerRating = maxKwPowerRating.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.maxPowerRating = maxKwPowerRating.inputText
         units: "kW"
 
-        inputText: Scenario.technical.chargingAndDemand.evCharacteristics.maxPowerRating
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.maxPowerRating
 
     }
 
@@ -49,7 +49,7 @@ SubSection {
         labelText: "Ampere-hour rating"
         units: "Ah"
 
-        text: Scenario.technical.chargingAndDemand.evCharacteristics.ampereHourRating
+        text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.ampereHourRating
     }
 
     // Component.onCompleted: {

@@ -2,10 +2,10 @@ import QtQuick
 import QtQuick.Controls.Material
 // import QtQuick.Window 2.2
 
-import "SolarPowerGeneration"
-import "ChargingAndDemand"
+// import "SolarPowerGeneration"
+// import "ChargingAndDemand"
 import "Technical"
-import "Financial"
+// import "Financial"
 
 
 ApplicationWindow {
@@ -54,8 +54,9 @@ ApplicationWindow {
                         font.pixelSize:24
                         // onClicked: menu.open()
                     }
+
                     ToolButton {
-                        text: qsTr("Hourly Solar Power Generation")
+                        text: qsTr("Technical")
                         onClicked: {
                             applicationStack.currentIndex = 0
                         }
@@ -63,57 +64,32 @@ ApplicationWindow {
 
                     ToolSeparator{}
 
-                    ToolButton {
-                        text: qsTr("Hourly Charging Demand")
-                        onClicked: {
-                            applicationStack.currentIndex = 1
+                    // ToolButton {
+                    //     text: qsTr("Financial")
+                    //     onClicked: {
+                    //         applicationStack.currentIndex = 1
+                    //     }
+                    // }
+
+                    // ToolSeparator{}
+
+                    ComboBox {
+                        currentIndex: 0
+                        model: ListModel {
+                            ListElement { text: "Year 1" }
+                            ListElement { text: "Year 2" }
+                            ListElement { text: "Year 3" }
+                            ListElement { text: "Year 4" }
+                            ListElement { text: "Year 5" }
                         }
-                    }
-
-                    ToolSeparator{}
-
-
-                    ToolButton {
-                        text: qsTr("Technical")
-                        onClicked: {
-                            applicationStack.currentIndex = 2
-                        }
-                    }
-
-                    ToolSeparator{}
-
-                    ToolButton {
-                        text: qsTr("Financial")
-                        onClicked: {
-                            applicationStack.currentIndex = 3
-                        }
+                        // model: [0,1,2,3,4]
                     }
                     
-
-
                 }
             }
     SwipeView{
         id: applicationStack
         anchors.fill: parent
-
-        SolarPowerGeneration {
-            id: solarPowerGeneration
-
-
-            height: root.height - root.menuBar.height - root.header.height
-            width: root.width
-        }
-
-
-        ChargingAndDemand {
-            id: chargingAndDemand
-            
-
-            height: root.height - root.menuBar.height - root.header.height
-            width: root.width
-        }
-
 
         Technical{
             id: technical
@@ -123,13 +99,13 @@ ApplicationWindow {
             width: root.width
         }
 
-        Financial{
-            id: financial
+        // Financial{
+        //     id: financial
 
 
-            height: root.height - root.menuBar.height - root.header.height
-            width: root.width
-        }
+        //     height: root.height - root.menuBar.height - root.header.height
+        //     width: root.width
+        // }
     }
 
 }

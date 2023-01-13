@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls.Material
 import "../../../Templates"
 import "../../../Templates/Separators"
 
@@ -9,6 +10,8 @@ Section {
     id: root
 
     section: "Solar Power Generation"
+
+    signal openHourlySolarPowerGenerationTriggered
 
     InstalledCapacity {
         id: installedCapacity
@@ -55,6 +58,21 @@ Section {
             left: verticalSeparator.right
             leftMargin: solarEnergyProduction.label.font.pixelSize
         }
+    }
+
+    Button {
+        id: hourlySolarPowerGenerationButton
+
+        text: "Hourly Generation"
+
+        anchors {
+            top: solarEnergyProduction.bottom
+            topMargin: solarEnergyProduction.label.font.pixelSize/2
+
+            horizontalCenter: solarEnergyProduction.horizontalCenter
+        }
+
+        onClicked: root.openHourlySolarPowerGenerationTriggered()
     }
 
     

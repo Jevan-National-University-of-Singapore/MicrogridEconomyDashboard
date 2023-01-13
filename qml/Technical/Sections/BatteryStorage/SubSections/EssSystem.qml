@@ -15,7 +15,7 @@ SubSection {
 
         input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.installedCapacity = installedCapacity.inputText
 
-        inputText: Scenario.technical.batteryStorage.essSystem.installedCapacity
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity
     }
 
     LabelledText {
@@ -24,7 +24,7 @@ SubSection {
         labelText: "Charge Rate"
         units: "C-rate"
 
-        text: Scenario.technical.batteryStorage.essSystem.chargeRate
+        text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.chargeRate
     }
 
     LabelledText {
@@ -33,7 +33,7 @@ SubSection {
         labelText: "Maximum Power"
         units: "kW"
 
-        text: Scenario.technical.batteryStorage.essSystem.maximumPower
+        text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.maximumPower
     }
 
     LabelledInput {
@@ -42,9 +42,9 @@ SubSection {
         label: "Operational Time"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.operationalTime = operationalTime.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.operationalTime = operationalTime.inputText
 
-        inputText: Scenario.technical.batteryStorage.essSystem.operationalTime
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.operationalTime
     }
 
     LabelledInput {
@@ -53,9 +53,9 @@ SubSection {
         label: "SoC upper limit"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.stateOfChargeUpperLimit = socUpperLimit.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeUpperLimit = socUpperLimit.inputText
         
-        inputText: Scenario.technical.batteryStorage.essSystem.stateOfChargeUpperLimit
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeUpperLimit
     }
 
     LabelledInput {
@@ -64,9 +64,9 @@ SubSection {
         label: "SoC lower limit"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.stateOfChargeLowerLimit = socLowerLimit.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeLowerLimit = socLowerLimit.inputText
 
-        inputText: Scenario.technical.batteryStorage.essSystem.stateOfChargeLowerLimit
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeLowerLimit
     }
 
     LabelledText {
@@ -75,7 +75,7 @@ SubSection {
         labelText: "Depth of Discharge"
         units: "%"
 
-        text: Scenario.technical.batteryStorage.essSystem.depthOfDischargePercentage
+        text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.depthOfDischargePercentage
     }
 
     LabelledInput {
@@ -84,9 +84,9 @@ SubSection {
         label: "EoL capacity"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.endOfLifeCapacity = eolCapacity.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.endOfLifeCapacity = eolCapacity.inputText
 
-        inputText: Scenario.technical.batteryStorage.essSystem.endOfLifeCapacity
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.endOfLifeCapacity
     }
 
     LabelledInput {
@@ -95,9 +95,9 @@ SubSection {
         label: "ESS Nameplate Lifecycle"
         units: "Cycles"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.essNameplateLifeCycle = essNameplateLifeCycle.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifeCycle = essNameplateLifeCycle.inputText
 
-        inputText: Scenario.technical.batteryStorage.essSystem.essNameplateLifecycle
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifecycle
     }
 
     // Component.onCompleted: {

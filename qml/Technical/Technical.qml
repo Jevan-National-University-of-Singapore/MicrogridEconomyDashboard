@@ -1,10 +1,12 @@
 import QtQuick
 import QtQuick.Controls.Material
 
+import "Sections/SolarPowerGeneration"
+import "Sections/SolarPowerGeneration/HourlySolarPowerGenerationDialog"
+
 import "Sections/BatteryStorage"
 import "Sections/ChargingAndDemand"
-import "Sections/SolarPowerGeneration"
-import "Sections/FiveYearsAnalysis"
+// import "Sections/FiveYearsAnalysis"
 
 import "../Templates" as Templates
 
@@ -12,6 +14,28 @@ Templates.Page {
     id: root
 
     bottomMargin: batteryStorage.label.font.pixelSize
+
+    // Component.onCompleted: console.log(Scenario.currentYearIndex)
+    onOutsideDialogAreaClicked: hourlySolarPowerGenerationDialog.close()
+
+
+    SolarPowerGeneration{
+        id: solarPowerGeneration
+
+        anchors {
+            top: batteryStorage.bottom
+            topMargin: batteryStorage.anchors.topMargin
+
+            left: batteryStorage.left
+        }
+
+        onOpenHourlySolarPowerGenerationTriggered: {
+            root.openDialog()
+            hourlySolarPowerGenerationDialog.show()
+        }
+
+
+    }
 
     BatteryStorage{
         id: batteryStorage
@@ -26,18 +50,6 @@ Templates.Page {
     }
 
 
-    SolarPowerGeneration{
-        id: solarPowerGeneration
-
-        anchors {
-            top: batteryStorage.bottom
-            topMargin: batteryStorage.anchors.topMargin
-
-            left: batteryStorage.left
-        }
-
-    }
-
     ChargingAndDemand {
         id: chargingAndDemand
         anchors {
@@ -49,16 +61,31 @@ Templates.Page {
 
     }
 
-    FiveYearsAnalysis {
-        id: fiveYearsAnalysis
+    data: HourlySolarPowerGenerationDialog{
+        id: hourlySolarPowerGenerationDialog
 
-        anchors {
-            top: solarPowerGeneration.bottom
-            topMargin: solarPowerGeneration.anchors.topMargin
+        opacity: 0
 
-            left: solarPowerGeneration.left
-        }
+        anchors.centerIn: parent
     }
+
+    // Rectangle {
+    //     anchors.centerIn: parent
+
+    //     height: 500
+    //     width: height
+    // }
+
+    // FiveYearsAnalysis {
+    //     id: fiveYearsAnalysis
+
+    //     anchors {
+    //         top: solarPowerGeneration.bottom
+    //         topMargin: solarPowerGeneration.anchors.topMargin
+
+    //         left: solarPowerGeneration.left
+    //     }
+    // }
 
     
 

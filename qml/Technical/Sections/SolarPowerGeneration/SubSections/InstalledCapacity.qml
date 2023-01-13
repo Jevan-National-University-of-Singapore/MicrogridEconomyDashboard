@@ -13,9 +13,9 @@ SubSection {
         label: "Installed Capacity"
         units: "kWp"
 
-        input.onEditingFinished: Scenario.technical.solarPowerGeneration.installedCapacity.installedCapacity = installedCapacity.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.installedCapacity.installedCapacity = installedCapacity.inputText
 
-        inputText: Scenario.technical.solarPowerGeneration.installedCapacity.installedCapacity
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.installedCapacity.installedCapacity
     }
 
 }

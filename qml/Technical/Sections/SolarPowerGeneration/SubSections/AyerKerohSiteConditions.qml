@@ -13,9 +13,9 @@ SubSection {
         label: "RM/USD"
         units: "RM"
 
-        input.onEditingFinished: Scenario.technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay = specificPvPowerOutputPerDay.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay = specificPvPowerOutputPerDay.inputText
 
-        inputText: Scenario.technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay
     }
 
     LabelledText {
@@ -24,6 +24,6 @@ SubSection {
         labelText: "Actual ESS Lifecycle"
         units: "Cycles"
 
-        text: Scenario.technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerYear
+        text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerYear
     }
 }

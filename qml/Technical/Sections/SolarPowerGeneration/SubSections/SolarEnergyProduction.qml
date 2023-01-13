@@ -13,7 +13,7 @@ SubSection {
         labelText: "Specific Yield"
         units: "kWh/kWp"
 
-        text: Scenario.technical.solarPowerGeneration.solarEnergyProduction.specificYield
+        text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.specificYield
     }
 
     LabelledInput {
@@ -22,9 +22,9 @@ SubSection {
         label: "Boost Inverter Efficiency"
         units: "%"
 
-        input.onEditingFinished: Scenario.technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency = boostInverterEfficiency.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency = boostInverterEfficiency.inputText
 
-        inputText: Scenario.technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency
+        inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency
     }
 
 
@@ -34,7 +34,7 @@ SubSection {
         labelText: "Estimated Generation / day"
         units: "kWh"
 
-        text: Scenario.technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerDay
+        text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerDay
     }
 
     LabelledText {
@@ -43,7 +43,7 @@ SubSection {
         labelText: "Estimated Generation / year"
         units: "kWh"
 
-        text: Scenario.technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerYear
+        text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerYear
     }    
 
 }
