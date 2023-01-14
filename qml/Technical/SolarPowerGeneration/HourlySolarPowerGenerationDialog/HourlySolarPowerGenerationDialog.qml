@@ -22,21 +22,24 @@ Section {
         opacity = 0
     }
 
+    visible: opacity
+
 
     Behavior on opacity { SmoothedAnimation { velocity: 2.5 } }
+
     defaultData: MouseArea{
-        enabled: opacity
+        id: touchHandler
+
+        visible: root.opacity
         anchors.fill: parent
     }
 
     HourlySolarGeneration{
         id: hourlySolarGeneration
-
     }
 
     DailySolarGeneration {
         id: dailySolarGeneration
-
         anchors {
             top: hourlySolarGeneration.bottom
         }

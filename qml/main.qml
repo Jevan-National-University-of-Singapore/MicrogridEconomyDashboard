@@ -2,10 +2,15 @@ import QtQuick
 import QtQuick.Controls.Material
 // import QtQuick.Window 2.2
 
+import "NavigationMenu"
+import "AssistancePanel"
+import "ViewingPanel"
+
 // import "SolarPowerGeneration"
 // import "ChargingAndDemand"
 import "Technical"
 // import "Financial"
+
 
 
 ApplicationWindow {
@@ -58,20 +63,20 @@ ApplicationWindow {
                     ToolButton {
                         text: qsTr("Technical")
                         onClicked: {
-                            applicationStack.currentIndex = 0
+                            workspace.currentIndex = 0
                         }
                     }
 
                     ToolSeparator{}
 
-                    // ToolButton {
-                    //     text: qsTr("Financial")
-                    //     onClicked: {
-                    //         applicationStack.currentIndex = 1
-                    //     }
-                    // }
+                    ToolButton {
+                        text: qsTr("Financial")
+                        // onClicked: {
+                        //     workspace.currentIndex = 1
+                        // }
+                    }
 
-                    // ToolSeparator{}
+                    ToolSeparator{}
 
                     ComboBox {
                         currentIndex: 0
@@ -87,25 +92,93 @@ ApplicationWindow {
                     
                 }
             }
-    SwipeView{
-        id: applicationStack
+    SplitView {
+        id: splitView
+
         anchors.fill: parent
+        orientation: Qt.Horizontal
 
-        Technical{
-            id: technical
+        height: root.height - root.menuBar.height - root.header.height
 
+        NavigationMenu {
+            id: navigationMenu
 
-            height: root.height - root.menuBar.height - root.header.height
-            width: root.width
+            SplitView.maximumWidth: root.width/2
+            SplitView.minimumWidth: Qt.application.font.pixelSize
+            SplitView.preferredWidth: root.width/6
+
+            Material.primary: root.Material.background
+            Material.background: root.Material.primary
+
+            height: splitView.height
+
+            technical.solarPowerGeneration {
+                onInstalledCapacitySelected: technicalWorkspace.goToInstalledCapacity()
+                onAyerKerohSiteConditionsSelected: technicalWorkspace.goToAyerKerohSiteConditions()
+                onSolarEnergyProductionSelected: technicalWorkspace.goToSolarEnergyProduction()
+            }
         }
 
-        // Financial{
-        //     id: financial
+
+        SplitView {
+            id: controls
+
+            orientation: Qt.Vertical
+
+            SplitView.maximumWidth: root.width
+            SplitView.minimumWidth: Qt.application.font.pixelSize
+            SplitView.preferredWidth: root.width - (5*root.width)/12    
+
+            Material.primary: root.Material.background
+            Material.background: "#181818"//root.Material.primary
+
+            height: splitView.height
+
+            SwipeView{
+                id: workspace
+
+                Technical{
+                    id: technicalWorkspace
+
+                    height: splitView.height
+                }
+
+                SplitView.maximumHeight: root.height
+                SplitView.minimumHeight: Qt.application.font.pixelSize
+                SplitView.preferredHeight: 700
+
+                // Financial{
+                //     id: financial
 
 
-        //     height: root.height - root.menuBar.height - root.header.height
-        //     width: root.width
-        // }
+                //     height: root.height - root.menuBar.height - root.header.height
+                //     width: root.width
+                // }
+            }
+            ViewingPanel{
+                SplitView.maximumHeight: root.height
+                SplitView.minimumHeight: Qt.application.font.pixelSize
+                SplitView.preferredHeight: 1
+
+                Material.primary: root.Material.primary
+                Material.background: root.Material.background
+            }
+        }
+
+        AssistancePanel{
+            id: assistancePanel
+
+            // height: splitView.height
+
+            Material.primary: root.Material.background
+            Material.background: root.Material.primary
+
+            SplitView.maximumWidth: root.width
+            SplitView.preferredWidth: root.width/10
+
+        }
+
+
     }
 
 }

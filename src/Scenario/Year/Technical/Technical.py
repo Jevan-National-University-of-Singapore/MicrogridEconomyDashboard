@@ -7,12 +7,28 @@ from .BatteryStorage.BatteryStorage import BatteryStorage
 from .ChargingAndDemand.ChargingAndDemand import ChargingAndDemand
 from .HourlyBreakdown.HourlyBreakdown import HourlyBreakdown
 
+from QModels.QTreeNode import QTreeNode
+
 class Technical(QObject):
+
+    treeNodeChanged = Signal()
     
     batteryStorageChanged = Signal()
     chargingAndDemandChanged = Signal()
     solarPowerGenerationChanged = Signal()
     hourBreakdownChanged = Signal()
+
+    tree_node: QTreeNode = QTreeNode("Technical")
+    tree_node.add_children([
+        QTreeNode("first"),
+        QTreeNode("second"),
+        QTreeNode("third")
+    ])
+
+    # tree:QTreeModel = QTreeModel(root_data="Technical")
+
+    # second_level_nodes:list[QTreeNode] = [QTreeNode("first child"), QTreeNode("second child"), QTreeNode("third child")]
+    # tree.root.add_children(second_level_nodes)
 
     def __init__(self, 
         name: str = None,
@@ -65,6 +81,10 @@ class Technical(QObject):
         self.charging_and_demand.emitUpdateSignals()
         self.solar_power_generation.emitUpdateSignals()
         self.hourly_breakdown.emitUpdateSignals()
+
+    @Property(QTreeNode, notify=treeNodeChanged) #getter
+    def treeNode(self) -> QTreeNode:
+        return self.tree_node
 
     @Property(SolarPowerGeneration, notify=solarPowerGenerationChanged) #getter
     def solarPowerGeneration(self) -> SolarPowerGeneration:

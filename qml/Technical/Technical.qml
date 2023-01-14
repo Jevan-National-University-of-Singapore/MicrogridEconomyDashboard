@@ -1,93 +1,130 @@
 import QtQuick
 import QtQuick.Controls.Material
 
-import "Sections/SolarPowerGeneration"
-import "Sections/SolarPowerGeneration/HourlySolarPowerGenerationDialog"
+import "SolarPowerGeneration"
+import "SolarPowerGeneration/HourlySolarPowerGenerationDialog"
 
-import "Sections/BatteryStorage"
-import "Sections/ChargingAndDemand"
+import "BatteryStorage"
+import "ChargingAndDemand"
 // import "Sections/FiveYearsAnalysis"
 
 import "../Templates" as Templates
 
-Templates.Page {
+
+
+
+Page {
     id: root
 
-    bottomMargin: batteryStorage.label.font.pixelSize
-
-    // Component.onCompleted: console.log(Scenario.currentYearIndex)
-    onOutsideDialogAreaClicked: hourlySolarPowerGenerationDialog.close()
-
-
-    SolarPowerGeneration{
-        id: solarPowerGeneration
-
-        anchors {
-            top: batteryStorage.bottom
-            topMargin: batteryStorage.anchors.topMargin
-
-            left: batteryStorage.left
-        }
-
-        onOpenHourlySolarPowerGenerationTriggered: {
-            root.openDialog()
-            hourlySolarPowerGenerationDialog.show()
-        }
-
-
+    function goToInstalledCapacity(){
+        swipeView.currentIndex = 0
     }
 
-    BatteryStorage{
-        id: batteryStorage
+    function goToAyerKerohSiteConditions(){
+        swipeView.currentIndex = 1
+    }
 
-        anchors {
-            top: parent.top
-            topMargin: batteryStorage.label.font.pixelSize
-
-            left: parent.left
-            leftMargin: batteryStorage.label.font.pixelSize
-        }
+    function goToSolarEnergyProduction(){
+        swipeView.currentIndex = 2
     }
 
 
-    ChargingAndDemand {
-        id: chargingAndDemand
-        anchors {
-            top: batteryStorage.top
+    SwipeView{
+        id: swipeView
 
-            left: batteryStorage.right
-            leftMargin: chargingAndDemand.label.font.pixelSize
+        anchors.fill: parent
+
+        orientation: Qt.Vertical
+
+        contentHeight: installedCapacity.height 
+                        + ayerKerohSiteConditions.height
+                        + solarEnergyProduction.height
+
+        clip: true
+
+
+        InstalledCapacity{
+            id: installedCapacity
         }
 
+        AyerKerohSiteConditions{
+            id: ayerKerohSiteConditions
+
+        }
+        SolarEnergyProduction {
+            id: solarEnergyProduction
+
+        }
+        // SolarPowerGeneration{
+        //     id: solarPowerGeneration
+
+        //     anchors {
+        //         top: batteryStorage.bottom
+        //         topMargin: batteryStorage.anchors.topMargin
+
+        //         left: batteryStorage.left
+        //     }
+
+        //     onOpenHourlySolarPowerGenerationTriggered: {
+        //         swipeView.openDialog()
+        //         hourlySolarPowerGenerationDialog.show()
+        //     }
+
+
+        // }
+
+        // BatteryStorage{
+        //     id: batteryStorage
+
+        //     anchors {
+        //         top: parent.top
+        //         topMargin: batteryStorage.label.font.pixelSize
+
+        //         left: parent.left
+        //         leftMargin: batteryStorage.label.font.pixelSize
+        //     }
+        // }
+
+
+        // ChargingAndDemand {
+        //     id: chargingAndDemand
+        //     anchors {
+        //         top: batteryStorage.top
+
+        //         left: batteryStorage.right
+        //         leftMargin: chargingAndDemand.label.font.pixelSize
+        //     }
+
+        // }
+
+        // data: HourlySolarPowerGenerationDialog{
+        //     id: hourlySolarPowerGenerationDialog
+
+        //     opacity: 0
+
+        //     anchors.centerIn: parent
+        // }
+
+        // Rectangle {
+        //     anchors.centerIn: parent
+
+        //     height: 500
+        //     width: height
+        // }
+
+        // FiveYearsAnalysis {
+        //     id: fiveYearsAnalysis
+
+        //     anchors {
+        //         top: solarPowerGeneration.bottom
+        //         topMargin: solarPowerGeneration.anchors.topMargin
+
+        //         left: solarPowerGeneration.left
+        //     }
+        // }
     }
-
-    data: HourlySolarPowerGenerationDialog{
-        id: hourlySolarPowerGenerationDialog
-
-        opacity: 0
-
-        anchors.centerIn: parent
-    }
-
-    // Rectangle {
-    //     anchors.centerIn: parent
-
-    //     height: 500
-    //     width: height
-    // }
-
-    // FiveYearsAnalysis {
-    //     id: fiveYearsAnalysis
-
-    //     anchors {
-    //         top: solarPowerGeneration.bottom
-    //         topMargin: solarPowerGeneration.anchors.topMargin
-
-    //         left: solarPowerGeneration.left
-    //     }
-    // }
-
-    
-
-
 }
+
+
+
+

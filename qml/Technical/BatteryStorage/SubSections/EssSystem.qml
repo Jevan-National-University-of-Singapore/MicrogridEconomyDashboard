@@ -13,7 +13,7 @@ SubSection {
         label: "Installed Capacity"
         units: "kWh"
 
-        input.onEditingFinished: Scenario.technical.batteryStorage.essSystem.installedCapacity = installedCapacity.inputText
+        input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity = installedCapacity.inputText
 
         inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity
     }

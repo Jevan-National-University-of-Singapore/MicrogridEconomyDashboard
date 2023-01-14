@@ -38,7 +38,7 @@ ScrollView {
         MouseArea {
             anchors.fill: parent
 
-            enabled: scrim.opacity
+            visible: scrim.opacity
             onClicked: {
                 root.outsideDialogAreaClicked()
                 closeDialog()
@@ -47,7 +47,7 @@ ScrollView {
     }
 
     function openDialog(){
-        scrim.opacity = 0.5
+        scrim.opacity = 0.7
     }
 
     function closeDialog(){
