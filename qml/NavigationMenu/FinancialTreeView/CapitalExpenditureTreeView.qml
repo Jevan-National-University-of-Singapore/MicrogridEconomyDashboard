@@ -7,9 +7,9 @@ import "../Delegates"
 Item {
     id: root
 
-    signal essSystemSelected
-    signal dischargeSelected
-    signal gridChargingSelected
+    signal capitalExpenditureItemsSelected
+    signal exchangeRateSelected
+    signal depreciationSelected
 
     implicitHeight: parentView.height + subTreeViews.height
     width: childrenRect.width
@@ -22,17 +22,17 @@ Item {
     Behavior on height { SmoothedAnimation { velocity: 200 } }    
 
     function deselectAll(){
-        essSystem.isSelected = false
-        discharge.isSelected = false
-        gridCharging.isSelected = false
+        capitalExpenditureItems.isSelected = false
+        exchangeRate.isSelected = false
+        depreciation.isSelected = false
     }
 
     function collapseSubSection(){
         root.deselectAll()
         subTreeViews.state = "collapsed"
-        essSystem.state = "collapsed"
-        discharge.state = "collapsed"
-        gridCharging.state = "collapsed"
+        capitalExpenditureItems.state = "collapsed"
+        exchangeRate.state = "collapsed"
+        depreciation.state = "collapsed"
     }
 
     function collapse(){
@@ -45,7 +45,7 @@ Item {
         root.state = "expanded"
     }
 
-    state: "expanded"
+    state: "collapsed"
 
     states: [
         State {
@@ -74,13 +74,13 @@ Item {
     Delegate{
         id: parentView
 
-        text: "Battery Storage"
+        text: "Capital Expenditure"
 
         onSubTreeExpand: {
             subTreeViews.state = "expanded"
-            essSystem.state = "expanded"
-            discharge.state = "expanded"
-            gridCharging.state = "expanded"
+            capitalExpenditureItems.state = "expanded"
+            exchangeRate.state = "expanded"
+            depreciation.state = "expanded"
         }
 
         onSubTreeCollapse: root.collapseSubSection()
@@ -123,9 +123,9 @@ Item {
         }
 
         LeafDelegate{
-            id: essSystem
+            id: capitalExpenditureItems
 
-            text: "ESS System"
+            text: "Capital Expenditure Items"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -138,16 +138,16 @@ Item {
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                discharge.isSelected = false
-                gridCharging.isSelected = false
-                root.essSystemSelected()
+                exchangeRate.isSelected = false
+                depreciation.isSelected = false
+                root.capitalExpenditureItemsSelected()
             }
         }
 
         LeafDelegate{
-            id: discharge
+            id: exchangeRate
 
-            text: "Discharge"
+            text: "Exchange Rate"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -156,19 +156,19 @@ Item {
                 top: subTreeViews.top
             }
 
-            expandedAnchor.anchors.top: essSystem.bottom
+            expandedAnchor.anchors.top: capitalExpenditureItems.bottom
             collapsedAnchor.anchors.top: subTreeViews.top   
 
             onSelected: {
-                essSystem.isSelected = false
-                gridCharging.isSelected = false
-                root.dischargeSelected()
+                capitalExpenditureItems.isSelected = false
+                depreciation.isSelected = false
+                root.exchangeRateSelected()
             }         
         }
         LeafDelegate{
-            id: gridCharging
+            id: depreciation
 
-            text: "Grid Charging"
+            text: "Depreciation"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -177,13 +177,13 @@ Item {
                 top: subTreeViews.top
             }
             
-            expandedAnchor.anchors.top: discharge.bottom
+            expandedAnchor.anchors.top: exchangeRate.bottom
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                essSystem.isSelected = false
-                discharge.isSelected = false
-                root.gridChargingSelected()
+                capitalExpenditureItems.isSelected = false
+                exchangeRate.isSelected = false
+                root.depreciationSelected()
             }
         }
 

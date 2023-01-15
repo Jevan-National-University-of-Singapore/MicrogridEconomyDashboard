@@ -7,45 +7,43 @@ import "../Delegates"
 Item {
     id: root
 
-    signal essSystemSelected
-    signal dischargeSelected
-    signal gridChargingSelected
+    signal fiveYearsLifetimeSelected
+    signal perAnnumSelected
+    signal tariffAssumptionSelected
 
     implicitHeight: parentView.height + subTreeViews.height
     width: childrenRect.width
 
-
-    visible: opacity    
-
-
     Behavior on opacity { SmoothedAnimation { velocity: 5 } }
     Behavior on height { SmoothedAnimation { velocity: 200 } }    
 
+    visible: opacity    
+
     function deselectAll(){
-        essSystem.isSelected = false
-        discharge.isSelected = false
-        gridCharging.isSelected = false
+        fiveYearsLifetime.isSelected = false
+        perAnnum.isSelected = false
+        tariffAssumption.isSelected = false
     }
 
     function collapseSubSection(){
         root.deselectAll()
         subTreeViews.state = "collapsed"
-        essSystem.state = "collapsed"
-        discharge.state = "collapsed"
-        gridCharging.state = "collapsed"
+        fiveYearsLifetime.state = "collapsed"
+        perAnnum.state = "collapsed"
+        tariffAssumption.state = "collapsed"
     }
 
     function collapse(){
         root.collapseSubSection()
         parentView.collapse()
-        root.state = "collapsed"
+        root.state = "collapse"
     }
 
     function show(){
         root.state = "expanded"
     }
 
-    state: "expanded"
+    state: "collapsed"
 
     states: [
         State {
@@ -68,19 +66,18 @@ Item {
                 implicitHeight:0
             }
         }
-    ]
-
+    ]    
     
     Delegate{
         id: parentView
 
-        text: "Battery Storage"
+        text: "Revenue"
 
         onSubTreeExpand: {
             subTreeViews.state = "expanded"
-            essSystem.state = "expanded"
-            discharge.state = "expanded"
-            gridCharging.state = "expanded"
+            fiveYearsLifetime.state = "expanded"
+            perAnnum.state = "expanded"
+            tariffAssumption.state = "expanded"
         }
 
         onSubTreeCollapse: root.collapseSubSection()
@@ -89,7 +86,6 @@ Item {
     Item{
         id: subTreeViews
 
-    
         height: childrenRect.height; width: childrenRect.width
 
         states: [
@@ -123,11 +119,11 @@ Item {
         }
 
         LeafDelegate{
-            id: essSystem
+            id: fiveYearsLifetime
 
-            text: "ESS System"
+            text: "5 Years Lifetime"
             height: implicitHeight; width: implicitWidth
-            
+
             anchors {
                 left: parent.left
                 
@@ -138,16 +134,18 @@ Item {
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                discharge.isSelected = false
-                gridCharging.isSelected = false
-                root.essSystemSelected()
+                perAnnum.isSelected = false
+                tariffAssumption.isSelected = false
+                root.fiveYearsLifetimeSelected()
             }
+
+
         }
 
         LeafDelegate{
-            id: discharge
+            id: perAnnum
 
-            text: "Discharge"
+            text: "Per Annum"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -156,19 +154,20 @@ Item {
                 top: subTreeViews.top
             }
 
-            expandedAnchor.anchors.top: essSystem.bottom
+            expandedAnchor.anchors.top: fiveYearsLifetime.bottom
             collapsedAnchor.anchors.top: subTreeViews.top   
 
             onSelected: {
-                essSystem.isSelected = false
-                gridCharging.isSelected = false
-                root.dischargeSelected()
+                fiveYearsLifetime.isSelected = false
+                tariffAssumption.isSelected = false
+                root.perAnnumSelected()
             }         
         }
-        LeafDelegate{
-            id: gridCharging
 
-            text: "Grid Charging"
+        LeafDelegate{
+            id: tariffAssumption
+
+            text: "tariff Assumption"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -177,16 +176,15 @@ Item {
                 top: subTreeViews.top
             }
             
-            expandedAnchor.anchors.top: discharge.bottom
+            expandedAnchor.anchors.top: perAnnum.bottom
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                essSystem.isSelected = false
-                discharge.isSelected = false
-                root.gridChargingSelected()
+                fiveYearsLifetime.isSelected = false
+                perAnnum.isSelected = false
+                root.tariffAssumptionSelected()
             }
         }
-
 
     }
 }

@@ -9,7 +9,6 @@ import "BatteryStorage"
 import "ChargingAndDemand"
 import "ChargingAndDemand/HourlyDemand"
 
-// import "Sections/FiveYearsAnalysis"
 
 import "../Templates" as Templates
 
@@ -39,9 +38,19 @@ Page {
 
         orientation: Qt.Vertical
 
-        contentHeight: installedCapacity.height 
-                        + ayerKerohSiteConditions.height
-                        + solarEnergyProduction.height
+        // contentHeight: installedCapacity.height 
+        //                 + ayerKerohSiteConditions.height
+        //                 + solarEnergyProduction.height
+        //                 + hourlySolarPowerGeneration.height
+        //                 + essSystem.height
+        //                 + discharge.height
+        //                 + gridCharging.height
+        //                 + chargingPorts.height
+        //                 + demand.height
+        //                 + load.height
+        //                 + excessToFacility.height
+        //                 + evCharacteristics.height
+        //                 + hourlyDemand.height
 
         clip: true
 

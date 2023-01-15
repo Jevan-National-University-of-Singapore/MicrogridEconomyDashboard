@@ -12,9 +12,14 @@ Item {
     signal solarEnergyProductionSelected
     signal hourlySolarPowerGenerationSelected
 
-
-    height: parentView.height + subTreeViews.height
+    implicitHeight: parentView.height + subTreeViews.height
     width: childrenRect.width
+
+    visible: opacity    
+
+    Behavior on opacity { SmoothedAnimation { velocity: 5 } }
+    Behavior on height { SmoothedAnimation { velocity: 200 } }   
+
 
     function deselectAll(){
         installedCapacity.isSelected = false
@@ -22,7 +27,50 @@ Item {
         solarEnergyProduction.isSelected = false
         hourlySolarPowerGeneration.isSelected = false
     }
+
+    function collapseSubSection(){
+        root.deselectAll()
+        subTreeViews.state = "collapsed"
+        installedCapacity.state = "collapsed"
+        ayerKerohSiteConditions.state = "collapsed"
+        solarEnergyProduction.state = "collapsed"
+        hourlySolarPowerGeneration.state = "collapsed"
+    }
+
+    function collapse(){
+        root.collapseSubSection()
+        parentView.collapse()
+        root.state = "collapsed"
+    }
+
+    function show(){
+        root.state = "expanded"
+    }    
     
+    state: "expanded"
+
+    states: [
+        State {
+            name: "expanded"
+            PropertyChanges {
+                target: root
+
+                opacity: 1
+                implicitHeight: parentView.height + subTreeViews.height
+            }
+        },
+        State {
+            name: "collapsed"
+            PropertyChanges {
+                target: root
+
+                opacity: 0
+                implicitHeight:0
+            }
+        }
+    ]
+
+
     Delegate{
         id: parentView
 
@@ -37,13 +85,7 @@ Item {
             hourlySolarPowerGeneration.state = "expanded"
         }
 
-        onSubTreeCollapse: {
-            subTreeViews.state = "collapsed"
-            installedCapacity.state = "collapsed"
-            ayerKerohSiteConditions.state = "collapsed"
-            solarEnergyProduction.state = "collapsed"
-            hourlySolarPowerGeneration.state = "collapsed"
-        }
+        onSubTreeCollapse: root.collapseSubSection()
     }
 
     Item{

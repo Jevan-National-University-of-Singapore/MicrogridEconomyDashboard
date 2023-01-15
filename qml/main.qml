@@ -6,10 +6,8 @@ import "NavigationMenu"
 import "AssistancePanel"
 import "ViewingPanel"
 
-// import "SolarPowerGeneration"
-// import "ChargingAndDemand"
 import "Technical"
-// import "Financial"
+import "Financial"
 
 
 
@@ -65,6 +63,8 @@ ApplicationWindow {
                         text: qsTr("Technical")
                         onClicked: {
                             workspace.currentIndex = 0
+                            navigationMenu.technical.show()
+                            navigationMenu.financial.collapse()
                         }
                     }
 
@@ -72,9 +72,11 @@ ApplicationWindow {
 
                     ToolButton {
                         text: qsTr("Financial")
-                        // onClicked: {
-                        //     workspace.currentIndex = 1
-                        // }
+                        onClicked: {
+                            workspace.currentIndex = 1
+                            navigationMenu.financial.show()
+                            navigationMenu.technical.collapse()
+                        }
                     }
 
                     ToolSeparator{}
@@ -136,6 +138,25 @@ ApplicationWindow {
                     onHourlyDemandSelected: technicalWorkspace.goToHourlyDemand()
                 }
             }
+
+            financial {
+                capitalExpenditure{
+                    onCapitalExpenditureItemsSelected: financialWorkspace.goToCapitalExpenditureItems()
+                    onExchangeRateSelected: financialWorkspace.goToExchangeRate()
+                    onDepreciationSelected: financialWorkspace.goToDepreciation()
+                }
+
+                operatingExpenditure{
+                    onOperatingExpenditureItemsSelected: financialWorkspace.goToOperatingExpenditureItems()
+                    onFixedOAndMSelected: financialWorkspace.goToFixedOAndM()
+                }
+
+                revenue{
+                    onFiveYearsLifetimeSelected: financialWorkspace.goToFiveYearLifetime()
+                    onPerAnnumSelected: financialWorkspace.goToPerAnnum()
+                    onTariffAssumptionSelected: financialWorkspace.goToTariffAssumption()
+                }
+            }
         }
 
 
@@ -151,10 +172,17 @@ ApplicationWindow {
             height: splitView.height
             Material.background: root.Material.primary//"#181818"//"#4a4a4e"
 
+            clip: true
+
             SwipeView{
                 id: workspace
 
                 Material.background: root.Material.background
+
+                SplitView.maximumHeight: root.height
+                SplitView.minimumHeight: Qt.application.font.pixelSize
+                SplitView.preferredHeight: 700
+
 
                 Technical{
                     id: technicalWorkspace
@@ -162,18 +190,14 @@ ApplicationWindow {
                     height: splitView.height
                 }
 
-                SplitView.maximumHeight: root.height
-                SplitView.minimumHeight: Qt.application.font.pixelSize
-                SplitView.preferredHeight: 700
 
-                // Financial{
-                //     id: financial
+                Financial{
+                    id: financialWorkspace
 
-
-                //     height: root.height - root.menuBar.height - root.header.height
-                //     width: root.width
-                // }
+                    height: splitView.height
+                }
             }
+
             ViewingPanel{
                 id: viewingPanel
 

@@ -32,6 +32,7 @@ Row {
         text: ""
 
         height: font.pixelSize * 1.5
+        width: font.pixelSize * 5
 
         bottomPadding: font.pixelSize/8
         

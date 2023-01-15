@@ -1,67 +1,72 @@
 import QtQuick
+import "../../Templates" as Templates
 
-import "../../../../Templates"
 
-SubSection {
+
+Templates.Page{
     id: root
 
-    subsection: "Depreciation"
+    Templates.SubSection {
+        id: subsectionItems
+
+        subsection: "Depreciation"
 
 
-    LabelledText {
-        id: actualEssLifecycle
+        Templates.LabelledText {
+            id: actualEssLifecycle
 
-        labelText: "Actual ESS Lifecycle"
-        units: "Cycles"
+            labelText: "Actual ESS Lifecycle"
+            units: "Cycles"
 
-        text: Scenario.financial.capitalExpenditure.depreciation.actualEssLifecycle
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.actualEssLifecycle
+        }
+
+        Templates.LabelledText {
+            id: essCapexPerKwh
+
+            labelText: "ESS Capex/kWh"
+            units: "RM/kWh"
+
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.essCapexPerKwh
+        }
+
+        Templates.LabelledText {
+            id: essDepreciation
+
+            labelText: "ESS Depreciation"
+            units: "RM/kWh"
+
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.essDepreciation
+        }    
+
+        Templates.LabelledText {
+            id: chargerLifecycleCapacity
+
+            labelText: "Charger Lifecycle Capacity"
+            units: "kWh"
+
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerLifecycleCapacity
+        }
+
+        Templates.LabelledText {
+            id: chargerCapexPerKw
+
+            labelText: "Charger Capex/kW"
+            units: "RM/kW"
+
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerCapexPerKw
+        }
+
+        Templates.LabelledText {
+            id: chargerDepreciation
+
+            labelText: "Charger Depreciation"
+            units: "RM/kWh"
+
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerDepreciation
+        }       
+
+
+
     }
-
-    LabelledText {
-        id: essCapexPerKwh
-
-        labelText: "ESS Capex/kWh"
-        units: "RM/kWh"
-
-        text: Scenario.financial.capitalExpenditure.depreciation.essCapexPerKwh
-    }
-
-    LabelledText {
-        id: essDepreciation
-
-        labelText: "ESS Depreciation"
-        units: "RM/kWh"
-
-        text: Scenario.financial.capitalExpenditure.depreciation.essDepreciation
-    }    
-
-    LabelledText {
-        id: chargerLifecycleCapacity
-
-        labelText: "Charger Lifecycle Capacity"
-        units: "kWh"
-
-        text: Scenario.financial.capitalExpenditure.depreciation.chargerLifecycleCapacity
-    }
-
-    LabelledText {
-        id: chargerCapexPerKw
-
-        labelText: "Charger Capex/kW"
-        units: "RM/kW"
-
-        text: Scenario.financial.capitalExpenditure.depreciation.chargerCapexPerKw
-    }
-
-    LabelledText {
-        id: chargerDepreciation
-
-        labelText: "Charger Depreciation"
-        units: "RM/kWh"
-
-        text: Scenario.financial.capitalExpenditure.depreciation.chargerDepreciation
-    }       
-
-
-
 }

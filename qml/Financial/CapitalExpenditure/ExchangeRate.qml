@@ -1,21 +1,24 @@
 import QtQuick
-import "../../../../Templates"
+import "../../Templates" as Templates
 
-
-SubSection {
+Templates.Page{
     id: root
+    
+    Templates.SubSection {
+        id: subsectionItems
 
-    subsection: "Exchange Rate"
+        subsection: "Exchange Rate"
 
-    LabelledInput {
-        id: rmPerUsd
+        Templates.LabelledInput {
+            id: rmPerUsd
 
-        label: "RM/USD"
-        units: "RM"
+            label: "RM/USD"
+            units: "RM"
 
-        input.onEditingFinished: Scenario.financial.capitalExpenditure.exchangeRate.rmPerUsd = rmPerUsd.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.exchangeRate.rmPerUsd = rmPerUsd.inputText
 
-        inputText: Scenario.financial.capitalExpenditure.exchangeRate.rmPerUsd
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.exchangeRate.rmPerUsd
+        }
+
     }
-
 }

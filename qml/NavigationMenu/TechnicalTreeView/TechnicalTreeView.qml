@@ -10,10 +10,30 @@ Item {
     property alias batteryStorage: batteryStorage
     property alias chargingAndDemand: chargingAndDemand
 
+    function collapse() {
+        solarPowerGeneration.collapse()
+        batteryStorage.collapse()
+        chargingAndDemand.collapse()
+        opacityAnimation.velocity = 5
+        opacity = 0
+    }    
+
+    function show() {
+        solarPowerGeneration.show()
+        batteryStorage.show()
+        chargingAndDemand.show()
+        opacityAnimation.velocity = 2.5
+        opacity = 1
+    }        
+
+    Behavior on opacity { SmoothedAnimation { id:opacityAnimation; velocity: 5 } }
+
     Column{
         id: subTreeViews
 
-        height: contentHeight; width: contentWidth
+        clip: true
+
+        height: childrenRect.implicitHeight; width: contentWidth
 
         SolarPowerGenerationTreeView {
             id: solarPowerGeneration
@@ -57,32 +77,32 @@ Item {
         }
 
         ChargingAndDemandTreeView {
-            id: chargingAndDemand
+            id: chargingAndDemand           
 
-                onChargingPortsSelected: {
-                    solarPowerGeneration.deselectAll()
-                    batteryStorage.deselectAll()
-                }
-                onDemandSelected: {
-                    solarPowerGeneration.deselectAll()
-                    batteryStorage.deselectAll()
-                }
-                onLoadSelected: {
-                    solarPowerGeneration.deselectAll()
-                    batteryStorage.deselectAll()
-                }
-                onExcessToFacilitySelected: {
-                    solarPowerGeneration.deselectAll()
-                    batteryStorage.deselectAll()
-                }
-                onEvCharacteristicsSelected: {
-                    solarPowerGeneration.deselectAll()
-                    batteryStorage.deselectAll()
-                }
-                onHourlyDemandSelected: {
-                    solarPowerGeneration.deselectAll()
-                    batteryStorage.deselectAll()
-                }
+            onChargingPortsSelected: {
+                solarPowerGeneration.deselectAll()
+                batteryStorage.deselectAll()
+            }
+            onDemandSelected: {
+                solarPowerGeneration.deselectAll()
+                batteryStorage.deselectAll()
+            }
+            onLoadSelected: {
+                solarPowerGeneration.deselectAll()
+                batteryStorage.deselectAll()
+            }
+            onExcessToFacilitySelected: {
+                solarPowerGeneration.deselectAll()
+                batteryStorage.deselectAll()
+            }
+            onEvCharacteristicsSelected: {
+                solarPowerGeneration.deselectAll()
+                batteryStorage.deselectAll()
+            }
+            onHourlyDemandSelected: {
+                solarPowerGeneration.deselectAll()
+                batteryStorage.deselectAll()
+            }
         }
 
     }

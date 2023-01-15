@@ -15,6 +15,12 @@ Item{
     signal subTreeExpand
     signal subTreeCollapse
 
+    
+    function collapse(){
+        isExpanded = false
+        collpasing.start()
+    }
+
     ToolButton {
         id: carot
 
@@ -75,4 +81,5 @@ Item{
 
         text: ""
     }
+
 }

@@ -7,32 +7,28 @@ import "../Delegates"
 Item {
     id: root
 
-    signal essSystemSelected
-    signal dischargeSelected
-    signal gridChargingSelected
+    signal operatingExpenditureItemsSelected
+    signal fixedOAndMSelected
 
     implicitHeight: parentView.height + subTreeViews.height
     width: childrenRect.width
 
-
     visible: opacity    
 
-
     Behavior on opacity { SmoothedAnimation { velocity: 5 } }
-    Behavior on height { SmoothedAnimation { velocity: 200 } }    
+    Behavior on height { SmoothedAnimation { velocity: 200 } }   
+
 
     function deselectAll(){
-        essSystem.isSelected = false
-        discharge.isSelected = false
-        gridCharging.isSelected = false
+        operatingExpenditureItems.isSelected = false
+        fixedOAndM.isSelected = false
     }
 
     function collapseSubSection(){
         root.deselectAll()
         subTreeViews.state = "collapsed"
-        essSystem.state = "collapsed"
-        discharge.state = "collapsed"
-        gridCharging.state = "collapsed"
+        operatingExpenditureItems.state = "collapsed"
+        fixedOAndM.state = "collapsed"
     }
 
     function collapse(){
@@ -43,14 +39,13 @@ Item {
 
     function show(){
         root.state = "expanded"
-    }
-
-    state: "expanded"
+    }    
+    
+    state: "collapsed"
 
     states: [
         State {
             name: "expanded"
-
             PropertyChanges {
                 target: root
 
@@ -60,7 +55,6 @@ Item {
         },
         State {
             name: "collapsed"
-
             PropertyChanges {
                 target: root
 
@@ -70,17 +64,17 @@ Item {
         }
     ]
 
-    
+
     Delegate{
         id: parentView
 
-        text: "Battery Storage"
+        // height: implicitHeight; width: implicitWidth
+        text: "Operating Expenditure"
 
         onSubTreeExpand: {
             subTreeViews.state = "expanded"
-            essSystem.state = "expanded"
-            discharge.state = "expanded"
-            gridCharging.state = "expanded"
+            operatingExpenditureItems.state = "expanded"
+            fixedOAndM.state = "expanded"
         }
 
         onSubTreeCollapse: root.collapseSubSection()
@@ -89,7 +83,6 @@ Item {
     Item{
         id: subTreeViews
 
-    
         height: childrenRect.height; width: childrenRect.width
 
         states: [
@@ -123,9 +116,9 @@ Item {
         }
 
         LeafDelegate{
-            id: essSystem
+            id: operatingExpenditureItems
 
-            text: "ESS System"
+            text: "Operating Expenditure Items"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -138,16 +131,17 @@ Item {
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                discharge.isSelected = false
-                gridCharging.isSelected = false
-                root.essSystemSelected()
+                fixedOAndM.isSelected = false
+                root.operatingExpenditureItemsSelected()
             }
+
+
         }
 
         LeafDelegate{
-            id: discharge
+            id: fixedOAndM
 
-            text: "Discharge"
+            text: "Fixed O\&&M"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -156,37 +150,14 @@ Item {
                 top: subTreeViews.top
             }
 
-            expandedAnchor.anchors.top: essSystem.bottom
+            expandedAnchor.anchors.top: operatingExpenditureItems.bottom
             collapsedAnchor.anchors.top: subTreeViews.top   
 
             onSelected: {
-                essSystem.isSelected = false
-                gridCharging.isSelected = false
-                root.dischargeSelected()
+                operatingExpenditureItems.isSelected = false
+                root.fixedOAndMSelected()
             }         
         }
-        LeafDelegate{
-            id: gridCharging
-
-            text: "Grid Charging"
-            height: implicitHeight; width: implicitWidth
-            
-            anchors {
-                left: parent.left
-                
-                top: subTreeViews.top
-            }
-            
-            expandedAnchor.anchors.top: discharge.bottom
-            collapsedAnchor.anchors.top: subTreeViews.top
-
-            onSelected: {
-                essSystem.isSelected = false
-                discharge.isSelected = false
-                root.gridChargingSelected()
-            }
-        }
-
 
     }
 }

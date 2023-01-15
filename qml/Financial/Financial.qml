@@ -1,47 +1,46 @@
 import QtQuick
 import QtQuick.Controls.Material
 
-import "Sections/CapitalExpenditure"
-import "Sections/OperatingExpenditure"
-import "Sections/Revenue"
+import "CapitalExpenditure"
+import "OperatingExpenditure"
+import "Revenue"
 
-ScrollView {
+import "../Templates" as Templates
+
+
+Page {
     id: root
 
-    CapitalExpenditure{
-        id: capitalExpenditure
+    function goToCapitalExpenditureItems(){swipeView.currentIndex = 0}
+    function goToExchangeRate(){swipeView.currentIndex = 1}
+    function goToDepreciation(){swipeView.currentIndex = 2}
 
-        anchors {
-            top: parent.top
-            topMargin: capitalExpenditure.label.height
+    function goToOperatingExpenditureItems(){swipeView.currentIndex = 3}
+    function goToFixedOAndM(){swipeView.currentIndex = 4}
 
-            left: parent.left
-        }
+    function goToFiveYearLifetime(){swipeView.currentIndex = 5}
+    function goToPerAnnum(){swipeView.currentIndex = 6}
+    function goToTariffAssumption(){swipeView.currentIndex = 7}
 
-    }
+    SwipeView {
+        id: swipeView
 
-    OperatingExpenditure {
-        id: operatingExpenditure
+        anchors.fill: parent
 
-        anchors {
-            top: capitalExpenditure.top
+        orientation: Qt.Vertical
 
-            left: capitalExpenditure.right
-            leftMargin: operatingExpenditure.label.height
-        }
+        clip: true
 
-    }
+        CapitalExpenditureItems{id: capitalExpenditureItems}
+        ExchangeRate{id: exchangeRate}
+        Depreciation{id: depreciation}
 
-    Revenue {
-        id: revenue
+        OperatingExpenditureItems{id: operatingExpenditureItems }
+        FixedOAndM{id: fixedOAndM }
 
-        anchors {
-            top: operatingExpenditure.bottom
-            topMargin: revenue.label.height
-
-            left: operatingExpenditure.left
-
-        }
+        FiveYearLifetime{id: fiveYearLifetime }
+        PerAnnum{id: perAnnum }
+        TariffAssumption{id: tariffAssumption }
 
     }
 

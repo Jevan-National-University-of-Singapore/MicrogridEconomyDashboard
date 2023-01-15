@@ -14,8 +14,13 @@ Item {
     signal evCharacteristicsSelected
     signal hourlyDemandSelected
 
-    height: parentView.height + subTreeViews.height
+    implicitHeight: parentView.height + subTreeViews.height
     width: childrenRect.width
+
+    Behavior on opacity { SmoothedAnimation { velocity: 5 } }
+    Behavior on height { SmoothedAnimation { velocity: 200 } }    
+
+    visible: opacity    
 
     function deselectAll(){
         chargingPorts.isSelected = false
@@ -25,6 +30,52 @@ Item {
         evCharacteristics.isSelected = false
         hourlyDemand.isSelected = false
     }
+
+    function collapseSubSection(){
+        root.deselectAll()
+        subTreeViews.state = "collapsed"
+        chargingPorts.state = "collapsed"
+        demand.state = "collapsed"
+        load.state = "collapsed"
+        excessToFacility.state = "collapsed"
+        evCharacteristics.state = "collapsed"
+        hourlyDemand.state = "collapsed"
+    }
+
+    function collapse(){
+        root.collapseSubSection()
+        parentView.collapse()
+        root.state = "collapsed"
+    }
+
+    function show(){
+        root.state = "expanded"
+    }
+
+    state: "expanded"
+
+    states: [
+        State {
+            name: "expanded"
+
+            PropertyChanges {
+                target: root
+
+                opacity: 1
+                implicitHeight: parentView.height + subTreeViews.height
+            }
+        },
+        State {
+            name: "collapsed"
+
+            PropertyChanges {
+                target: root
+
+                opacity: 0
+                implicitHeight:0
+            }
+        }
+    ]    
     
     Delegate{
         id: parentView
@@ -41,15 +92,7 @@ Item {
             hourlyDemand.state = "expanded"
         }
 
-        onSubTreeCollapse: {
-            subTreeViews.state = "collapsed"
-            chargingPorts.state = "collapsed"
-            demand.state = "collapsed"
-            load.state = "collapsed"
-            excessToFacility.state = "collapsed"
-            evCharacteristics.state = "collapsed"
-            hourlyDemand.state = "collapsed"
-        }
+        onSubTreeCollapse: root.collapseSubSection()
     }
 
     Item{
