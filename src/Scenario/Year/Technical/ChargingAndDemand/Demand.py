@@ -3,8 +3,8 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 
 class Demand(QObject):
-    numOfUsersPerDayChanged = Signal()
-    numOfUsersPerYearChanged = Signal()
+    numberOfUsersPerDayChanged = Signal()
+    numberOfUsersPerYearChanged = Signal()
     additionalNumberOfUsersPerYearChanged = Signal()
 
     usersPerHourChanged = Signal()
@@ -34,7 +34,7 @@ class Demand(QObject):
         super().__init__()
         self.number_of_users_per_day = number_of_users_per_day
         self.users_per_hour = [0] * 24
-        self.num_of_users_per_year = number_of_users_per_day * 365
+        self.number_of_users_per_year = number_of_users_per_day * 365
         self.additional_number_of_users_per_year: int = additional_number_of_users_per_year
 
         self.state_of_charge_at_entry = state_of_charge_at_entry
@@ -46,18 +46,18 @@ class Demand(QObject):
         self.actual_energy_served_per_day = actual_energy_served_per_day
 
         self.state_of_charge_to_be_charged = self.state_of_charge_limit - self.state_of_charge_at_entry
-        self.num_of_users_per_year = self.number_of_users_per_day * 365
+        self.number_of_users_per_year = self.number_of_users_per_day * 365
 
-        self.numOfUsersPerDayChanged.connect(self.updateUsersPerHour)
+        self.numberOfUsersPerDayChanged.connect(self.updateUsersPerHour)
 
         self.stateOfChargeLimitChanged.connect(self.updateStateOfChargeToBeCharged)
         self.stateOfChargeAtEntryChanged.connect(self.updateStateOfChargeToBeCharged)
 
-        self.numOfUsersPerDayChanged.connect(self.updateNumOfUsersPerYear)
+        self.numberOfUsersPerDayChanged.connect(self.updateNumOfUsersPerYear)
 
     def emitUpdateSignals(self):
-        self.numOfUsersPerDayChanged.emit()
-        self.numOfUsersPerYearChanged.emit()
+        self.numberOfUsersPerDayChanged.emit()
+        self.numberOfUsersPerYearChanged.emit()
         self.additionalNumberOfUsersPerYearChanged.emit()
 
         self.stateOfChargeAtEntryChanged.emit()
@@ -71,14 +71,14 @@ class Demand(QObject):
         for i in range(24):
             self.usersPerHourElementChanged.emit(i)        
 
-    @Property(str, notify=numOfUsersPerDayChanged) #getter
-    def numOfUsersPerDay(self) -> str:
+    @Property(str, notify=numberOfUsersPerDayChanged) #getter
+    def numberOfUsersPerDay(self) -> str:
         return str(self.number_of_users_per_day)
 
-    @numOfUsersPerDay.setter
-    def numOfUsersPerDay(self, num_of_users_per_day:str):
+    @numberOfUsersPerDay.setter
+    def numberOfUsersPerDay(self, num_of_users_per_day:str):
         self.number_of_users_per_day = int(num_of_users_per_day)
-        self.numOfUsersPerDayChanged.emit()
+        self.numberOfUsersPerDayChanged.emit()
 
     @Property(list, notify=usersPerHourChanged) #getter
     def usersPerHour(self) -> list:
@@ -97,14 +97,14 @@ class Demand(QObject):
         self.usersPerHourChanged.emit()
 
    
-    @Property(str, notify=numOfUsersPerYearChanged) #getter
-    def numOfUsersPerYear(self) -> str:
-        return str(self.num_of_users_per_year)
+    @Property(str, notify=numberOfUsersPerYearChanged) #getter
+    def numberOfUsersPerYear(self) -> str:
+        return str(self.number_of_users_per_year)
 
-    @numOfUsersPerYear.setter
-    def numOfUsersPerYear(self, num_of_users_per_year:str):
-        self.num_of_users_per_year = int(num_of_users_per_year)
-        self.numOfUsersPerYearChanged.emit()
+    @numberOfUsersPerYear.setter
+    def numberOfUsersPerYear(self, number_of_users_per_year:str):
+        self.number_of_users_per_year = int(number_of_users_per_year)
+        self.numberOfUsersPerYearChanged.emit()
 
     @Property(int, notify=additionalNumberOfUsersPerYearChanged) #getter
     def additionalNumberOfUsersPerYear(self) -> int:
@@ -176,8 +176,8 @@ class Demand(QObject):
 
     @Slot()
     def updateNumOfUsersPerYear(self):
-        self.num_of_users_per_year = round(self.number_of_users_per_day * 365, 2)
-        self.numOfUsersPerYearChanged.emit()
+        self.number_of_users_per_year = round(self.number_of_users_per_day * 365, 2)
+        self.numberOfUsersPerYearChanged.emit()
 
     @Slot()
     def updateUsersPerHour(self):

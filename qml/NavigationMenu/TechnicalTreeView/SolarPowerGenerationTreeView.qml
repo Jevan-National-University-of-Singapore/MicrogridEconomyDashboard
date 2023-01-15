@@ -10,17 +10,23 @@ Item {
     signal installedCapacitySelected
     signal ayerKerohSiteConditionsSelected
     signal solarEnergyProductionSelected
+    signal hourlySolarPowerGenerationSelected
+
+
+    height: parentView.height + subTreeViews.height
+    width: childrenRect.width
 
     function deselectAll(){
         installedCapacity.isSelected = false
         ayerKerohSiteConditions.isSelected = false
         solarEnergyProduction.isSelected = false
+        hourlySolarPowerGeneration.isSelected = false
     }
     
     Delegate{
         id: parentView
 
-        height: implicitHeight; width: implicitWidth
+        // height: implicitHeight; width: implicitWidth
         text: "Solar Power Generation"
 
         onSubTreeExpand: {
@@ -28,6 +34,7 @@ Item {
             installedCapacity.state = "expanded"
             ayerKerohSiteConditions.state = "expanded"
             solarEnergyProduction.state = "expanded"
+            hourlySolarPowerGeneration.state = "expanded"
         }
 
         onSubTreeCollapse: {
@@ -35,13 +42,14 @@ Item {
             installedCapacity.state = "collapsed"
             ayerKerohSiteConditions.state = "collapsed"
             solarEnergyProduction.state = "collapsed"
+            hourlySolarPowerGeneration.state = "collapsed"
         }
     }
 
     Item{
         id: subTreeViews
 
-        height: contentHeight; width: contentWidth
+        height: childrenRect.height; width: childrenRect.width
 
         states: [
             State {
@@ -82,7 +90,7 @@ Item {
             anchors {
                 left: parent.left
                 
-                top: subTreeViews.bottom
+                top: subTreeViews.top
             }
 
             expandedAnchor.anchors.top: subTreeViews.top
@@ -91,20 +99,23 @@ Item {
             onSelected: {
                 ayerKerohSiteConditions.isSelected = false
                 solarEnergyProduction.isSelected = false
+                hourlySolarPowerGeneration.isSelected = false
                 root.installedCapacitySelected()
             }
+
+
         }
 
         LeafDelegate{
             id: ayerKerohSiteConditions
 
-            text: "AyerKerohSiteConditions"
+            text: "Ayer Keroh Site Conditions"
             height: implicitHeight; width: implicitWidth
             
             anchors {
                 left: parent.left
                 
-                top: installedCapacity.bottom
+                top: subTreeViews.top
             }
 
             expandedAnchor.anchors.top: installedCapacity.bottom
@@ -113,6 +124,7 @@ Item {
             onSelected: {
                 installedCapacity.isSelected = false
                 solarEnergyProduction.isSelected = false
+                hourlySolarPowerGeneration.isSelected = false
                 root.ayerKerohSiteConditionsSelected()
             }         
         }
@@ -125,7 +137,7 @@ Item {
             anchors {
                 left: parent.left
                 
-                top: ayerKerohSiteConditions.bottom
+                top: subTreeViews.top
             }
             
             expandedAnchor.anchors.top: ayerKerohSiteConditions.bottom
@@ -134,9 +146,32 @@ Item {
             onSelected: {
                 installedCapacity.isSelected = false
                 ayerKerohSiteConditions.isSelected = false
+                hourlySolarPowerGeneration.isSelected = false
                 root.solarEnergyProductionSelected()
             }
+        }
+
+        LeafDelegate{
+            id: hourlySolarPowerGeneration
+
+            text: "Hourly Solar Power Generation"
+            height: implicitHeight; width: implicitWidth
             
+            anchors {
+                left: parent.left
+                
+                top: subTreeViews.top
+            }
+            
+            expandedAnchor.anchors.top: solarEnergyProduction.bottom
+            collapsedAnchor.anchors.top: subTreeViews.top
+
+            onSelected: {
+                installedCapacity.isSelected = false
+                ayerKerohSiteConditions.isSelected = false
+                solarEnergyProduction.isSelected = false
+                root.hourlySolarPowerGenerationSelected()
+            }
         }
 
     }

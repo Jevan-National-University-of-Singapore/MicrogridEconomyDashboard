@@ -26,7 +26,8 @@ ApplicationWindow {
 
     Material.theme: Material.Dark
     Material.accent: Material.Teal
-    Material.primary: "#4a4a4e"
+    Material.background: "#181818"
+    Material.primary: "#303030"//"#4a4a4e"
     Material.foreground: "white"
 
     menuBar: MenuBar {
@@ -51,7 +52,7 @@ ApplicationWindow {
         }
     }
     header: ToolBar{
-                Material.primary: Material.background
+                // Material.primary: Material.background
 
                 Row {
                     ToolButton {
@@ -107,15 +108,33 @@ ApplicationWindow {
             SplitView.minimumWidth: Qt.application.font.pixelSize
             SplitView.preferredWidth: root.width/6
 
-            Material.primary: root.Material.background
+            // Material.primary: root.Material.background
             Material.background: root.Material.primary
 
             height: splitView.height
 
-            technical.solarPowerGeneration {
-                onInstalledCapacitySelected: technicalWorkspace.goToInstalledCapacity()
-                onAyerKerohSiteConditionsSelected: technicalWorkspace.goToAyerKerohSiteConditions()
-                onSolarEnergyProductionSelected: technicalWorkspace.goToSolarEnergyProduction()
+            technical{
+                solarPowerGeneration {
+                    onInstalledCapacitySelected: technicalWorkspace.goToInstalledCapacity()
+                    onAyerKerohSiteConditionsSelected: technicalWorkspace.goToAyerKerohSiteConditions()
+                    onSolarEnergyProductionSelected: technicalWorkspace.goToSolarEnergyProduction()
+                    onHourlySolarPowerGenerationSelected: technicalWorkspace.goToHourlySolarPowerGeneration()
+                }
+
+                batteryStorage {
+                    onEssSystemSelected:technicalWorkspace.goToEssSystem()
+                    onDischargeSelected:technicalWorkspace.goToDischarge()
+                    onGridChargingSelected:technicalWorkspace.goToGridCharging()
+                }
+
+                chargingAndDemand {
+                    onChargingPortsSelected:technicalWorkspace.goToChargingPorts()
+                    onDemandSelected:technicalWorkspace.goToDemand()
+                    onLoadSelected:technicalWorkspace.goToLoad()
+                    onExcessToFacilitySelected:technicalWorkspace.goToExcessToFacility()
+                    onEvCharacteristicsSelected:technicalWorkspace.goToEvCharacteristics()
+                    onHourlyDemandSelected: technicalWorkspace.goToHourlyDemand()
+                }
             }
         }
 
@@ -127,15 +146,15 @@ ApplicationWindow {
 
             SplitView.maximumWidth: root.width
             SplitView.minimumWidth: Qt.application.font.pixelSize
-            SplitView.preferredWidth: root.width - (5*root.width)/12    
-
-            Material.primary: root.Material.background
-            Material.background: "#181818"//root.Material.primary
+            SplitView.preferredWidth: (2*root.width)/3 
 
             height: splitView.height
+            Material.background: root.Material.primary//"#181818"//"#4a4a4e"
 
             SwipeView{
                 id: workspace
+
+                Material.background: root.Material.background
 
                 Technical{
                     id: technicalWorkspace
@@ -156,13 +175,16 @@ ApplicationWindow {
                 // }
             }
             ViewingPanel{
+                id: viewingPanel
+
                 SplitView.maximumHeight: root.height
                 SplitView.minimumHeight: Qt.application.font.pixelSize
                 SplitView.preferredHeight: 1
 
-                Material.primary: root.Material.primary
-                Material.background: root.Material.background
+                Material.background: "#121212"//"#4a4a4e"
+
             }
+
         }
 
         AssistancePanel{
@@ -170,11 +192,11 @@ ApplicationWindow {
 
             // height: splitView.height
 
-            Material.primary: root.Material.background
+            // Material.primary: root.Material.background
             Material.background: root.Material.primary
 
             SplitView.maximumWidth: root.width
-            SplitView.preferredWidth: root.width/10
+            SplitView.preferredWidth: root.width/6
 
         }
 

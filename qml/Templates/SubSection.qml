@@ -2,21 +2,34 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
-ColumnLayout {
+// ColumnLayout {
+//     id: root
+
+//     property alias subsection: subsectionLabel.text
+//     property alias label: subsectionLabel
+
+//     Label {
+//         id: subsectionLabel
+
+//         text: ""
+
+//         verticalAlignment: Text.AlignVCenter
+
+//         font.pixelSize: 24
+//     }
+
+
+// }
+
+GroupBox {
     id: root
+    property alias subsection: root.title
 
-    property alias subsection: subsectionLabel.text
-    property alias label: subsectionLabel
+    default property alias subItems: subItems.data
 
-    Label {
-        id: subsectionLabel
+    // title: qsTr("Synchronize")
+    ColumnLayout {
+        id: subItems
 
-        text: ""
-
-        verticalAlignment: Text.AlignVCenter
-
-        font.pixelSize: 24
     }
-
-
 }

@@ -2,32 +2,35 @@ import QtQuick
 import QtQuick.Controls.Material
 
 import "SolarPowerGeneration"
-import "SolarPowerGeneration/HourlySolarPowerGenerationDialog"
+import "SolarPowerGeneration/HourlySolarPowerGeneration"
 
 import "BatteryStorage"
+
 import "ChargingAndDemand"
+import "ChargingAndDemand/HourlyDemand"
+
 // import "Sections/FiveYearsAnalysis"
 
 import "../Templates" as Templates
 
-
-
-
 Page {
     id: root
 
-    function goToInstalledCapacity(){
-        swipeView.currentIndex = 0
-    }
+    function goToInstalledCapacity(){swipeView.currentIndex = 0}
+    function goToAyerKerohSiteConditions(){swipeView.currentIndex = 1}
+    function goToSolarEnergyProduction(){swipeView.currentIndex = 2}
+    function goToHourlySolarPowerGeneration(){swipeView.currentIndex = 3}
 
-    function goToAyerKerohSiteConditions(){
-        swipeView.currentIndex = 1
-    }
+    function goToEssSystem(){swipeView.currentIndex = 4}
+    function goToDischarge(){swipeView.currentIndex = 5}
+    function goToGridCharging(){swipeView.currentIndex = 6}
 
-    function goToSolarEnergyProduction(){
-        swipeView.currentIndex = 2
-    }
-
+    function goToChargingPorts(){swipeView.currentIndex = 7}
+    function goToDemand(){swipeView.currentIndex = 8}
+    function goToLoad(){swipeView.currentIndex = 9}
+    function goToExcessToFacility(){swipeView.currentIndex = 10}
+    function goToEvCharacteristics(){swipeView.currentIndex = 11}
+    function goToHourlyDemand(){swipeView.currentIndex = 12}
 
     SwipeView{
         id: swipeView
@@ -42,86 +45,22 @@ Page {
 
         clip: true
 
+        InstalledCapacity{id: installedCapacity}
+        AyerKerohSiteConditions{id: ayerKerohSiteConditions}
+        SolarEnergyProduction {id: solarEnergyProduction}
+        HourlySolarPowerGeneration {id: hourlySolarPowerGeneration}
 
-        InstalledCapacity{
-            id: installedCapacity
-        }
+        EssSystem{id: essSystem}
+        Discharge{id: discharge}
+        GridCharging{id: gridCharging}
 
-        AyerKerohSiteConditions{
-            id: ayerKerohSiteConditions
-
-        }
-        SolarEnergyProduction {
-            id: solarEnergyProduction
-
-        }
-        // SolarPowerGeneration{
-        //     id: solarPowerGeneration
-
-        //     anchors {
-        //         top: batteryStorage.bottom
-        //         topMargin: batteryStorage.anchors.topMargin
-
-        //         left: batteryStorage.left
-        //     }
-
-        //     onOpenHourlySolarPowerGenerationTriggered: {
-        //         swipeView.openDialog()
-        //         hourlySolarPowerGenerationDialog.show()
-        //     }
-
-
-        // }
-
-        // BatteryStorage{
-        //     id: batteryStorage
-
-        //     anchors {
-        //         top: parent.top
-        //         topMargin: batteryStorage.label.font.pixelSize
-
-        //         left: parent.left
-        //         leftMargin: batteryStorage.label.font.pixelSize
-        //     }
-        // }
-
-
-        // ChargingAndDemand {
-        //     id: chargingAndDemand
-        //     anchors {
-        //         top: batteryStorage.top
-
-        //         left: batteryStorage.right
-        //         leftMargin: chargingAndDemand.label.font.pixelSize
-        //     }
-
-        // }
-
-        // data: HourlySolarPowerGenerationDialog{
-        //     id: hourlySolarPowerGenerationDialog
-
-        //     opacity: 0
-
-        //     anchors.centerIn: parent
-        // }
-
-        // Rectangle {
-        //     anchors.centerIn: parent
-
-        //     height: 500
-        //     width: height
-        // }
-
-        // FiveYearsAnalysis {
-        //     id: fiveYearsAnalysis
-
-        //     anchors {
-        //         top: solarPowerGeneration.bottom
-        //         topMargin: solarPowerGeneration.anchors.topMargin
-
-        //         left: solarPowerGeneration.left
-        //     }
-        // }
+        ChargingPorts {id: chargingPorts}
+        Demand{id: demand}
+        Load{id: load}
+        ExcessToFacility {id: excessToFacility}
+        EvCharacteristics {id: evCharacteristics}
+        HourlyDemand{id: hourlyDemand; height: root.height; width: root.width; anchors.left: parent.left}
+        
     }
 }
 

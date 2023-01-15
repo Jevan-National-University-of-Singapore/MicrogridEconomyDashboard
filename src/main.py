@@ -10,7 +10,7 @@ from Scenario.Scenario import Scenario
 
 PWD = dir_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-if __name__ == '__main__':
+if __name__ == '__main__': 
 
 
     app:QApplication = QApplication(sys.argv)

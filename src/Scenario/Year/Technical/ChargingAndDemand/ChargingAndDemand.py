@@ -43,14 +43,14 @@ class ChargingAndDemand(QObject):
         self.ev_characteristics.capacityChanged.connect(self.updateDc2ChargingTimePerUser)
         self.charging_ports.dcCharger2RatingChanged.connect(self.updateDc2ChargingTimePerUser)
 
-        self.demand_.numOfUsersPerDayChanged.connect(self.updateActualEnergyServedPerDay)
+        self.demand_.numberOfUsersPerDayChanged.connect(self.updateActualEnergyServedPerDay)
         self.load_.requiredEnergyPerUserChanged.connect(self.updateActualEnergyServedPerDay)
 
         self.demand_.stateOfChargeToBeChargedChanged.connect(self.updateRequiredEnergyPerUser)
         self.ev_characteristics.capacityChanged.connect(self.updateRequiredEnergyPerUser)
 
         self.load_.requiredEnergyPerUserChanged.connect(self.updateRequiredEnergyPerDay)
-        self.demand_.numOfUsersPerDayChanged.connect(self.updateRequiredEnergyPerDay)
+        self.demand_.numberOfUsersPerDayChanged.connect(self.updateRequiredEnergyPerDay)
 
     def emitUpdateSignals(self):
         self.charging_ports.emitUpdateSignals()

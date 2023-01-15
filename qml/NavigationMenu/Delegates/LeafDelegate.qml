@@ -40,6 +40,7 @@ ToolButton {
                 target: root
 
                 opacity: 1
+                implicitHeight:Qt.application.font.pixelSize * 2
             }
         },
         State {
@@ -54,15 +55,17 @@ ToolButton {
                 target: root
 
                 opacity: 0
+                implicitHeight:0
             }
         }
     ]
 
     transitions: Transition {
-        AnchorAnimation { duration: 150 }
+        AnchorAnimation { duration: 100 }
     }
 
-    Behavior on opacity { SmoothedAnimation { velocity: 8 } }
+    Behavior on opacity { SmoothedAnimation { velocity: 5 } }
+    Behavior on height { SmoothedAnimation { velocity: 200 } }
 
 
 

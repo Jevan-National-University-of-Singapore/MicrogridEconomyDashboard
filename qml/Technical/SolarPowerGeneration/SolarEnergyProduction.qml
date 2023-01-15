@@ -2,6 +2,7 @@ import QtQuick
 
 import "../../Templates" as Templates
 
+
 Templates.Page{
     id: root
 

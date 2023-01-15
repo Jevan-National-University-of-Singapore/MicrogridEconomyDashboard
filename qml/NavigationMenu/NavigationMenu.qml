@@ -13,7 +13,6 @@ ScrollView {
 
     Pane {
         id: surface
-        // anchors.fill: parent
         height: root.height; width: root.width
 
 

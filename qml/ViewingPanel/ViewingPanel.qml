@@ -1,18 +1,25 @@
 import QtQuick
 import QtQuick.Controls.Material
 
-ScrollView{
+import "TechnicalHourlySummary"
+
+
+Page {
     id: root
 
-    contentHeight: page.height
-    
-    Page {
-        id: page
+    SwipeView{
+        id: swipeview
 
-        height: 500
-        width: root.width
+        anchors.fill: parent
 
+        contentHeight: technicalHourlySummary.height
+
+        TechnicalHourlySummary {
+            id: technicalHourlySummary
+
+            // height: 500
+            // width: root.width
+
+        }
     }
-
-
 }

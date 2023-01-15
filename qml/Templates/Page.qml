@@ -1,7 +1,7 @@
 import QtQuick
-import QtQuick.Controls.Material
+import QtQuick.Controls.Material as Controls
 
-ScrollView {
+Controls.ScrollView {
     id: root
 
     wheelEnabled: scrim.opacity == 0
@@ -15,7 +15,8 @@ ScrollView {
 
     default property alias defaultData: page.data
 
-    Item {
+
+    Controls.Page  {
         id: page
 
         height: childrenRect.height
