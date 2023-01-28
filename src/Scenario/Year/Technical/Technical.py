@@ -75,6 +75,12 @@ class Technical(QObject):
         self.battery_storage.ess_system.stateOfChargeUpperLimitChanged.connect(self.updateAll_hourlyBreakdown_statusSection_reachedEssStateOfChargeElement)
         self.battery_storage.ess_system.stateOfChargeLowerLimitChanged.connect(self.updateAll_hourlyBreakdown_statusSection_reachedEssStateOfChargeElement)
 
+        self.hourly_breakdown.total_charge_supply_section.gridOffPeakElementChanged.connect(self.update_batteryStorage_gridCharging_offPeakElectricityRequiredPerDay)
+        self.hourly_breakdown.total_charge_supply_section.gridPeakElementChanged.connect(self.update_batteryStorage_gridCharging_peakElectricityRequiredPerDay)
+
+        self.hourly_breakdown.status_section.chargeSufficiencyElementChanged.connect(self.update_chargingAndDemand_demand_totalWaitingTime)
+        self.hourly_breakdown.status_section.chargeStatusElementChanged.connect(self.update_chargingAndDemand_demand_actualUsersServedPerDay)
+
 
     def emitUpdateSignals(self):
         self.battery_storage.emitUpdateSignals()
@@ -115,7 +121,27 @@ class Technical(QObject):
                 self.battery_storage.discharge_.power_max
             )
         self.battery_storage.ess_system.maximumPowerChanged.emit()
-                           
+
+    @Slot(int)
+    def update_batteryStorage_gridCharging_offPeakElectricityRequiredPerDay(self, index): #can throwaway index
+        self.battery_storage.grid_charging.off_peak_electricity_required_kwh_per_day = sum(self.hourly_breakdown.total_charge_supply_section.grid_off_peak)
+        self.battery_storage.grid_charging.offPeakElectricityRequiredChanged.emit()
+
+    @Slot(int)
+    def update_batteryStorage_gridCharging_peakElectricityRequiredPerDay(self, index): #can throwaway index
+        self.battery_storage.grid_charging.peak_electricity_charged_from_grid_kwh_per_day = sum(self.hourly_breakdown.total_charge_supply_section.grid_peak)
+        self.battery_storage.grid_charging.peakElectricityChargedFromGridChanged.emit()
+
+    @Slot(int)
+    def update_chargingAndDemand_demand_totalWaitingTime(self, index): #can throwaway
+        self.charging_and_demand.demand_.total_waiting_time = self.hourly_breakdown.status_section.charge_sufficiency[8:22].count(False)
+        self.charging_and_demand.demand_.totalWaitingTimeChanged.emit()
+
+    @Slot(int)
+    def update_chargingAndDemand_demand_actualUsersServedPerDay(self, index): #can throwaway
+        self.charging_and_demand.demand_.actual_users_served_per_day = self.hourly_breakdown.status_section.charge_status.count("discharge")        
+        self.charging_and_demand.demand_.actualUsersServedPerDayChanged.emit()
+
     @Slot()
     def updateAll_hourlyBreakdown_totalChargeSupplySection_gridOffPeak(self):
         for hour_index in [0,1,2,3,4,5,6,7,22,23]:

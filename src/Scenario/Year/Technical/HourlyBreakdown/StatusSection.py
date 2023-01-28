@@ -19,19 +19,22 @@ class StatusSection(QObject):
     avilabilityElementChanged = Signal(int)
 
     def __init__(self,
-        charge_sufficiency: list = [True]*24,
-        charge_status: list = (["Charge"]*5)+(["Discharge"]*17)+(["Charge", "Charge"]),
-        charger_needed: list = ([False]*5)+([True]*17)+([False, False]),
-        reached_ess_state_of_charge : list = [False]*24,
-        availability: list = [True] *24
+        charge_sufficiency: list|None = None,
+        charge_status: list|None = None,
+        charger_needed: list|None = None,
+        reached_ess_state_of_charge : list|None = None,
+        availability: list|None = None
     ):
         super().__init__()
 
-        self.charge_sufficiency: list = charge_sufficiency.copy()
-        self.charge_status: list = charge_status.copy()
-        self.charger_needed: list = charger_needed.copy()
-        self.reached_ess_state_of_charge: list = reached_ess_state_of_charge.copy()
-        self.avilability_: list = availability.copy()
+        self.charge_sufficiency: list = [True]*24 if charge_sufficiency is None else charge_sufficiency
+        self.charge_status: list = (["Charge"]*5)+(["Discharge"]*17)+(["Charge", "Charge"]) if charge_status is None else charge_status
+        self.charger_needed: list = ([False]*5)+([True]*17)+([False, False]) if charger_needed is None else charger_needed
+        self.reached_ess_state_of_charge: list = [False]*24 if reached_ess_state_of_charge is None else reached_ess_state_of_charge
+        self.availability_: list = [True] *24 if availability is None else availability
+
+        self.chargerNeededElementChanged.connect(self.update_availability)
+        self.chargeStatusElementChanged.connect(self.update_availability)
 
     def emitUpdateSignals(self):
         self.chargeSufficiencyChanged.emit()
@@ -113,27 +116,33 @@ class StatusSection(QObject):
     # ================================================================
     @Property(list, notify=avilabilityChanged) #getter
     def availability(self) -> list:
-        return self.avilability_
+        return self.availability_
 
     @availability.setter
     def availability(self, avilability:list) -> None:
-        self.avilability_ = avilability
+        self.availability_ = avilability
         self.avilabilityChanged.emit()
 
     @Slot(int, float)
     def setAvailabilityElement(self, index:int, avilability_:float):
-        self.avilability_[index] = avilability_
+        self.availability_[index] = avilability_
         self.avilabilityElementChanged.emit(index)
         self.avilabilityChanged.emit()        
     # ================================================================
 
+    @Slot(int)
+    def update_availability(self, index:int):
+        if not self.charger_needed[index] or self.charge_status[index] == "discharge":
+            self.setAvailabilityElement(index, True)
+        else:
+            self.setAvailabilityElement(index, False)
 '''
-Unavilable
-
-O52: Charger needed
-O51: 
-=IF(O52="YES",IF(O51="Charge","NO","YES"),"YES")
-
-
-
+52:
+=IF(charger_needed="YES",
+    IF(charge_status="Charge",
+        "No",
+    else
+        "Yes"),
+else
+    "Yes")
 '''
