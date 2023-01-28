@@ -1,66 +1,78 @@
 import QtQuick
 import QtQuick.Controls.Material
 
-import "Sections/BatteryStorage"
-import "Sections/ChargingAndDemand"
-import "Sections/SolarPowerGeneration"
-import "Sections/FiveYearsAnalysis"
+import "SolarPowerGeneration"
+import "SolarPowerGeneration/HourlySolarPowerGeneration"
+
+import "BatteryStorage"
+
+import "ChargingAndDemand"
+import "ChargingAndDemand/HourlyDemand"
+
 
 import "../Templates" as Templates
 
-Templates.Page {
+Page {
     id: root
 
-    bottomMargin: batteryStorage.label.font.pixelSize
+    function goToInstalledCapacity(){swipeView.currentIndex = 0}
+    function goToAyerKerohSiteConditions(){swipeView.currentIndex = 1}
+    function goToSolarEnergyProduction(){swipeView.currentIndex = 2}
+    function goToHourlySolarPowerGeneration(){swipeView.currentIndex = 3}
 
-    BatteryStorage{
-        id: batteryStorage
+    function goToEssSystem(){swipeView.currentIndex = 4}
+    function goToDischarge(){swipeView.currentIndex = 5}
+    function goToGridCharging(){swipeView.currentIndex = 6}
 
-        anchors {
-            top: parent.top
-            topMargin: batteryStorage.label.font.pixelSize
+    function goToChargingPorts(){swipeView.currentIndex = 7}
+    function goToDemand(){swipeView.currentIndex = 8}
+    function goToLoad(){swipeView.currentIndex = 9}
+    function goToExcessToFacility(){swipeView.currentIndex = 10}
+    function goToEvCharacteristics(){swipeView.currentIndex = 11}
+    function goToHourlyDemand(){swipeView.currentIndex = 12}
 
-            left: parent.left
-            leftMargin: batteryStorage.label.font.pixelSize
-        }
+    SwipeView{
+        id: swipeView
+
+        anchors.fill: parent
+
+        orientation: Qt.Vertical
+
+        // contentHeight: installedCapacity.height 
+        //                 + ayerKerohSiteConditions.height
+        //                 + solarEnergyProduction.height
+        //                 + hourlySolarPowerGeneration.height
+        //                 + essSystem.height
+        //                 + discharge.height
+        //                 + gridCharging.height
+        //                 + chargingPorts.height
+        //                 + demand.height
+        //                 + load.height
+        //                 + excessToFacility.height
+        //                 + evCharacteristics.height
+        //                 + hourlyDemand.height
+
+        clip: true
+
+        InstalledCapacity{id: installedCapacity}
+        AyerKerohSiteConditions{id: ayerKerohSiteConditions}
+        SolarEnergyProduction {id: solarEnergyProduction}
+        HourlySolarPowerGeneration {id: hourlySolarPowerGeneration}
+
+        EssSystem{id: essSystem}
+        Discharge{id: discharge}
+        GridCharging{id: gridCharging}
+
+        ChargingPorts {id: chargingPorts}
+        Demand{id: demand}
+        Load{id: load}
+        ExcessToFacility {id: excessToFacility}
+        EvCharacteristics {id: evCharacteristics}
+        HourlyDemand{id: hourlyDemand; height: root.height; width: root.width; anchors.left: parent.left}
+        
     }
-
-
-    SolarPowerGeneration{
-        id: solarPowerGeneration
-
-        anchors {
-            top: batteryStorage.bottom
-            topMargin: batteryStorage.anchors.topMargin
-
-            left: batteryStorage.left
-        }
-
-    }
-
-    ChargingAndDemand {
-        id: chargingAndDemand
-        anchors {
-            top: batteryStorage.top
-
-            left: batteryStorage.right
-            leftMargin: chargingAndDemand.label.font.pixelSize
-        }
-
-    }
-
-    FiveYearsAnalysis {
-        id: fiveYearsAnalysis
-
-        anchors {
-            top: solarPowerGeneration.bottom
-            topMargin: solarPowerGeneration.anchors.topMargin
-
-            left: solarPowerGeneration.left
-        }
-    }
-
-    
-
-
 }
+
+
+
+

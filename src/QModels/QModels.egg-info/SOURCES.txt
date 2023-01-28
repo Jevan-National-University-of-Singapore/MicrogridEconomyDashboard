@@ -1,0 +1,5 @@
+setup.py
+QModels.egg-info/PKG-INFO
+QModels.egg-info/SOURCES.txt
+QModels.egg-info/dependency_links.txt
+QModels.egg-info/top_level.txt

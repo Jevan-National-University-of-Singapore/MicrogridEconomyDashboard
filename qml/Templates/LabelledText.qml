@@ -8,14 +8,14 @@ Row {
     property alias text: text.text
     property alias units: units.text
 
-    spacing: label.font.pixelSize
+    spacing: Qt.application.font.pixelSize/2
 
     Label {
         id: label
 
         text: root.labelText + ":"
         verticalAlignment: Text.AlignVCenter
-        height: font.pixelSize * 2.5
+        height: font.pixelSize
     }
 
     Label {
