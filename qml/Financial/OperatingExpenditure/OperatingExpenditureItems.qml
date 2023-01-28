@@ -53,8 +53,5 @@ Templates.Page{
 
             text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.totalOpex
         }
-
-    
-
     }
 }

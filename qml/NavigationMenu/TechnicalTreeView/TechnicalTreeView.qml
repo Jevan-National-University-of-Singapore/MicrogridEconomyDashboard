@@ -6,9 +6,12 @@ import "../Delegates"
 
 Item {
     id: root
+    
     property alias solarPowerGeneration: solarPowerGeneration
     property alias batteryStorage: batteryStorage
     property alias chargingAndDemand: chargingAndDemand
+
+    visible: opacity
 
     function collapse() {
         solarPowerGeneration.collapse()

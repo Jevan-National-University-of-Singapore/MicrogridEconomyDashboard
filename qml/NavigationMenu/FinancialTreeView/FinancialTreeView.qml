@@ -11,6 +11,8 @@ Item {
     property alias operatingExpenditure: operatingExpenditure
     property alias revenue: revenue
 
+    visible: opacity
+
     function collapse() {
         capitalExpenditure.collapse()
         operatingExpenditure.collapse()

@@ -10,7 +10,6 @@ import "Technical"
 import "Financial"
 
 
-
 ApplicationWindow {
     id: root 
 
@@ -24,7 +23,7 @@ ApplicationWindow {
 
     Material.theme: Material.Dark
     Material.accent: Material.Teal
-    Material.background: "#181818"
+    Material.background: "#181818"//#181818"
     Material.primary: "#303030"//"#4a4a4e"
     Material.foreground: "white"
 
