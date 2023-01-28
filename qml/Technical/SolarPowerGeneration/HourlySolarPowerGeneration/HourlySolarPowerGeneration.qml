@@ -15,6 +15,9 @@ Templates.Page{
 
         subsection: "Hourly Solar Power Generation"
 
+        implicitHeight: hourlySolarGeneration.implicitHeight + dailySolarGeneration.implicitHeight
+        implicitWidth: hourlySolarGeneration.width
+
         anchors{
             left: parent.left
             leftMargin: Qt.application.font.pixelSize

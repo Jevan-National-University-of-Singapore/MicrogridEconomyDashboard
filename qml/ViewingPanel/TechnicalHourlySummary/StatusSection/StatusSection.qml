@@ -54,7 +54,7 @@ TableView {
                 "header" : "Reached ESS SoC"
             },
             {
-                "header" : "availability"
+                "header" : "Availability"
             }
 
         ]

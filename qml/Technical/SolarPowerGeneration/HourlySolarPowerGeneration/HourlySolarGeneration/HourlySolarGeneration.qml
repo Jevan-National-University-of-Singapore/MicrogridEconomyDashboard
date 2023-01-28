@@ -11,7 +11,7 @@ TableView {
 
     // height: root.label.font.pixelSize * 5
     height: contentHeight
-    width: Screen.width/1.2
+    width: Screen.width
     // width: root.width - label.font.pixelSize
     clip: true
 

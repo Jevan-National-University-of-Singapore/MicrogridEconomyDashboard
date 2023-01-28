@@ -70,26 +70,22 @@ Templates.Page{
             text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeToBeCharged
         }
 
-        Templates.LabelledInput {
+        Templates.LabelledText {
             id: totalWaitingTime
 
-            label: "Total waiting time"
+            labelText: "Total waiting time"
             units: "hr"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime = totalWaitingTime.inputText
-
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime
 
         }
 
-        Templates.LabelledInput {
+        Templates.LabelledText {
             id: actualUsersServed
 
-            label: "Actual users served / day"
+            labelText: "Actual users served / day"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualUsersServedPerDay = actualUsersServed.inputText
-
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualUsersServedPerDay
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualUsersServedPerDay
 
         }
 

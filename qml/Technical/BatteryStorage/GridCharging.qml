@@ -18,26 +18,22 @@ Templates.Page{
             topMargin: Qt.application.font.pixelSize
         }        
 
-        Templates.LabelledInput {
+        Templates.LabelledText {
             id: offPeakElectricityRequired
 
-            label: "Off-peak electricity required / day"
+            labelText: "Off-peak electricity required / day"
             units: "kWh"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired = offPeakElectricityRequired.inputText
-
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired
+            text: parseFloat(Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired).toFixed(2)
         }
 
-        Templates.LabelledInput {
+        Templates.LabelledText {
             id: peakElectricityChargedFromGrid
 
-            label: "Peak electricity charged from grid / day"
+            labelText: "Peak electricity charged from grid / day"
             units: "kWh"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid = peakElectricityChargedFromGrid.inputText
-
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid
+            text: parseFloat(Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid).toFixed(2)
         }
 
         Templates.LabelledText {
