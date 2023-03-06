@@ -25,7 +25,7 @@ if __name__ == '__main__':
     engine.quit.connect(app.quit)
 
 
-    engine.load('qml/main.qml')
+    engine.load('qml/main_experiment.qml')
 
     sys.exit(app.exec())
     

@@ -30,6 +30,7 @@ Page {
         orientation: Qt.Vertical
 
         clip: true
+        interactive: false
 
         CapitalExpenditureItems{id: capitalExpenditureItems}
         ExchangeRate{id: exchangeRate}

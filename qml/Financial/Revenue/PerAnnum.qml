@@ -21,6 +21,16 @@ Templates.Page{
 
 
         Templates.LabelledText {
+            id: breakevenPriceToEvChargers
+
+            labelText: "Breakeven Price to EV chargers"
+            units: "RM/kWh"
+
+            text: Scenario.years[Scenario.currentYearIndex].financial.revenue.perAnnum.breakevenPriceToEvChargers
+        }
+
+
+        Templates.LabelledText {
             id: priceToEvChargers
 
             labelText: "Price to EV chargers"
@@ -28,6 +38,7 @@ Templates.Page{
 
             text: Scenario.years[Scenario.currentYearIndex].financial.revenue.perAnnum.priceToEvChargers
         }
+
 
 
     }

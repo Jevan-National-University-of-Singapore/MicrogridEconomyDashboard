@@ -15,6 +15,8 @@ import "../Templates" as Templates
 Page {
     id: root
 
+    property alias swipeView: swipeView
+
     function goToInstalledCapacity(){swipeView.currentIndex = 0}
     function goToAyerKerohSiteConditions(){swipeView.currentIndex = 1}
     function goToSolarEnergyProduction(){swipeView.currentIndex = 2}
@@ -31,12 +33,19 @@ Page {
     function goToEvCharacteristics(){swipeView.currentIndex = 11}
     function goToHourlyDemand(){swipeView.currentIndex = 12}
 
+    // Frame {
+    //     height: swipeView.height; width: swipeView.width    
+
+    // }
+
     SwipeView{
         id: swipeView
 
         anchors.fill: parent
 
         orientation: Qt.Vertical
+
+        interactive: false 
 
         // contentHeight: installedCapacity.height 
         //                 + ayerKerohSiteConditions.height
@@ -54,20 +63,61 @@ Page {
 
         clip: true
 
-        InstalledCapacity{id: installedCapacity}
-        AyerKerohSiteConditions{id: ayerKerohSiteConditions}
-        SolarEnergyProduction {id: solarEnergyProduction}
-        HourlySolarPowerGeneration {id: hourlySolarPowerGeneration}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
+        // Frame {implicitHeight: swipeView.implicitHeight; width: swipeView.width}
 
-        EssSystem{id: essSystem}
-        Discharge{id: discharge}
-        GridCharging{id: gridCharging}
+        
+        InstalledCapacity{id: installedCapacity
+            height: root.height; width: root.width
+        }
 
-        ChargingPorts {id: chargingPorts}
-        Demand{id: demand}
-        Load{id: load}
-        ExcessToFacility {id: excessToFacility}
-        EvCharacteristics {id: evCharacteristics}
+        AyerKerohSiteConditions{id: ayerKerohSiteConditions
+            height: root.height
+        }
+        SolarEnergyProduction {id: solarEnergyProduction
+            height: root.height
+        }
+        HourlySolarPowerGeneration {id: hourlySolarPowerGeneration
+            height: root.height
+        }
+
+        EssSystem{id: essSystem
+            height: root.height
+        }
+        Discharge{id: discharge
+            height: root.height
+        }
+        GridCharging{id: gridCharging
+            height: root.height
+        }
+
+        ChargingPorts {id: chargingPorts
+            height: root.height
+        }
+        Demand{id: demand
+            height: root.height
+        }
+        Load{id: load
+            height: root.height
+        }
+        ExcessToFacility {id: excessToFacility
+            height: root.height
+        }
+        EvCharacteristics {id: evCharacteristics
+            height: root.height
+        }
         HourlyDemand{id: hourlyDemand; height: root.height; width: root.width; anchors.left: parent.left}
         
     }

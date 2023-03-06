@@ -7,7 +7,7 @@ Item{
 
     property alias label: label
     property alias text: label.text
-    property bool isExpanded: true
+    property bool isExpanded: false
 
     implicitHeight: carot.implicitHeight
     implicitWidth: contentWidth

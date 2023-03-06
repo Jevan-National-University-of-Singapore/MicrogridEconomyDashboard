@@ -92,7 +92,7 @@ class Year(QObject):
                     )
 
         # price to ev chargers
-        self.financial_.revenue_.per_annum.price_to_ev_chargers = round (
+        self.financial_.revenue_.per_annum.breakeven_price_to_ev_chargers = round (
                         self.financial_.revenue_.per_annum.charging_revenue_required \
                             / (
                                 self.technical_.battery_storage.ess_system.operational_time_percentage \
@@ -323,7 +323,7 @@ class Year(QObject):
 
     @Slot()
     def update_financial_revenue_perAnnum_priceToEvChargers(self):
-        self.financial_.revenue_.per_annum.price_to_ev_chargers = round (
+        self.financial_.revenue_.per_annum.breakeven_price_to_ev_chargers = round (
             self.financial_.revenue_.per_annum.charging_revenue_required \
                 / (
                     self.technical_.battery_storage.ess_system.operational_time_percentage \
@@ -332,5 +332,5 @@ class Year(QObject):
                 ),
             2
         )
-        self.financial_.revenue_.per_annum.priceToEvChargersChanged.emit()
+        self.financial_.revenue_.per_annum.breakevenPriceToEvChargersChanged.emit()
                 

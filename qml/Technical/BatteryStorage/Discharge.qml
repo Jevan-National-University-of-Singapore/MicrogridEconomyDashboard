@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls.Material
 import "../../Templates" as Templates
 
 Templates.Page{

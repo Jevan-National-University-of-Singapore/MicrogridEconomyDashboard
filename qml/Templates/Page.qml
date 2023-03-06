@@ -4,55 +4,55 @@ import QtQuick.Controls.Material as Controls
 Controls.ScrollView {
     id: root
 
-    wheelEnabled: scrim.opacity == 0
+    // wheelEnabled: scrim.opacity == 0
 
-    contentHeight: page.height + root.bottomMargin
-    contentWidth: page.width
+    // contentHeight: page.height + root.bottomMargin
+    // contentWidth: page.width
 
-    property real bottomMargin: 0
+    // property real bottomMargin: 0
 
-    signal outsideDialogAreaClicked
+    // signal outsideDialogAreaClicked
 
-    default property alias defaultData: page.data
+    // default property alias defaultData: page.data
 
 
-    Controls.Page  {
-        id: page
+    // Controls.Page  {
+    //     id: page
 
-        height: childrenRect.height
-        width: childrenRect.width
-    }
+    //     height: childrenRect.height
+    //     width: childrenRect.width
+    // }
 
-    Rectangle {
-        id: scrim
+    // Rectangle {
+    //     id: scrim
 
-        height: Math.max(root.height,root.contentHeight)
-        width: Math.max(root.width, root.contentWidth)
+    //     height: Math.max(root.height,root.contentHeight)
+    //     width: Math.max(root.width, root.contentWidth)
 
-        z: page.z + 1
-        color: "black"
+    //     z: page.z + 1
+    //     color: "black"
 
-        opacity: 0
+    //     opacity: 0
 
-        Behavior on opacity { SmoothedAnimation { velocity: 2.5 } }
+    //     Behavior on opacity { SmoothedAnimation { velocity: 2.5 } }
 
-        MouseArea {
-            anchors.fill: parent
+    //     MouseArea {
+    //         anchors.fill: parent
 
-            visible: scrim.opacity
-            onClicked: {
-                root.outsideDialogAreaClicked()
-                closeDialog()
-            }
-        }
-    }
+    //         visible: scrim.opacity
+    //         onClicked: {
+    //             root.outsideDialogAreaClicked()
+    //             closeDialog()
+    //         }
+    //     }
+    // }
 
-    function openDialog(){
-        scrim.opacity = 0.7
-    }
+    // function openDialog(){
+    //     scrim.opacity = 0.7
+    // }
 
-    function closeDialog(){
-        scrim.opacity = 0
-    }
+    // function closeDialog(){
+    //     scrim.opacity = 0
+    // }
 
 }

@@ -62,6 +62,7 @@ ApplicationWindow {
                         text: qsTr("Technical")
                         onClicked: {
                             workspace.currentIndex = 0
+                            viewingPanel.goToTechnicalHourlySummary()
                             navigationMenu.technical.show()
                             navigationMenu.financial.collapse()
                         }
@@ -73,6 +74,7 @@ ApplicationWindow {
                         text: qsTr("Financial")
                         onClicked: {
                             workspace.currentIndex = 1
+                            viewingPanel.goToFinancialSummary()
                             navigationMenu.financial.show()
                             navigationMenu.technical.collapse()
                         }
@@ -83,6 +85,7 @@ ApplicationWindow {
                     ComboBox {
                         currentIndex: 0
                         model: ListModel {
+                            ListElement { text: "Year 0" }
                             ListElement { text: "Year 1" }
                             ListElement { text: "Year 2" }
                             ListElement { text: "Year 3" }
@@ -182,18 +185,19 @@ ApplicationWindow {
                 SplitView.minimumHeight: Qt.application.font.pixelSize
                 SplitView.preferredHeight: 700
 
-
                 Technical{
+
                     id: technicalWorkspace
 
-                    height: splitView.height
+                    height: workspace.height
                 }
 
 
                 Financial{
                     id: financialWorkspace
 
-                    height: splitView.height
+                    height: workspace.height
+
                 }
             }
 
@@ -222,6 +226,7 @@ ApplicationWindow {
             SplitView.preferredWidth: root.width/6
 
         }
+
 
 
     }

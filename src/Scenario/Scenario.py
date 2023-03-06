@@ -15,7 +15,7 @@ class Scenario(QObject):
         super().__init__()
         self.current_year_index:int = 0
 
-        self.years_: list[Year] = [Year()]*5 if years is None else years
+        self.years_: list[Year] = [Year()]*6 if years is None else years
 
         '''****************************************
                 POST ASSIGNMENT UPDATE
