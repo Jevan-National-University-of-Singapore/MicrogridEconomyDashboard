@@ -11,25 +11,22 @@ class EbitdaSection(QObject):
     ebitdaChanged = Signal()
     opexChanged = Signal()
 
-    def __init__(self,
-        revenue: Optional[Revenue] = None,
-        ebitda: float = 299_357,
-        opex: float = 116_613
-    ):
+    def __init__(self, revenue: Optional[Revenue] = None):
         super().__init__()
         self.revenue_:Revenue = Revenue() if revenue is None else revenue
-        self.ebitda_:float = ebitda
-        self.opex_ :float = opex
-
-        self.ebitda_ = self.revenue_.total_ - self.opex_
+        self.opex_ :float = 0
+        self.ebitda_:float = self.revenue_.total_ - self.opex_
 
         self.revenue_.totalChanged.connect(self.update_ebitda)
         self.opexChanged.connect(self.update_ebitda)
 
     def emitUpdateSignals(self):    
-        self.revenueChanged.emit()
         self.ebitdaChanged.emit()
+        self.revenue_.emitUpdateSignals()
         self.opexChanged.emit()
+
+        self.revenueChanged.emit()
+
 
     @Property(Revenue, notify=revenueChanged) #getter
     def revenue(self) -> Revenue:

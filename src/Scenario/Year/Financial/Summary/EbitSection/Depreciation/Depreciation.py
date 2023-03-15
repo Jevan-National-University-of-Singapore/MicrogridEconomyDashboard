@@ -7,18 +7,12 @@ class Depreciation(QObject):
     essChanged = Signal()
     totalChanged = Signal()
 
-    def __init__(self,
-        chargers: float = 361_876,
-        ess: float = 12_071,
-
-        total: float = 373_947
-    ):
+    def __init__(self):
         super().__init__()
-        self.chargers_: float = chargers
-        self.ess_: float = ess
-        self.total_: float = total
+        self.chargers_: float = 0
+        self.ess_: float = 0
 
-        self.total_ = self.chargers_ + self.ess_
+        self.total_:float = self.chargers_ + self.ess_
 
         self.chargersChanged.connect(self.update_total)
         self.essChanged.connect(self.update_total)

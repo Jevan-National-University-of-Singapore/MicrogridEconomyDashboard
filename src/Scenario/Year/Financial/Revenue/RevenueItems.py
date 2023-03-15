@@ -7,16 +7,12 @@ class RevenueItems(QObject):
     retailToFacilityChanged = Signal()
     totalRevenueChanged = Signal()
 
-    def __init__(self,
-        retail_to_facility: float = 67_062,
-        chargers: float = 361_876,
-        total_revenue: float = 1_863_201
-    ):
+    def __init__(self):
         super().__init__()
-        self.retail_to_facility:float = retail_to_facility
-        self.chargers_:float = chargers
+        self.retail_to_facility:float = 0
+        self.chargers_:float = 0
 
-        self.total_revenue:float = total_revenue#chargers + retail_to_facility
+        self.total_revenue:float = self.chargers_ + self.retail_to_facility
 
         self.chargersChanged.connect(self.update_totalRevenue)
         self.retailToFacilityChanged.connect(self.update_totalRevenue)

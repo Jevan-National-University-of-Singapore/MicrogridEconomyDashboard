@@ -66,42 +66,25 @@ class Scenario(QObject):
         '''****************************************
                     CONNECTIONS
         ****************************************'''
-        '''financial_capital_expenditure'''
-        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.solarPvRectificationChanged.connect(self.update_year0_financial_capitalExpenditure_capitalExpenditureItems_totalCapex)
-        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dcChargersChanged.connect(self.update_year0_financial_capitalExpenditure_capitalExpenditureItems_totalCapex)
-        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess301Changed.connect(self.update_year0_financial_capitalExpenditure_capitalExpenditureItems_totalCapex)
-        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.pcs200Changed.connect(self.update_year0_financial_capitalExpenditure_capitalExpenditureItems_totalCapex)
-
-        self.years_[0].financial_.capital_expenditure.depreciation_.essCapexPerKwhChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_essDepreciation)
-        self.years_[0].financial_.capital_expenditure.depreciation_.actualEssLifecycleChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_essDepreciation)
-        
-        # actual ess lifecycle
-        self.years_[0].technical_.battery_storage.ess_system.essNameplateLifecycleChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_actualEssLifecycle)
-        self.years_[0].technical_.battery_storage.ess_system.depthOfDischargePercentageChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_actualEssLifecycle)
-        self.years_[0].technical_.battery_storage.ess_system.endOfLifeCapacityChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_actualEssLifecycle)
-        
-        '''financial operating expenditure'''
-        # grid electricity
-        # self.years_[0].financial_.revenue_.tariff_assumption.peakTariffRateChanged.connect(self.update_year0_financial_operatingExpenditure_operatingExpenditureItems_gridElectricity)
-        # self.years_[0].technical_.battery_storage.grid_charging.peakElectricityChargedFromGridChanged.connect(self.update_year0_financial_operatingExpenditure_operatingExpenditureItems_gridElectricity)
-        # self.years_[0].technical_.battery_storage.grid_charging.offPeakElectricityRequiredChanged.connect(self.update_year0_financial_operatingExpenditure_operatingExpenditureItems_gridElectricity)
-        # self.years_[0].financial_.revenue_.tariff_assumption.offPeakTariffRateChanged.connect(self.update_year0_financial_operatingExpenditure_operatingExpenditureItems_gridElectricity)
-
+        ''' =========== FINANCIAL ==========='''  
+        '''-------- capital expenditure -----------'''    
         #ess capex            
-        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess301Changed.connect(self.update_year0_financial_capitalExpenditure_depreciation_essCapex)
-        self.years_[0].technical_.battery_storage.ess_system.installedCapacityChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_essCapex)
+        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess301Changed.connect(self.update_allNonZeroYears_financial_capitalExpenditure_depreciation_essCapex)
 
-        #charger lifecycle capacity
-        self.years_[0].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_chargerLifecycleCapacity)
+        self.years_[1].technical_.battery_storage.ess_system.installedCapacityChanged.connect(self.update_year1_financial_capitalExpenditure_depreciation_essCapex)
+        self.years_[2].technical_.battery_storage.ess_system.installedCapacityChanged.connect(self.update_year2_financial_capitalExpenditure_depreciation_essCapex)
+        self.years_[3].technical_.battery_storage.ess_system.installedCapacityChanged.connect(self.update_year3_financial_capitalExpenditure_depreciation_essCapex)
+        self.years_[4].technical_.battery_storage.ess_system.installedCapacityChanged.connect(self.update_year4_financial_capitalExpenditure_depreciation_essCapex)
+        self.years_[5].technical_.battery_storage.ess_system.installedCapacityChanged.connect(self.update_year5_financial_capitalExpenditure_depreciation_essCapex)
 
         #charger capex
-        self.years_[0].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_chargerCapex)
-        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dcChargersChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_chargerCapex)
+        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dcChargersChanged.connect(self.update_allNonZeroYears_financial_capitalExpenditure_depreciation_chargerCapex)
 
-        #charger depreciation
-        self.years_[0].financial_.capital_expenditure.depreciation_.chargerCapexPerKwChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_chargerDepreciation)
-        self.years_[0].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_chargerDepreciation)
-        self.years_[0].financial_.capital_expenditure.depreciation_.chargerLifecycleCapacityChanged.connect(self.update_year0_financial_capitalExpenditure_depreciation_chargerDepreciation)
+        self.years_[1].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year1_financial_capitalExpenditure_depreciation_chargerCapex)
+        self.years_[2].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year2_financial_capitalExpenditure_depreciation_chargerCapex)
+        self.years_[3].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year3_financial_capitalExpenditure_depreciation_chargerCapex)
+        self.years_[4].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year4_financial_capitalExpenditure_depreciation_chargerCapex)
+        self.years_[5].technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_year5_financial_capitalExpenditure_depreciation_chargerCapex)
 
         '''present value'''
         self.years_[0].financial_.summary_.free_cash_flow_section.freeCashFlowChanged.connect(self.update_year0_financial_summary_discountingCashFlows_presentValue)
@@ -261,28 +244,78 @@ class Scenario(QObject):
     ****************************************'''
 
     '''FINANCIAL'''
-    '''------- capital expenditure -------''' 
+    '''---------------'''
     @Slot()
-    def update_year0_financial_capitalExpenditure_capitalExpenditureItems_totalCapex(self):
-        if (
-            new_value := \
-                self.years_[0].financial_.capital_expenditure.capital_expenditure_items.solar_pv_rectification
-                + self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dc_chargers
-                + self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess_301kwh
-                + self.years_[0].financial_.capital_expenditure.capital_expenditure_items.pcs_200kw
-        ) != self.years_[0].financial_.capital_expenditure.capital_expenditure_items.total_capex:
-            self.years_[0].financial_.capital_expenditure.capital_expenditure_items.total_capex = new_value
-            self.years_[0].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.emit()
+    def update_allNonZeroYears_financial_capitalExpenditure_depreciation_essCapex(self):
+        for i in range(1,6):
+            self._update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(year_index=i)
 
     @Slot()
-    def update_year0_financial_capitalExpenditure_depreciation_essDepreciation(self):
+    def update_year1_financial_capitalExpenditure_depreciation_essCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(year_index=1)
+
+    @Slot()
+    def update_year2_financial_capitalExpenditure_depreciation_essCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(year_index=2)
+
+    @Slot()
+    def update_year3_financial_capitalExpenditure_depreciation_essCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(year_index=3)
+
+    @Slot()
+    def update_year4_financial_capitalExpenditure_depreciation_essCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(year_index=4)
+
+    @Slot()
+    def update_year5_financial_capitalExpenditure_depreciation_essCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(year_index=5)        
+
+
+    def _update_nonZeroYear_financial_capitalExpenditure_depreciation_essCapex(self, year_index:int):
         if (
             new_value := \
-                self.years_[0].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh
-                + self.years_[0].financial_.capital_expenditure.depreciation_.actual_ess_lifecycle
-        ) != self.years_[0].financial_.capital_expenditure.depreciation_.ess_depreciation:
-            self.years_[0].financial_.capital_expenditure.depreciation_.ess_depreciation = new_value
-            self.years_[0].financial_.capital_expenditure.depreciation_.essDepreciationChanged.emit()
+                self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess_301kwh \
+                / self.years_[year_index].technical_.battery_storage.ess_system.installed_capacity_kwh \
+            if self.years_[year_index].technical_.battery_storage.ess_system.installed_capacity_kwh else 0
+        ) != self.years_[year_index].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh:
+            self.years_[year_index].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh = new_value
+            self.years_[year_index].financial_.capital_expenditure.depreciation_.essCapexPerKwhChanged.emit()  
+    '''-------------------'''
+    @Slot()
+    def update_allNonZeroYears_financial_capitalExpenditure_depreciation_chargerCapex(self):
+        for i in range(1,6):
+            self._update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(year_index=i)
+
+    @Slot()
+    def update_year1_financial_capitalExpenditure_depreciation_chargerCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(year_index=1)
+
+    @Slot()
+    def update_year2_financial_capitalExpenditure_depreciation_chargerCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(year_index=2)
+
+    @Slot()
+    def update_year3_financial_capitalExpenditure_depreciation_chargerCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(year_index=3)
+
+    @Slot()
+    def update_year4_financial_capitalExpenditure_depreciation_chargerCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(year_index=4)
+
+    @Slot()
+    def update_year5_financial_capitalExpenditure_depreciation_chargerCapex(self):
+        self._update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(year_index=5)                 
+
+    @Slot()
+    def _update_nonZeroYear_financial_capitalExpenditure_depreciation_chargerCapex(self, year_index:int):
+        if (
+            new_value := \
+                self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dc_chargers \
+                / self.years_[year_index].technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
+            if self.years_[year_index].technical_.charging_and_demand.charging_ports.dc_charger_1_rating else 0
+        ) != self.years_[year_index].financial_.capital_expenditure.depreciation_.charger_capex_per_kw:
+            self.years_[year_index].financial_.capital_expenditure.depreciation_.charger_capex_per_kw = new_value
+            self.years_[year_index].financial_.capital_expenditure.depreciation_.chargerCapexPerKwChanged.emit()            
 
     @Slot()
     def update_year0_financial_summary_discountingCashFlows_presentValue(self):
@@ -291,79 +324,9 @@ class Scenario(QObject):
             self.years_[0].financial_.summary_.discounted_cash_flow_section.presentValueOfCashFlowChanged.emit()
 
 
-    @Slot()
-    def update_year0_financial_capitalExpenditure_depreciation_actualEssLifecycle(self):
-        if (
-            new_value := \
-                self.years_[0].technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
-                    * self.years_[0].technical_.battery_storage.ess_system.depth_of_discharge_percentage \
-                    * ( 1 + self.years_[0].technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2                    
-        ):
-            self.years_[0].financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = new_value    
-            self.years_[0].financial_.capital_expenditure.depreciation_.actualEssLifecycleChanged.emit()
-
-          
-    @Slot()
-    def update_year0_financial_capitalExpenditure_depreciation_essCapex(self):
-        if (
-            new_value := \
-                self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess_301kwh \
-                / self.years_[0].technical_.battery_storage.ess_system.installed_capacity_kwh \
-            if self.years_[0].technical_.battery_storage.ess_system.installed_capacity_kwh else 0
-        ) != self.years_[0].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh:
-            self.years_[0].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh = new_value
-            self.years_[0].financial_.capital_expenditure.depreciation_.essCapexPerKwhChanged.emit()
-
-
-    @Slot()
-    def update_year0_financial_capitalExpenditure_depreciation_chargerLifecycleCapacity(self):
-        if (
-            new_value := \
-                4 * 365 * 10 * 0.9 \
-                * self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating,
-        ) != self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity:
-            self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity = new_value
-            self.years_[0].financial_.capital_expenditure.depreciation_.chargerLifecycleCapacityChanged.emit()
-
             
-
-    @Slot()
-    def update_year0_financial_capitalExpenditure_depreciation_chargerCapex(self):
-        if (
-            new_value := \
-                self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dc_chargers \
-                / self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
-            if self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating else 0
-        ) != self.years_[0].financial_.capital_expenditure.depreciation_.charger_capex_per_kw:
-            self.years_[0].financial_.capital_expenditure.depreciation_.charger_capex_per_kw = new_value
-            self.years_[0].financial_.capital_expenditure.depreciation_.chargerCapexPerKwChanged.emit()
-
-            
-
-    @Slot()
-    def update_year0_financial_capitalExpenditure_depreciation_chargerDepreciation(self):
-        if (
-            new_value := \
-                self.years_[0].financial_.capital_expenditure.depreciation_.charger_capex_per_kw \
-                * self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
-                / self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity \
-            if self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity else 0
-        ) != self.years_[0].financial_.capital_expenditure.depreciation_.charger_depreciation:
-            self.years_[0].financial_.capital_expenditure.depreciation_.charger_depreciation = new_value
-            self.years_[0].financial_.capital_expenditure.depreciation_.chargerDepreciationChanged.emit()
-
 
     '''--------- Operating Expenditure -----------'''            
-    # @Slot()
-    # def update_year0_financial_operatingExpenditure_operatingExpenditureItems_gridElectricity(self):  
-    #     if (new_value := (
-    #             (self.years_[0].financial_.revenue_.tariff_assumption.peak_tariff_rate * self.years_[0].technical_.battery_storage.grid_charging.peak_electricity_charged_from_grid_kwh_per_day) \
-    #             + (self.years_[0].technical_.battery_storage.grid_charging.off_peak_electricity_required_kwh_per_day * self.years_[0].financial_.revenue_.tariff_assumption.off_peak_tariff_rate)
-    #         ) * 365 * 0.9
-    #     ) != self.years_[0].financial_.operating_expenditure.operating_expenditure_items.grid_electricity:
-    #         self.years_[0].financial_.operating_expenditure.operating_expenditure_items.grid_electricity = new_value 
-    #         self.years_[0].financial_.operating_expenditure.operating_expenditure_items.gridElectricityChanged.emit()
-
     def _update_nonZeroYear_financial_summary_discountingCashFlows_presentValue(self, year_index:int):
         if (
             new_value := \

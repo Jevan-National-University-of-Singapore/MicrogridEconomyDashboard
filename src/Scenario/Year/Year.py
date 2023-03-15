@@ -101,6 +101,23 @@ class Year(QObject):
         self.technical_.solar_power_generation.solar_energy_production.estimatedGenerationPerDayChanged.connect(self.update_solarPowerGeneration_dailyGeneration)
 
         '''======= financial ======='''
+        '''-------- capital expenditure ---------'''
+        # actual ess lifecycle        
+        self.technical_.battery_storage.ess_system.essNameplateLifecycleChanged.connect(self.update_financial_capitalExpenditure_depreciation_actualEssLifecycle)
+        self.technical_.battery_storage.ess_system.depthOfDischargePercentageChanged.connect(self.update_financial_capitalExpenditure_depreciation_actualEssLifecycle)
+        self.technical_.battery_storage.ess_system.endOfLifeCapacityChanged.connect(self.update_financial_capitalExpenditure_depreciation_actualEssLifecycle)
+
+        #ess depreciation
+        self.financial_.capital_expenditure.depreciation_.essCapexPerKwhChanged.connect(self.update_financial_capitalExpenditure_depreciation_essDepreciation)
+        self.financial_.capital_expenditure.depreciation_.actualEssLifecycleChanged.connect(self.update_financial_capitalExpenditure_depreciation_essDepreciation)
+
+        #charger lifecycle capacity
+        self.technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_financial_capitalExpenditure_depreciation_chargerLifecycleCapacity)
+
+        #charger depreciation
+        self.financial_.capital_expenditure.depreciation_.chargerCapexPerKwChanged.connect(self.update_financial_capitalExpenditure_depreciation_chargerDepreciation)
+        self.technical_.charging_and_demand.charging_ports.dcCharger1RatingChanged.connect(self.update_financial_capitalExpenditure_depreciation_chargerDepreciation)
+        self.financial_.capital_expenditure.depreciation_.chargerLifecycleCapacityChanged.connect(self.update_financial_capitalExpenditure_depreciation_chargerDepreciation)
         '''------- operating expenditure -------'''   
         # solar pv o&m  
         self.financial_.operating_expenditure.fixed_o_and_m.solarPvOAndMChanged.connect(self.update_financial_operatingExpenditure_operatingExpenditureItems_solarPvOAndM)
@@ -143,7 +160,7 @@ class Year(QObject):
         self.technical_.charging_and_demand.demand_.actualEnergyServedPerDayChanged.connect(self.update_financial_summary_ebitSection_depreciation_charger)
 
         self.financial_.capital_expenditure.depreciation_.essDepreciationChanged.connect(self.update_financial_summary_ebitSection_depreciation_ess)
-        self.technical_.charging_and_demand.demand_.actualUsersServedPerDayChanged.connect(self.update_financial_summary_ebitSection_depreciation_ess)
+        self.technical_.charging_and_demand.demand_.actualEnergyServedPerDayChanged.connect(self.update_financial_summary_ebitSection_depreciation_ess)
 
         self.emitUpdateSignals()
 
@@ -173,14 +190,6 @@ class Year(QObject):
     ****************************************'''
 
     '''======= technical ======='''      
-
-
-    # @Slot(int)
-    # def update_technical_hourlyBreakdown_totalChargeSupplySection_solarPowerGeneration(self, hour_index:int):
-    #     new_value:float = self.technical_.solar_power_generation.hourly_solar_power_generation.estimated_kwh_generated[hour_index]
-    #     self.technical_.hourly_breakdown.total_charge_supply_section.setSolarPowerGenerationElement(hour_index, new_value)
-
-
     @Slot(int)
     def update_technical_hourlyBreakdown_dcChargerDemandSection_dcChargerDemand(self, hour_index:int):
         new_value = self.technical_.charging_and_demand.load_.required_energy_per_user if self.technical_.charging_and_demand.demand_.users_per_hour[hour_index] > 0 else 0
@@ -196,6 +205,54 @@ class Year(QObject):
             self.technical_.solar_power_generation.hourly_solar_power_generation.dailyGenerationChanged.emit()
 
     '''======= financial ======='''
+    '''---------- capital expenditure -------------'''
+    @Slot()
+    def update_financial_capitalExpenditure_depreciation_actualEssLifecycle(self):
+        if (
+            new_value := \
+                self.technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
+                    * self.technical_.battery_storage.ess_system.depth_of_discharge_percentage \
+                    * ( 1 + self.technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2                    
+        ):
+            self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = new_value    
+            self.financial_.capital_expenditure.depreciation_.actualEssLifecycleChanged.emit()
+
+    @Slot()
+    def update_financial_capitalExpenditure_depreciation_essDepreciation(self):
+        if (
+            new_value := \
+                self.financial_.capital_expenditure.depreciation_.ess_capex_per_kwh \
+                / self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle \
+                if self.financial_.capital_expenditure.depreciation_.actual_ess_lifecycle else 0
+        ) != self.financial_.capital_expenditure.depreciation_.ess_depreciation:
+            self.financial_.capital_expenditure.depreciation_.ess_depreciation = new_value
+            self.financial_.capital_expenditure.depreciation_.essDepreciationChanged.emit()
+
+
+    @Slot()
+    def update_financial_capitalExpenditure_depreciation_chargerLifecycleCapacity(self):
+        if (
+            new_value := \
+                4 * 365 * 10 * 0.9 \
+                * self.technical_.charging_and_demand.charging_ports.dc_charger_1_rating,
+        ) != self.financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity:
+            self.financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity = new_value
+            self.financial_.capital_expenditure.depreciation_.chargerLifecycleCapacityChanged.emit()
+
+                   
+
+    @Slot()
+    def update_financial_capitalExpenditure_depreciation_chargerDepreciation(self):
+        if (
+            new_value := \
+                self.financial_.capital_expenditure.depreciation_.charger_capex_per_kw \
+                * self.technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
+                / self.financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity \
+            if self.financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity else 0
+        ) != self.financial_.capital_expenditure.depreciation_.charger_depreciation:
+            self.financial_.capital_expenditure.depreciation_.charger_depreciation = new_value
+            self.financial_.capital_expenditure.depreciation_.chargerDepreciationChanged.emit()            
+
 
     '''------- operating expenditure -------'''         
     @Slot()
@@ -301,6 +358,7 @@ class Year(QObject):
                 * 365 * 0.9
         ) != self.financial_.summary_.ebit_section.depreciation_.chargers_:
             self.financial_.summary_.ebit_section.depreciation_.chargers_ = new_value
+            
             self.financial_.summary_.ebit_section.depreciation_.chargersChanged.emit()
 
     @Slot()

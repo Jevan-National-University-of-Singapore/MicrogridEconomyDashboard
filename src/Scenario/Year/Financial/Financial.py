@@ -10,7 +10,6 @@ from .Revenue.Revenue import Revenue
 from .Summary.Summary import Summary
 
 class Financial(QObject):
-    
     capitalExpenditureChanged = Signal()
     operatingExpenditureChanged = Signal()
     revenueChanged = Signal()
@@ -30,13 +29,9 @@ class Financial(QObject):
         self.operating_expenditure: OperatingExpenditure = OperatingExpenditure() if operating_expenditure is None else operating_expenditure
         self.revenue_: Revenue = Revenue() if revenue is None else revenue
         self.summary_: Summary = Summary() if summary is None else summary
-
-        self.revenue_.revenue_items.total_revenue = \
-                (self.operating_expenditure.operating_expenditure_items.total_opex * 5)\
-                + self.capital_expenditure.capital_expenditure_items.total_capex
-
         
         self.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_summary_ebitdaSection_opex)
+        self.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_summary_freeCashFlowSection_capex)
 
     def emitUpdateSignals(self):
         self.capital_expenditure.emitUpdateSignals()
@@ -69,6 +64,14 @@ class Financial(QObject):
         ) != self.revenue_.revenue_items.total_revenue:
             self.revenue_.revenue_items.total_revenue = new_value
             self.revenue_.revenue_items.totalRevenueChanged.emit()
+
+    @Slot()
+    def update_summary_freeCashFlowSection_capex(self):
+        if (
+            new_value := self.capital_expenditure.capital_expenditure_items.total_capex
+        ) != self.summary_.free_cash_flow_section.capex_:
+            self.summary_.free_cash_flow_section.capex_ = new_value
+            self.summary_.free_cash_flow_section.capexChanged.emit()
 
         
     @Slot()

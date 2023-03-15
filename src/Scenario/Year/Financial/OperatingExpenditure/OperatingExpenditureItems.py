@@ -9,21 +9,16 @@ class OperatingExpenditureItems(QObject):
     gridElectricityChanged = Signal()
     totalOpexChanged = Signal()
 
-    def __init__(self,
-        solar_pv_o_and_m:float = 2_822,
-        dc_chargers_o_and_m:float = 3_344,
-        ess_o_and_m:float = 6_511,
-        grid_electricity:float = 103_936
-    ):
+    def __init__(self):
         super().__init__()
-        self.solar_pv_o_and_m:float = solar_pv_o_and_m
-        self.dc_chargers_o_and_m:float = dc_chargers_o_and_m
-        self.ess_o_and_m:float = ess_o_and_m
-        self.grid_electricity:float = grid_electricity
-        self.total_opex:float = solar_pv_o_and_m \
-                                + dc_chargers_o_and_m \
-                                + ess_o_and_m \
-                                + grid_electricity
+        self.solar_pv_o_and_m:float = 0
+        self.dc_chargers_o_and_m:float = 0
+        self.ess_o_and_m:float = 0
+        self.grid_electricity:float = 0
+        self.total_opex:float = self.solar_pv_o_and_m \
+                                + self.dc_chargers_o_and_m \
+                                + self.ess_o_and_m \
+                                + self.grid_electricity
 
         self.solarPvOAndMChanged.connect(self.updateTotalOpex)
         self.dcChargesOAndMChanged.connect(self.updateTotalOpex)

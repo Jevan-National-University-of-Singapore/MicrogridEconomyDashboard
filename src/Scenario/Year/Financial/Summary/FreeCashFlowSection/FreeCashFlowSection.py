@@ -8,19 +8,13 @@ class FreeCashFlowSection(QObject):
     changeInNetWorkingCapitalChanged = Signal()
     freeCashFlowChanged = Signal()
 
-    def __init__(self,
-        operating_cash_flow: float = 0,
-        capex: float = 1_280_138,
-        change_in_net_working_capital: float = 0,
-        free_cash_flow: float =  1_280_138
-    ):
+    def __init__(self):
         super().__init__()
-        self.operating_cash_flow:float = operating_cash_flow
-        self.capex_:float = capex
-        self.change_in_net_working_capital:float = change_in_net_working_capital
-        self.free_cash_flow:float = free_cash_flow
+        self.operating_cash_flow:float = 0
+        self.capex_:float = 0
+        self.change_in_net_working_capital:float = 0
 
-        self.free_cash_flow = self.operating_cash_flow \
+        self.free_cash_flow:float = self.operating_cash_flow \
                         - self.capex_ \
                         - self.change_in_net_working_capital
         

@@ -2,9 +2,10 @@
 This repo contains all the material for the microgrid dashboard
 
 # Dependencies
-_Currently only have 1 dependecy so have no requirements.txt_
+_Currently only have 2 dependecies so have no requirements.txt_
 
 - pyside6 (`pip install pyside6`)
+- numpy-financial(`pip install numpy-financial`)
 
 ## Architecture
 Database: python SQLite

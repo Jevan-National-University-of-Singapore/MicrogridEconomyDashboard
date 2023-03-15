@@ -137,22 +137,9 @@ year1 = Year(
                 pcs_200kw = 0,
                 ess_301kwh = 0,
             ),
-            depreciation = DepreciationFinancial(
-                actual_ess_lifecycle = 2_203,
-                ess_capex_per_kwh = 2_306,
-                charger_lifecycle_capacity = 2_365_200,
-                charger_capex_per_kw = 1_914,
-                charger_depreciation =  0.1456621
-            ),
             exchange_rate = ExchangeRate(rm_per_usd=4.18)
         ),
         operating_expenditure = OperatingExpenditure(
-            operating_expenditure_items = OperatingExpenditureItems(
-                solar_pv_o_and_m = 2_822,
-                dc_chargers_o_and_m = 3_344,
-                ess_o_and_m = 6_511,
-                grid_electricity = 103_936
-            ),
             fixed_o_and_m = FixedOAndM(
                 solar_pv_o_and_m = 25,
                 ev_charger_o_and_m = 400,
@@ -160,11 +147,6 @@ year1 = Year(
             )
         ),
         revenue = RevenueFinancial(
-            revenue_items = RevenueItems(
-                chargers=361_876,
-                retail_to_facility = 12_071,
-                total_revenue = 373_974
-            ),
             pricing = Pricing(price_to_ev_chargers = 2),
             tariff_assumption = TariffAssumption(
                 electricity_tariff_rate = 0.528,
@@ -172,40 +154,6 @@ year1 = Year(
                 peak_tariff_rate = 0.584,
                 off_peak_tariff_rate = 0.281
             )
-        ),
-        summary = Summary(
-            ebitda_section = EbitdaSection(
-                revenue = RevenueFinancialSummary(
-                    chargers = 361_876,
-                    retail_to_facility = 12_071,
-                    total = 373_974
-                ),
-                ebitda = 257_334,
-                opex = 116.613
-            ),
-            ebit_section = EbitSection(
-                depreciation=DepreciationFinancialSummary(
-                    chargers = 26_350,
-                    ess = 189_390,
-                    total = 215_740
-                ),
-                ebit=41_594
-            ),
-            net_income_section = NetIncomeSection(
-                tax_expense=10_399,
-                net_income=31_196
-            ),
-            free_cash_flow_section = FreeCashFlowSection(
-                operating_cash_flow = 246_936,
-                capex = 0,
-                change_in_net_working_capital = 0,
-                free_cash_flow = 246_936
-            ),
-            discounted_cash_flow_section = DiscountedCashFlowsSection(
-                cumulative_cash_flow = -1_033_202,
-                present_value_of_cash_flow = 246_936,
-                weighted_average_cost_of_capital = 0.079
-            )   
         )
     )
 )

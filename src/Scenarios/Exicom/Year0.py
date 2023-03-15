@@ -132,25 +132,12 @@ year0 = Year(
             capital_expenditure_items = CapitalExpenditureItems(
                 solar_pv_rectification = 89_460,
                 dc_chargers = 344_443,
-                pcs_200kw = 816_235,
-                ess_301kwh = 30_000,
-            ),
-            depreciation = DepreciationFinancial(
-                actual_ess_lifecycle = 0,
-                ess_capex_per_kwh = 0,
-                charger_lifecycle_capacity = 0,
-                charger_capex_per_kw = 0,
-                charger_depreciation = 0
+                ess_301kwh = 816_235,
+                pcs_200kw = 30_000
             ),
             exchange_rate = ExchangeRate(rm_per_usd=4.18)
         ),
         operating_expenditure = OperatingExpenditure(
-            operating_expenditure_items = OperatingExpenditureItems(
-                solar_pv_o_and_m = 0,
-                dc_chargers_o_and_m = 0,
-                ess_o_and_m = 0,
-                grid_electricity = 0
-            ),
             fixed_o_and_m = FixedOAndM(
                 solar_pv_o_and_m = 0,
                 ev_charger_o_and_m = 0,
@@ -158,54 +145,14 @@ year0 = Year(
             )
         ),
         revenue = RevenueFinancial(
-            revenue_items = RevenueItems(
-                chargers=0,
-                retail_to_facility = 0,
-                total_revenue = 0
-            ),
-            pricing = Pricing(
-                price_to_ev_chargers = 0
-            ),
+            revenue_items = RevenueItems(),
+            pricing = Pricing(price_to_ev_chargers = 0),
             tariff_assumption = TariffAssumption(
                 electricity_tariff_rate = 0.53,
                 margin_on_electricity_sold_to_facility = 0.8,
                 peak_tariff_rate = 0.58,
                 off_peak_tariff_rate = 0.28
             )
-        ),
-        summary = Summary(
-            ebitda_section = EbitdaSection(
-                revenue = RevenueFinancialSummary(
-                    chargers = 0,
-                    retail_to_facility = 0,
-                    total = 0
-                ),
-                ebitda = 0,
-                opex = 0
-            ),
-            ebit_section = EbitSection(
-                depreciation=DepreciationFinancialSummary(
-                    chargers = 0,
-                    ess = 0,
-                    total = 0
-                ),
-                ebit=0
-            ),
-            net_income_section = NetIncomeSection(
-                tax_expense=0,
-                net_income=0
-            ),
-            free_cash_flow_section = FreeCashFlowSection(
-                operating_cash_flow = 0,
-                capex = 1_280_138,
-                change_in_net_working_capital = 0,
-                free_cash_flow = -1_280_138
-            ),
-            discounted_cash_flow_section = DiscountedCashFlowsSection(
-                cumulative_cash_flow = -1_280_138,
-                present_value_of_cash_flow = -1_280_138,
-                weighted_average_cost_of_capital = 0
-            )   
         )
     )
 )

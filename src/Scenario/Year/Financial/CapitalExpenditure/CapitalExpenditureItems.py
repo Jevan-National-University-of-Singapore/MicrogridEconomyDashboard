@@ -13,21 +13,24 @@ class CapitalExpenditureItems(QObject):
         solar_pv_rectification:float = 89_460,
         dc_chargers: float = 344_443,
         pcs_200kw: float = 30_000,
-
-        #optional
         ess_301kwh: float = 816_235
     ):
         super().__init__()
         self.solar_pv_rectification:float = solar_pv_rectification
         self.dc_chargers:float = dc_chargers
         self.pcs_200kw:float = pcs_200kw
-
         self.ess_301kwh:float = ess_301kwh
 
         self.total_capex:float = solar_pv_rectification \
                                 + dc_chargers \
                                 + pcs_200kw \
                                 + ess_301kwh
+        
+        self.solarPvRectificationChanged.connect(self.updateTotalCapex)
+        self.dcChargersChanged.connect(self.updateTotalCapex)
+        self.ess301Changed.connect(self.updateTotalCapex)
+        self.pcs200Changed.connect(self.updateTotalCapex)
+
 
 
     def emitUpdateSignals(self):

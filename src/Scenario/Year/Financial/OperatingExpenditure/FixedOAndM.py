@@ -8,7 +8,6 @@ class FixedOAndM(QObject):
     lfpAndMChanged = Signal()
 
     def __init__(self,
-        # all optional
         solar_pv_o_and_m: float = 25,
         ev_charger_o_and_m: float = 400,
         lfp_o_and_m: float = 4.4

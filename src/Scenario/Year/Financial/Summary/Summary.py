@@ -34,17 +34,7 @@ class Summary(QObject):
         self.free_cash_flow_section: FreeCashFlowSection = FreeCashFlowSection() if free_cash_flow_section is None else free_cash_flow_section
         self.discounted_cash_flow_section: DiscountedCashFlowsSection = DiscountedCashFlowsSection() if discounted_cash_flow_section is None else discounted_cash_flow_section
         self.internal_rate_of_return_section: InternalRateOfReturnSection = InternalRateOfReturnSection() if internal_rate_of_return_section is None else internal_rate_of_return_section
-        
-        self.ebit_section.ebit_ = self.ebitda_section.ebitda_ - self.ebit_section.depreciation_.total_
-
-        self.net_income_section.tax_expense = 0.25 * self.ebit_section.ebit_
-
-        self.net_income_section.net_income = \
-            self.ebit_section.ebit_ - self.net_income_section.tax_expense
-
-        self.free_cash_flow_section.operating_cash_flow = \
-            self.net_income_section.net_income + self.ebit_section.depreciation_.total_
-        
+               
         self.ebitda_section.ebitdaChanged.connect(self.update_ebitSection_ebit)
         self.ebit_section.depreciation_.totalChanged.connect(self.update_ebitSection_ebit)
 

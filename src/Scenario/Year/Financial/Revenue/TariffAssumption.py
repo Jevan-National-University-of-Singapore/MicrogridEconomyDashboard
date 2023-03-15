@@ -3,19 +3,12 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 
 class TariffAssumption(QObject):
-    '''
-    Electricity tariff rate
-    Margin on electricity sold to facility
-    Peak tariff rate
-    Off-peak tariff rate
-    '''
     electricityTariffRateChanged = Signal()
     marginOnElectricitySoldToFacilityChanged = Signal()
     peakTariffRateChanged = Signal()
     offPeakTariffRateChanged = Signal()
 
     def __init__(self,
-
         electricity_tariff_rate: float = 0.53,
         margin_on_electricity_sold_to_facility: float = 0.8,
         peak_tariff_rate: float = 0.58,

@@ -7,15 +7,11 @@ class DiscountedCashFlowsSection(QObject):
     presentValueOfCashFlowChanged = Signal()
     weightedAverageCostOfCapitalChanged = Signal()
 
-    def __init__(self,
-        cumulative_cash_flow: float = 0,
-        present_value_of_cash_flow: float = 1_280_138,
-        weighted_average_cost_of_capital: float = 0.079
-    ):
+    def __init__(self):
         super().__init__()
-        self.cumulative_cash_flow:float = cumulative_cash_flow
-        self.present_value_of_cash_flow:float = present_value_of_cash_flow
-        self.weighted_average_cost_of_capital:float = weighted_average_cost_of_capital
+        self.cumulative_cash_flow:float = 0
+        self.present_value_of_cash_flow:float = 0
+        self.weighted_average_cost_of_capital:float = 0.079
 
     def emitUpdateSignals(self):    
         self.cumulativeCashFlowChanged.emit()

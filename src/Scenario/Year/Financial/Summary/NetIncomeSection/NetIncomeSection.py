@@ -6,13 +6,10 @@ class NetIncomeSection(QObject):
     taxExpenseChanged = Signal()
     netIncomeChanged = Signal()
 
-    def __init__(self,
-        tax_expense: float = 10_399,
-        net_income: float = 299_357
-    ):
+    def __init__(self):
         super().__init__()
-        self.tax_expense:float = tax_expense
-        self.net_income:float = net_income
+        self.tax_expense:float = 0
+        self.net_income:float = 0
 
     def emitUpdateSignals(self):    
         self.taxExpenseChanged.emit()

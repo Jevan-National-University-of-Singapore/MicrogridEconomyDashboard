@@ -10,19 +10,13 @@ class Depreciation(QObject):
     chargerCapexPerKwChanged = Signal()
     chargerDepreciationChanged = Signal()
 
-    def __init__(self,
-        actual_ess_lifecycle: float = 2_203,
-        ess_capex_per_kwh: float = 2_306,
-        charger_lifecycle_capacity: float = 2_365_200,
-        charger_capex_per_kw: float = 1_914,
-        charger_depreciation: float = 0.15
-    ):
+    def __init__(self):
         super().__init__()
-        self.actual_ess_lifecycle:float = actual_ess_lifecycle
-        self.ess_capex_per_kwh:float = ess_capex_per_kwh
-        self.charger_lifecycle_capacity:float = charger_lifecycle_capacity
-        self.charger_capex_per_kw:float = charger_capex_per_kw
-        self.charger_depreciation:float = charger_depreciation
+        self.actual_ess_lifecycle:float = 0
+        self.ess_capex_per_kwh:float = 0
+        self.charger_lifecycle_capacity:float = 0
+        self.charger_capex_per_kw:float = 0
+        self.charger_depreciation:float = 0
 
         self.ess_depreciation:float = self.ess_capex_per_kwh/self.actual_ess_lifecycle if self.actual_ess_lifecycle else 0
 
