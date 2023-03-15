@@ -24,7 +24,7 @@ Templates.Page{
             labelText: "Off-peak electricity required / day"
             units: "kWh"
 
-            text: parseFloat(Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired).toFixed(2)
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.offPeakElectricityRequired.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -33,7 +33,7 @@ Templates.Page{
             labelText: "Peak electricity charged from grid / day"
             units: "kWh"
 
-            text: parseFloat(Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid).toFixed(2)
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.peakElectricityChargedFromGrid.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -42,7 +42,7 @@ Templates.Page{
             labelText: "Grid electricity required / day"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridElectricityRequired
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridElectricityRequired.toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -51,9 +51,9 @@ Templates.Page{
             label: "Grid draw limit / day"
             units: "kWh"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridDrawLimit = gridDrawLimit.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridDrawLimit = parseFloat(gridDrawLimit.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridDrawLimit
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.gridCharging.gridDrawLimit.toFixed(2)
         }
 
     }

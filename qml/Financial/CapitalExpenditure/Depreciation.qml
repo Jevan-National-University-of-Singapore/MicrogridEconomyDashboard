@@ -18,7 +18,7 @@ Templates.Page{
             labelText: "Actual ESS Lifecycle"
             units: "Cycles"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.actualEssLifecycle
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.actualEssLifecycle.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -27,7 +27,7 @@ Templates.Page{
             labelText: "ESS Capex/kWh"
             units: "RM/kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.essCapexPerKwh
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.essCapexPerKwh.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -36,7 +36,7 @@ Templates.Page{
             labelText: "ESS Depreciation"
             units: "RM/kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.essDepreciation
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.essDepreciation.toFixed(2)
         }    
 
         Templates.LabelledText {
@@ -45,7 +45,7 @@ Templates.Page{
             labelText: "Charger Lifecycle Capacity"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerLifecycleCapacity
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerLifecycleCapacity.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -54,7 +54,7 @@ Templates.Page{
             labelText: "Charger Capex/kW"
             units: "RM/kW"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerCapexPerKw
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerCapexPerKw.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -63,7 +63,7 @@ Templates.Page{
             labelText: "Charger Depreciation"
             units: "RM/kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerDepreciation
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.depreciation.chargerDepreciation.toFixed(2)
         }       
 
 

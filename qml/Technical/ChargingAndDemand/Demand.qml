@@ -24,7 +24,7 @@ Templates.Page{
 
             label: "Number of Users / day"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.numberOfUsersPerDay = numberOfUsersPerDay.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.numberOfUsersPerDay = parseInt(numberOfUsersPerDay.inputText)
 
             inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.numberOfUsersPerDay
         }
@@ -43,9 +43,9 @@ Templates.Page{
             label: "SoC at entry"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeAtEntry = socAtEntry.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeAtEntry = parseFloat(socAtEntry.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeAtEntry
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeAtEntry*100).toFixed(2)
 
         }
 
@@ -55,9 +55,9 @@ Templates.Page{
             label: "SoC limit"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeLimit = socLimit.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeLimit = parseFloat(socLimit.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeLimit
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeLimit*100).toFixed(2)
 
         }
 
@@ -67,7 +67,7 @@ Templates.Page{
             labelText: "SoC to be charged"
             units: "%"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeToBeCharged
+            text: (Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.stateOfChargeToBeCharged*100).toFixed(2)
         }
 
         Templates.LabelledText {
@@ -76,7 +76,7 @@ Templates.Page{
             labelText: "Total waiting time"
             units: "hr"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.totalWaitingTime.toFixed(2)
 
         }
 
@@ -95,7 +95,7 @@ Templates.Page{
             labelText: "Actual energy served / day"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualEnergyServedPerDay
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.demand.actualEnergyServedPerDay.toFixed(2)
         }
 
     }

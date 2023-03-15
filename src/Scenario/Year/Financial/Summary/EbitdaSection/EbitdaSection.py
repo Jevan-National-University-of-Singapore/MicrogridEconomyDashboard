@@ -19,7 +19,12 @@ class EbitdaSection(QObject):
         super().__init__()
         self.revenue_:Revenue = Revenue() if revenue is None else revenue
         self.ebitda_:float = ebitda
-        self.opex_ : float = opex
+        self.opex_ :float = opex
+
+        self.ebitda_ = self.revenue_.total_ - self.opex_
+
+        self.revenue_.totalChanged.connect(self.update_ebitda)
+        self.opexChanged.connect(self.update_ebitda)
 
     def emitUpdateSignals(self):    
         self.revenueChanged.emit()
@@ -32,8 +37,9 @@ class EbitdaSection(QObject):
 
     @revenue.setter
     def revenue(self, revenue:Revenue) -> None:
-        self.revenue_ = revenue
-        self.revenueChanged.emit()
+        if self.revenue_ != revenue:
+            self.revenue_ = revenue
+            self.revenueChanged.emit()
 
     @Property(float, notify=ebitdaChanged) #getter
     def ebitda(self) -> float:
@@ -41,8 +47,9 @@ class EbitdaSection(QObject):
 
     @ebitda.setter
     def ebitda(self, ebitda:float) -> None:
-        self.ebitda_ = ebitda
-        self.ebitdaChanged.emit()
+        if self.ebitda_ != ebitda:
+            self.ebitda_ = ebitda
+            self.ebitdaChanged.emit()
 
     @Property(float, notify=opexChanged) #getter
     def opex(self) -> float:
@@ -50,5 +57,12 @@ class EbitdaSection(QObject):
 
     @opex.setter
     def opex(self, opex:float) -> None:
-        self.opex_ = opex
-        self.opexChanged.emit()
+        if self.opex_ != opex:
+            self.opex_ = opex
+            self.opexChanged.emit()
+
+    @Slot()
+    def update_ebitda(self):
+        if (new_value := self.revenue_.total_ - self.opex_) != self.ebitda_:
+            self.ebitda_ = new_value
+            self.ebitdaChanged.emit()

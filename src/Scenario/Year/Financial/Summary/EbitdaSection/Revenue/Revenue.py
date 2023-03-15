@@ -18,6 +18,10 @@ class Revenue(QObject):
         self.retail_to_facility: float = retail_to_facility
         self.total_: float = total
 
+        # self.total_ = chargers + retail_to_facility
+
+        # self.chargersChanged.connect(self.update_total)
+        # self.retailToFacilityChanged.connect(self.update_total)
 
     def emitUpdateSignals(self):    
         self.chargersChanged.emit()
@@ -30,8 +34,9 @@ class Revenue(QObject):
 
     @chargers.setter
     def chargers(self, chargers:float) -> None:
-        self.chargers_ = chargers
-        self.chargersChanged.emit()
+        if self.chargers_ != chargers:
+            self.chargers_ = chargers
+            self.chargersChanged.emit()
 
     @Property(float, notify=retailToFacilityChanged) #getter
     def retailToFacility(self) -> float:
@@ -39,8 +44,9 @@ class Revenue(QObject):
 
     @retailToFacility.setter
     def retailToFacility(self, retail_to_facility:float) -> None:
-        self.retail_to_facility = retail_to_facility
-        self.retailToFacilityChanged.emit()
+        if self.retail_to_facility != retail_to_facility:
+            self.retail_to_facility = retail_to_facility
+            self.retailToFacilityChanged.emit()
 
     @Property(float, notify=totalChanged) #getter
     def total(self) -> float:
@@ -48,11 +54,11 @@ class Revenue(QObject):
 
     @total.setter
     def total(self, total_:float) -> None:
-        self.total_ = total_
-        self.totalChanged.emit()        
+        if self.total_ != total_:
+            self.total_ = total_
+            self.totalChanged.emit()        
 
-
-    @Slot()
-    def update_total(self):
-        self.total_ = self.chargers_ + self.retail_to_facility
-        self.totalChanged.emit()
+    # @Slot()
+    # def update_total(self):
+    #     self.total_ = self.chargers_ + self.retail_to_facility
+    #     self.totalChanged.emit()

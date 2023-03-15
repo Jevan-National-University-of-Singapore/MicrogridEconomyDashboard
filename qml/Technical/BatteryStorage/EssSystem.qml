@@ -23,9 +23,9 @@ Templates.Page{
             label: "Installed Capacity"
             units: "kWh"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity = installedCapacity.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity = parseFloat(installedCapacity.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.installedCapacity.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -34,7 +34,7 @@ Templates.Page{
             labelText: "Charge Rate"
             units: "C-rate"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.chargeRate
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.chargeRate.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -43,7 +43,7 @@ Templates.Page{
             labelText: "Maximum Power"
             units: "kW"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.maximumPower
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.maximumPower.toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -52,9 +52,9 @@ Templates.Page{
             label: "Operational Time"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.operationalTime = operationalTime.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.operationalTime = parseFloat(operationalTime.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.operationalTime
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.operationalTime*100).toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -63,9 +63,9 @@ Templates.Page{
             label: "SoC upper limit"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeUpperLimit = socUpperLimit.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeUpperLimit = parseFloat(socUpperLimit.inputText)/100
             
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeUpperLimit
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeUpperLimit*100).toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -74,9 +74,9 @@ Templates.Page{
             label: "SoC lower limit"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeLowerLimit = socLowerLimit.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeLowerLimit = parseFloat(socLowerLimit.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeLowerLimit
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.stateOfChargeLowerLimit*100).toFixed(2)
         }
 
         Templates.LabelledText {
@@ -85,7 +85,7 @@ Templates.Page{
             labelText: "Depth of Discharge"
             units: "%"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.depthOfDischargePercentage
+            text: (Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.depthOfDischargePercentage*100).toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -94,9 +94,9 @@ Templates.Page{
             label: "EoL capacity"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.endOfLifeCapacity = eolCapacity.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.endOfLifeCapacity = parseFloat(eolCapacity.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.endOfLifeCapacity
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.endOfLifeCapacity*100).toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -105,9 +105,9 @@ Templates.Page{
             label: "ESS Nameplate Lifecycle"
             units: "Cycles"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifeCycle = essNameplateLifeCycle.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifeCycle = parseFloat(essNameplateLifeCycle.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifecycle
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifecycle.toFixed(2)
         }
 
 

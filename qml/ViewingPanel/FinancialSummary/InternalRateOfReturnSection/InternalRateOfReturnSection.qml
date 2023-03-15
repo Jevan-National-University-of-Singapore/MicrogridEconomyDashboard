@@ -12,11 +12,17 @@ TableView {
         TableModelColumn { display: "0" }                                   
         rows: [
             {
-                "header" : "Discounted Cash Flows"
+                "header" : "Initial Investment"
                 // "0": "0"
             },
             {
-                "header" : "Present Value of Cash Flow"
+                "header" : "Net Profits (Fair Value)"
+            },
+            {
+                "header" : "Net Present Value"
+            },
+                        {
+                "header" : "Internal Rate of Return (%)"
             }
         ]
     }

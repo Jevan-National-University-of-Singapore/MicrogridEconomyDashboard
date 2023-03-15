@@ -18,6 +18,10 @@ class Depreciation(QObject):
         self.ess_: float = ess
         self.total_: float = total
 
+        self.total_ = self.chargers_ + self.ess_
+
+        self.chargersChanged.connect(self.update_total)
+        self.essChanged.connect(self.update_total)
 
     def emitUpdateSignals(self):    
         self.chargersChanged.emit()
@@ -30,8 +34,9 @@ class Depreciation(QObject):
 
     @chargers.setter
     def chargers(self, chargers:float) -> None:
-        self.chargers_ = chargers
-        self.chargersChanged.emit()
+        if self.chargers_ != chargers:
+            self.chargers_ = chargers
+            self.chargersChanged.emit()
 
     @Property(float, notify=essChanged) #getter
     def ess(self) -> float:
@@ -39,8 +44,9 @@ class Depreciation(QObject):
 
     @ess.setter
     def ess(self, ess:float) -> None:
-        self.ess_ = ess
-        self.essChanged.emit()
+        if self.ess_ != ess:
+            self.ess_ = ess
+            self.essChanged.emit()
 
     @Property(float, notify=totalChanged) #getter
     def total(self) -> float:
@@ -48,11 +54,12 @@ class Depreciation(QObject):
 
     @total.setter
     def total(self, total_:float) -> None:
-        self.total_ = total_
-        self.totalChanged.emit()        
-
+        if self.total_ != total_:
+            self.total_ = total_
+            self.totalChanged.emit()        
 
     @Slot()
     def update_total(self):
-        self.total_ = self.chargers_ + self.ess_
-        self.totalChanged.emit()
+        if (new_value := self.chargers_ + self.ess_) != self.total_:
+            self.total_ = new_value
+            self.totalChanged.emit()

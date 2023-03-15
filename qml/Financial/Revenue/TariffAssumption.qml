@@ -16,20 +16,20 @@ Templates.Page{
             label: "Electricity tariff rate"
             units: "RM/kWh"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.electricityTariffRate = electricityTariffRate.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.electricityTariffRate = parseFloat(electricityTariffRate.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.electricityTariffRate
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.electricityTariffRate.toFixed(2)
         }
 
         Templates.LabelledInput {
             id: marginOnElectricitySoldToFacility
 
-            label: "Margin on electricity sold to fa"
+            label: "Margin on electricity sold to facility"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.marginOnElectricitySoldToFacility = marginOnElectricitySoldToFacility.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.marginOnElectricitySoldToFacility = parseFloat(marginOnElectricitySoldToFacility.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.marginOnElectricitySoldToFacility
+            inputText: (Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.marginOnElectricitySoldToFacility*100).toFixed(2)
         }
 
 
@@ -38,9 +38,9 @@ Templates.Page{
 
             label: "Peak tariff rate"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.peakTariffRate = peakTariffRate.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.peakTariffRate = parseFloat(peakTariffRate.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.peakTariffRate
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.peakTariffRate.toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -48,9 +48,9 @@ Templates.Page{
 
             label: "Off-peak tariff rate"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.offPeakTariffRate = offPeakTariffRate.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.offPeakTariffRate = parseFloat(offPeakTariffRate.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.offPeakTariffRate
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.revenue.tariffAssumption.offPeakTariffRate.toFixed(2)
         }
 
     }

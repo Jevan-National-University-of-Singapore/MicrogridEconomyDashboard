@@ -23,10 +23,10 @@ Templates.Page{
 
             label: "EV battery voltage"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.evBatteryVoltage = evBatteryVoltage.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.evBatteryVoltage = parseFloat(evBatteryVoltage.inputText)
             units: "V"
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.evBatteryVoltage
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.evBatteryVoltage.toFixed(2)
 
         }
 
@@ -35,10 +35,10 @@ Templates.Page{
 
             label: "Capacity (79.2)"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.capacity = capacity.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.capacity = parseFloat(capacity.inputText)
             units: "kWh"
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.capacity
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.capacity.toFixed(2)
 
         }
 
@@ -47,10 +47,10 @@ Templates.Page{
 
             label: "Max. kW rating"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.maxPowerRating = maxKwPowerRating.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.maxPowerRating = parseFloat(maxKwPowerRating.inputText)
             units: "kW"
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.maxPowerRating
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.maxPowerRating.toFixed(2)
 
         }
 
@@ -60,7 +60,7 @@ Templates.Page{
             labelText: "Ampere-hour rating"
             units: "Ah"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.ampereHourRating
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.evCharacteristics.ampereHourRating.toFixed(2)
         }
 
     }

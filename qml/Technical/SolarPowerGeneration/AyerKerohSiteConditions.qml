@@ -23,9 +23,9 @@ Templates.Page{
             label: "Specific PV power output"
             units: "/day"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay = specificPvPowerOutputPerDay.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay = parseFloat(specificPvPowerOutputPerDay.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerDay.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -34,7 +34,7 @@ Templates.Page{
             labelText: "Specific PV power output"
             units: "/year"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerYear
+            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.ayerKerohSiteConditions.specificPvPowerOutputPerYear.toFixed(2)
         }
     }
 }

@@ -10,48 +10,48 @@ Templates.Page{
 
         subsection: "Capital Expenditure Items"
 
-        Templates.LabelledInput {
+        Templates.LongLabelledInput {
             id: solarPvRectification
 
             label: "Solar PV Rectification"
             units: "RM"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.solarPvRectification = solarPvRectification.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.solarPvRectification = parseFloat(solarPvRectification.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.solarPvRectification
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.solarPvRectification.toFixed(2)
         }
 
-        Templates.LabelledInput {
+        Templates.LongLabelledInput {
             id: dcChargers
 
             label: "DC Chargers"
             units: "RM"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.dcChargers = dcChargers.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.dcChargers = parseFloat(dcChargers.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.dcChargers
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.dcChargers.toFixed(2)
         }
 
-        Templates.LabelledInput {
+        Templates.LongLabelledInput {
             id: ess301kWh
 
             label: "301 kWh ESS"
             units: "RM"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.ess301kWh = ess301kWh.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.ess301kWh = parseFloat(ess301kWh.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.ess301kWh
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.ess301kWh.toFixed(2)
         }
 
-        Templates.LabelledInput {
+        Templates.LongLabelledInput {
             id: pcs200kW
 
             label: "200 kW PCS"
             units: "RM"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.pcs200kW = pcs200kW.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.pcs200kW = parseFloat(pcs200kW.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.pcs200kW
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.pcs200kW.toFixed(2)
         }
 
 
@@ -61,7 +61,7 @@ Templates.Page{
             labelText: "Total Capex"
             units: "RM"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.totalCapex
+            text: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.capitalExpenditureItems.totalCapex.toFixed(2)
         }
 
     }

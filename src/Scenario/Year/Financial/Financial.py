@@ -18,9 +18,9 @@ class Financial(QObject):
 
     def __init__(self, 
         name: str = None,
-        capital_expenditure: CapitalExpenditure|None = None,
-        operating_expenditure: OperatingExpenditure|None = None,
-        revenue: Revenue|None = None,
+        capital_expenditure: Optional[CapitalExpenditure] = None,
+        operating_expenditure: Optional[OperatingExpenditure] = None,
+        revenue: Optional[Revenue] = None,
 
         summary: Optional[Summary] = None
     ):
@@ -31,11 +31,12 @@ class Financial(QObject):
         self.revenue_: Revenue = Revenue() if revenue is None else revenue
         self.summary_: Summary = Summary() if summary is None else summary
 
-        self.revenue_.five_year_lifetime.revenue_required_to_break_even = round(
+        self.revenue_.revenue_items.total_revenue = \
                 (self.operating_expenditure.operating_expenditure_items.total_opex * 5)\
-                    + self.capital_expenditure.capital_expenditure_items.total_capex,
-                2
-            )
+                + self.capital_expenditure.capital_expenditure_items.total_capex
+
+        
+        self.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_summary_ebitdaSection_opex)
 
     def emitUpdateSignals(self):
         self.capital_expenditure.emitUpdateSignals()
@@ -61,9 +62,19 @@ class Financial(QObject):
 
     @Slot()
     def update_revenue_fiveYearLifetime_revenueRequiredToBreakEven(self):
-        self.revenue_.five_year_lifetime.revenue_required_to_break_even = round(
+        if (
+            new_value := \
                 (self.operating_expenditure.operating_expenditure_items.total_opex * 5)\
-                    + self.capital_expenditure.capital_expenditure_items.total_capex,
-                2
-            )
+                + self.capital_expenditure.capital_expenditure_items.total_capex
+        ) != self.revenue_.revenue_items.total_revenue:
+            self.revenue_.revenue_items.total_revenue = new_value
+            self.revenue_.revenue_items.totalRevenueChanged.emit()
+
+        
+    @Slot()
+    def update_summary_ebitdaSection_opex(self):
+        if self.summary_.ebitda_section.opex_ != self.operating_expenditure.operating_expenditure_items.total_opex:
+            self.summary_.ebitda_section.opex_ = self.operating_expenditure.operating_expenditure_items.total_opex
+            self.summary_.ebitda_section.opexChanged.emit()
+        
         

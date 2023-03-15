@@ -2,6 +2,8 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 
+from typing import Optional
+
 from .SolarPowerGeneration.SolarPowerGeneration import SolarPowerGeneration
 from .BatteryStorage.BatteryStorage import BatteryStorage
 from .ChargingAndDemand.ChargingAndDemand import ChargingAndDemand
@@ -32,18 +34,23 @@ class Technical(QObject):
 
     def __init__(self, 
         name: str = None,
-        battery_storage = BatteryStorage(),
-        solar_power_generation = SolarPowerGeneration(),
-        charging_and_demand = ChargingAndDemand(),
-        hourly_breakdown = HourlyBreakdown()
+        battery_storage:Optional[BatteryStorage] = None,
+        solar_power_generation:Optional[SolarPowerGeneration] = None,
+        charging_and_demand:Optional[ChargingAndDemand] = None,
+        hourly_breakdown:Optional[HourlyBreakdown] = None
     ):
         super().__init__()
-        self.battery_storage:BatteryStorage = battery_storage
-        self.charging_and_demand:ChargingAndDemand = charging_and_demand
-        self.solar_power_generation: SolarPowerGeneration = solar_power_generation
-        self.hourly_breakdown:HourlyBreakdown = hourly_breakdown
+        self.battery_storage:BatteryStorage = BatteryStorage() if battery_storage is None else battery_storage
+        self.charging_and_demand:ChargingAndDemand = ChargingAndDemand() if charging_and_demand is None else charging_and_demand
+        self.solar_power_generation: SolarPowerGeneration = SolarPowerGeneration() if solar_power_generation is None else solar_power_generation
+        self.hourly_breakdown:HourlyBreakdown = HourlyBreakdown() if hourly_breakdown is None else hourly_breakdown
 
-        self.battery_storage.ess_system.charge_rate_cRate = round(self.charging_and_demand.charging_ports.dc_charger_1_rating /  self.battery_storage.ess_system.installed_capacity_kwh, 2)
+        self.battery_storage.ess_system.charge_rate_cRate = \
+            self.charging_and_demand.charging_ports.dc_charger_1_rating / self.battery_storage.ess_system.installed_capacity_kwh \
+        if self.battery_storage.ess_system.installed_capacity_kwh else 0
+
+        self.solar_power_generation.hourly_solar_power_generation.estimatedKwhGeneratedElementChanged.connect(self.update_chargingAndDemand_excessToFacility_electricityPerDay)
+
         self.battery_storage.ess_system.maximum_power_kw = min(
                 self.charging_and_demand.charging_ports.dc_charger_1_rating,
                 self.charging_and_demand.ev_characteristics.max_power_rating,
@@ -110,17 +117,25 @@ class Technical(QObject):
 
     @Slot()
     def updateBatteryStorageChargeRate(self):
-        self.battery_storage.ess_system.charge_rate_cRate = round(self.charging_and_demand.charging_ports.dc_charger_1_rating /  self.battery_storage.ess_system.installed_capacity_kwh, 2)
-        self.battery_storage.ess_system.chargeRateChanged.emit()
+        if (
+            new_value := \
+                self.charging_and_demand.charging_ports.dc_charger_1_rating / self.battery_storage.ess_system.installed_capacity_kwh \
+            if self.battery_storage.ess_system.installed_capacity_kwh else 0
+        ):
+            self.battery_storage.ess_system.charge_rate_cRate = new_value
+            self.battery_storage.ess_system.chargeRateChanged.emit()
 
     @Slot()
     def updateBatteryStorageMaximumPower(self):
-        self.battery_storage.ess_system.maximum_power_kw = min(
+        if (
+            new_value := min(
                 self.charging_and_demand.charging_ports.dc_charger_1_rating,
                 self.charging_and_demand.ev_characteristics.max_power_rating,
                 self.battery_storage.discharge_.power_max
             )
-        self.battery_storage.ess_system.maximumPowerChanged.emit()
+        ) != self.battery_storage.ess_system.maximum_power_kw:
+            self.battery_storage.ess_system.maximum_power_kw = new_value
+            self.battery_storage.ess_system.maximumPowerChanged.emit()
 
     @Slot(int)
     def update_batteryStorage_gridCharging_offPeakElectricityRequiredPerDay(self, index): #can throwaway index
@@ -142,6 +157,14 @@ class Technical(QObject):
         self.charging_and_demand.demand_.actual_users_served_per_day = self.hourly_breakdown.status_section.charge_status.count("discharge")        
         self.charging_and_demand.demand_.actualUsersServedPerDayChanged.emit()
 
+
+    @Slot(int)
+    def update_chargingAndDemand_excessToFacility_electricityPerDay(self, hour_index):     
+        self.charging_and_demand.excess_to_facility.electricity_per_day = sum(
+            self.solar_power_generation.hourly_solar_power_generation.estimated_kwh_generated
+        )
+        self.charging_and_demand.excess_to_facility.electricityPerDayChanged.emit()  
+
     @Slot()
     def updateAll_hourlyBreakdown_totalChargeSupplySection_gridOffPeak(self):
         for hour_index in [0,1,2,3,4,5,6,7,22,23]:
@@ -161,7 +184,10 @@ class Technical(QObject):
         
     @Slot(int)
     def update_hourlyBreakdown_dcChargerDemandSection_essStateOfChargeElement(self, hour_index:int):
-        new_value:float = self.hourly_breakdown.dc_charger_demand_section.ess_charge[hour_index] / self.battery_storage.ess_system.installed_capacity_kwh
+        new_value:float =\
+            self.hourly_breakdown.dc_charger_demand_section.ess_charge[hour_index] / self.battery_storage.ess_system.installed_capacity_kwh \
+        if self.battery_storage.ess_system.installed_capacity_kwh else 0
+
         self.hourly_breakdown.dc_charger_demand_section.setEssStateOfChargeElement(hour_index, new_value)
 
 
@@ -188,4 +214,7 @@ class Technical(QObject):
             else:
                 new_value:float = (ess_charge+total_charge_supply) > (soc_upper_limit*installed_capacity)
                 self.hourly_breakdown.status_section.setReachedEssStateOfChargeElement(hour_index, new_value)
+
+
+
 

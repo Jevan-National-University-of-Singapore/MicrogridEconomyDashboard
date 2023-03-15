@@ -8,35 +8,69 @@ from .EbitdaSection.EbitdaSection import EbitdaSection
 from .EbitSection.EbitSection import EbitSection
 from .NetIncomeSection.NetIncomeSection import NetIncomeSection
 from .FreeCashFlowSection.FreeCashFlowSection import FreeCashFlowSection
-from .PresentValueOfCashFlowSection.PresentValueOfCashFlowSection import PresentValueOfCashFlowSection
+from .DiscountedCashFlowsSection.DiscountedCashFlowsSection import DiscountedCashFlowsSection
+from .InternalRateOfReturnSection.InternalRateOfReturnSection import InternalRateOfReturnSection
 
 class Summary(QObject):
     ebitdaSectionChanged = Signal()
     ebitSectionChanged = Signal()
     netIncomeSectionChanged = Signal()
     freeCashFlowSectionChanged = Signal()
-    presentValueOfCashFlowSectionChanged = Signal()
+    discountedCashFlowsSectionChanged = Signal()
+    internalRateOfReturnSectionChanged = Signal()
 
     def __init__(self,
         ebitda_section: Optional[EbitdaSection] = None,
         ebit_section: Optional[EbitSection] = None,
         net_income_section: Optional[NetIncomeSection] = None,
         free_cash_flow_section: Optional[FreeCashFlowSection] = None,
-        present_value_of_cash_flow_section: Optional[PresentValueOfCashFlowSection] = None
+        discounted_cash_flow_section: Optional[DiscountedCashFlowsSection] = None,
+        internal_rate_of_return_section: Optional[InternalRateOfReturnSection] = None
     ):
         super().__init__()
         self.ebitda_section:EbitdaSection = EbitdaSection() if ebitda_section is None else ebitda_section
         self.ebit_section:EbitSection = EbitSection() if ebit_section is None else ebit_section
         self.net_income_section:NetIncomeSection = NetIncomeSection() if net_income_section is None else net_income_section
         self.free_cash_flow_section: FreeCashFlowSection = FreeCashFlowSection() if free_cash_flow_section is None else free_cash_flow_section
-        self.present_value_of_cash_flow_section: PresentValueOfCashFlowSection = PresentValueOfCashFlowSection() if present_value_of_cash_flow_section is None else present_value_of_cash_flow_section
+        self.discounted_cash_flow_section: DiscountedCashFlowsSection = DiscountedCashFlowsSection() if discounted_cash_flow_section is None else discounted_cash_flow_section
+        self.internal_rate_of_return_section: InternalRateOfReturnSection = InternalRateOfReturnSection() if internal_rate_of_return_section is None else internal_rate_of_return_section
+        
+        self.ebit_section.ebit_ = self.ebitda_section.ebitda_ - self.ebit_section.depreciation_.total_
+
+        self.net_income_section.tax_expense = 0.25 * self.ebit_section.ebit_
+
+        self.net_income_section.net_income = \
+            self.ebit_section.ebit_ - self.net_income_section.tax_expense
+
+        self.free_cash_flow_section.operating_cash_flow = \
+            self.net_income_section.net_income + self.ebit_section.depreciation_.total_
+        
+        self.ebitda_section.ebitdaChanged.connect(self.update_ebitSection_ebit)
+        self.ebit_section.depreciation_.totalChanged.connect(self.update_ebitSection_ebit)
+
+        self.ebit_section.ebitChanged.connect(self.update_netIncomeSection_taxExpense)
+
+        self.ebit_section.ebitChanged.connect(self.update_netIncomeSection_netIncome)
+        self.net_income_section.taxExpenseChanged.connect(self.update_netIncomeSection_netIncome)
+
+        self.net_income_section.netIncomeChanged.connect(self.update_freeCashFlowSection_operatingCashFlow) #error trace 2.1
+        self.ebit_section.depreciation_.totalChanged.connect(self.update_freeCashFlowSection_operatingCashFlow)
+
         
     def emitUpdateSignals(self):    
+        self.ebitda_section.emitUpdateSignals()
+        self.ebit_section.emitUpdateSignals()
+        self.net_income_section.emitUpdateSignals()
+        self.free_cash_flow_section.emitUpdateSignals()
+        self.discounted_cash_flow_section.emitUpdateSignals()
+        self.internal_rate_of_return_section.emitUpdateSignals()
+
         self.ebitdaSectionChanged.emit()
         self.ebitSectionChanged.emit()
         self.netIncomeSectionChanged.emit()
         self.freeCashFlowSectionChanged.emit()
-        self.presentValueOfCashFlowSectionChanged.emit()
+        self.discountedCashFlowsSectionChanged.emit()
+        self.internalRateOfReturnSectionChanged.emit()
 
     @Property(EbitdaSection, notify=ebitdaSectionChanged) #getter
     def ebitdaSection(self) -> EbitdaSection:
@@ -44,8 +78,9 @@ class Summary(QObject):
 
     @ebitdaSection.setter
     def ebitdaSection(self, ebitda_section:EbitdaSection) -> None:
-        self.ebitda_section = ebitda_section
-        self.ebitdaSectionChanged.emit()
+        if self.ebitda_section != ebitda_section:
+            self.ebitda_section = ebitda_section
+            self.ebitdaSectionChanged.emit()
 
 
     @Property(EbitSection, notify=ebitSectionChanged) #getter
@@ -54,8 +89,9 @@ class Summary(QObject):
 
     @ebitSection.setter
     def ebitSection(self, ebit_section:EbitSection) -> None:
-        self.ebit_section = ebit_section
-        self.ebitSectionChanged.emit()        
+        if self.ebit_section != ebit_section:
+            self.ebit_section = ebit_section
+            self.ebitSectionChanged.emit()        
 
     @Property(NetIncomeSection, notify=netIncomeSectionChanged) #getter
     def netIncomeSection(self) -> NetIncomeSection:
@@ -63,8 +99,9 @@ class Summary(QObject):
 
     @netIncomeSection.setter
     def netIncomeSection(self, net_income:NetIncomeSection) -> None:
-        self.net_income_section = net_income
-        self.netIncomeSectionChanged.emit()             
+        if self.net_income_section != net_income:
+            self.net_income_section = net_income    
+            self.netIncomeSectionChanged.emit()                 
         
     @Property(FreeCashFlowSection, notify=freeCashFlowSectionChanged) #getter
     def freeCashFlowSection(self) -> FreeCashFlowSection:
@@ -72,14 +109,55 @@ class Summary(QObject):
 
     @freeCashFlowSection.setter
     def freeCashFlowSection(self, free_cash_flow_section:FreeCashFlowSection) -> None:
-        self.free_cash_flow_section = free_cash_flow_section
-        self.freeCashFlowSectionChanged.emit()        
+        if self.free_cash_flow_section != free_cash_flow_section:
+            self.free_cash_flow_section = free_cash_flow_section    
+            self.freeCashFlowSectionChanged.emit()          
 
-    @Property(PresentValueOfCashFlowSection, notify=presentValueOfCashFlowSectionChanged) #getter
-    def presentValueOfCashFlowSection(self) -> PresentValueOfCashFlowSection:
-        return self.present_value_of_cash_flow_section
+    @Property(DiscountedCashFlowsSection, notify=discountedCashFlowsSectionChanged) #getter
+    def discountedCashFlowsSection(self) -> DiscountedCashFlowsSection:
+        return self.discounted_cash_flow_section
 
-    @presentValueOfCashFlowSection.setter
-    def presentValueOfCashFlowSection(self, present_value_of_cash_flow_section_changed:PresentValueOfCashFlowSection) -> None:
-        self.present_value_of_cash_flow_section = present_value_of_cash_flow_section_changed
-        self.presentValueOfCashFlowSectionChanged.emit()                     
+    @discountedCashFlowsSection.setter
+    def discountedCashFlowsSection(self, discounted_cash_flow_section:DiscountedCashFlowsSection) -> None:
+        if self.discounted_cash_flow_section != discounted_cash_flow_section:
+            self.discounted_cash_flow_section = discounted_cash_flow_section  
+            self.discountedCashFlowsSectionChanged.emit()        
+
+    @Property(InternalRateOfReturnSection, notify=internalRateOfReturnSectionChanged) #getter
+    def internalRateOfReturnSection(self) -> InternalRateOfReturnSection:
+        return self.internal_rate_of_return_section
+
+    @internalRateOfReturnSection.setter
+    def internalRateOfReturnSection(self, internal_rate_of_return_section:InternalRateOfReturnSection) -> None:
+        if self.internal_rate_of_return_section != internal_rate_of_return_section:
+            self.internal_rate_of_return_section = internal_rate_of_return_section  
+            self.internalRateOfReturnSectionChanged.emit()                 
+
+    @Slot()
+    def update_ebitSection_ebit(self):
+        if (value := self.ebitda_section.ebitda_ - self.ebit_section.depreciation_.total_) != self.ebit_section.ebit_:
+            self.ebit_section.ebit_ = value
+            self.ebit_section.ebitChanged.emit()
+
+    @Slot()
+    def update_netIncomeSection_taxExpense(self):
+        if(new_value := 0.25 * self.ebit_section.ebit_) != self.net_income_section.tax_expense:
+            self.net_income_section.tax_expense = new_value
+            self.net_income_section.taxExpenseChanged.emit()
+
+    @Slot()
+    def update_netIncomeSection_netIncome(self):
+        if (
+            new_value := self.ebit_section.ebit_ - self.net_income_section.tax_expense
+        ) != self.net_income_section.net_income:
+            self.net_income_section.net_income = new_value
+            self.net_income_section.netIncomeChanged.emit()
+
+    @Slot()
+    def update_freeCashFlowSection_operatingCashFlow(self):
+        if (
+            new_value := self.net_income_section.net_income + self.ebit_section.depreciation_.total_
+        ) != self.free_cash_flow_section.operating_cash_flow:
+            self.free_cash_flow_section.operating_cash_flow = new_value
+            self.free_cash_flow_section.operatingCashFlowChanged.emit()
+        

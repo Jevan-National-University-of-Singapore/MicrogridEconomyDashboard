@@ -18,15 +18,15 @@ Templates.Page{
         }
 
 
-        Templates.LabelledInput {
+        Templates.LabelledText {
             id: electricityPerDay
 
-            label: "Electricity / day"
+            labelText: "Electricity / day"
             units: "kWh"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.excessToFacility.electricityPerDay = electricityPerDay.inputText
+            // input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.excessToFacility.electricityPerDay = parseFloat(electricityPerDay.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.excessToFacility.electricityPerDay
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.excessToFacility.electricityPerDay.toFixed(2)
 
         }
 
@@ -36,7 +36,7 @@ Templates.Page{
             labelText: "Electricity / year"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.excessToFacility.electricityPerYear
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.excessToFacility.electricityPerYear.toFixed(2)
         }
 
     }

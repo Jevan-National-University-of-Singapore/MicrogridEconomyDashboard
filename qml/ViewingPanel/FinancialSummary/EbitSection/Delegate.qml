@@ -8,7 +8,7 @@ Item {
 
     property int currentYear: 0
 
-    implicitWidth: column === 0? 200:100
+    implicitWidth: column === 0? 250:100
 
     implicitHeight: 30
 

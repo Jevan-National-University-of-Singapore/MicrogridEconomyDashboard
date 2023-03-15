@@ -79,11 +79,11 @@ Item {
         RevenueTreeView {
             id: revenue           
 
-            onFiveYearsLifetimeSelected: {
+            onRevenueItemsSelected: {
                 capitalExpenditure.deselectAll()
                 operatingExpenditure.deselectAll()
             }
-            onPerAnnumSelected: {
+            onPricingSelected: {
                 capitalExpenditure.deselectAll()
                 operatingExpenditure.deselectAll()
             }

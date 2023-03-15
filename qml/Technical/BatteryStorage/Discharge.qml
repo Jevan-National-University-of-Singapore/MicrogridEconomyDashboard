@@ -24,7 +24,7 @@ Templates.Page{
             labelText: "Power (Continuous, 0.75C)"
             units: "kW"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.discharge.powerContinuous
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.discharge.powerContinuous.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -33,7 +33,7 @@ Templates.Page{
             labelText: "Power (max, 1C)"
             units: "kW"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.discharge.powerMax
+            text: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.discharge.powerMax.toFixed(2)
         }
 
     }

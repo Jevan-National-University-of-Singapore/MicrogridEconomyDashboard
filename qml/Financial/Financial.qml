@@ -18,8 +18,8 @@ Page {
     function goToOperatingExpenditureItems(){swipeView.currentIndex = 3}
     function goToFixedOAndM(){swipeView.currentIndex = 4}
 
-    function goToFiveYearLifetime(){swipeView.currentIndex = 5}
-    function goToPerAnnum(){swipeView.currentIndex = 6}
+    function goToRevenueItems(){swipeView.currentIndex = 5}
+    function goToPricing(){swipeView.currentIndex = 6}
     function goToTariffAssumption(){swipeView.currentIndex = 7}
 
     SwipeView {
@@ -39,8 +39,8 @@ Page {
         OperatingExpenditureItems{id: operatingExpenditureItems }
         FixedOAndM{id: fixedOAndM }
 
-        FiveYearLifetime{id: fiveYearLifetime }
-        PerAnnum{id: perAnnum }
+        RevenueItems{id: revenueItems }
+        Pricing{id: pricing }
         TariffAssumption{id: tariffAssumption }
 
     }

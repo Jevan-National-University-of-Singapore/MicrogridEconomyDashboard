@@ -25,7 +25,7 @@ Templates.Page{
             labelText: "Specific Yield"
             units: "kWh/kWp"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.specificYield
+            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.specificYield.toFixed(2)
         }
 
         Templates.LabelledInput {
@@ -34,9 +34,9 @@ Templates.Page{
             label: "Boost Inverter Efficiency"
             units: "%"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency = boostInverterEfficiency.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency = parseFloat(boostInverterEfficiency.inputText)/100
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency
+            inputText: (Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.boostInverterEfficiency*100).toFixed(2)
         }
 
 
@@ -46,7 +46,7 @@ Templates.Page{
             labelText: "Estimated Generation / day"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerDay
+            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerDay.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -55,7 +55,7 @@ Templates.Page{
             labelText: "Estimated Generation / year"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerYear
+            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.solarEnergyProduction.estimatedGenerationPerYear.toFixed(2)
         }    
     }
 

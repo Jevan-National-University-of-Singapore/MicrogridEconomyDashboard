@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -7,23 +9,25 @@ from .StatusSection import StatusSection
 from .TotalChargeSupplySection import TotalChargeSupplySection
 
 class HourlyBreakdown(QObject):
-    dcChargerDemandSectionChanged = Signal()
-    statusChanged = Signal()
-    totalChargeSupplySectionChanged = Signal()
+    dcChargerDemandSectionChanged:Signal = Signal()
+    statusChanged:Signal = Signal()
+    totalChargeSupplySectionChanged:Signal = Signal()
 
     def __init__(self,
-        dc_charger_demand_section = None, #DcChargerDemandSection(),
-        status_section = None, #StatusSection(),
-        total_charge_supply_section = None #TotalChargeSupplySection()
+        dc_charger_demand_section:Optional[DcChargerDemandSection] = None,
+        status_section:Optional[StatusSection] = None,
+        total_charge_supply_section:Optional[TotalChargeSupplySection] = None
     ):
         super().__init__()
         self.dc_charger_demand_section: DcChargerDemandSection = DcChargerDemandSection() if dc_charger_demand_section is None else dc_charger_demand_section
         self.status_section: StatusSection = StatusSection() if status_section is None else status_section
         self.total_charge_supply_section: TotalChargeSupplySection = TotalChargeSupplySection() if total_charge_supply_section is None else total_charge_supply_section
-
+               
+        '''****************************************
+                    CONNECTIONS
+        ****************************************'''  
         self.dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_dcChargerDemandSection_loadOnEss)
         self.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_dcChargerDemandSection_loadOnEss)
-
 
         self.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
         self.dc_charger_demand_section.loadOnEssElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
@@ -40,8 +44,6 @@ class HourlyBreakdown(QObject):
         self.status_section.reachedEssStateOfChargeElementChanged.connect(self.update_statusSection_chargeState)
 
         self.dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_statusSection_chargerNeeded)
-        
-
 
     def emitUpdateSignals(self):
         self.dc_charger_demand_section.emitUpdateSignals()
@@ -137,7 +139,6 @@ class HourlyBreakdown(QObject):
         else:
             new_value: float = self.dc_charger_demand_section.load_on_ess[hour_index] < self.dc_charger_demand_section.ess_charge[hour_index-1]
             self.status_section.setChargeSufficiencyElement(hour_index, new_value)
-        # self.status_section.setChargeSufficiencyElement
 
     @Slot(int)
     def update_statusSection_chargeState(self, hour_index:int):

@@ -1,8 +1,10 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 
-from .CaptialExpenditureItems import CapitalExpenditureItems
+from .CapitalExpenditureItems import CapitalExpenditureItems
 from .Depreciation import Depreciation
 from .ExchangeRate import ExchangeRate
 
@@ -12,9 +14,9 @@ class CapitalExpenditure(QObject):
     exchangeRateChanged = Signal()
 
     def __init__(self,
-        capital_expenditure_items: CapitalExpenditureItems|None = None,
-        depreciation: Depreciation|None = None,
-        exchange_rate: ExchangeRate|None = None
+        capital_expenditure_items: Optional[CapitalExpenditureItems] = None,
+        depreciation: Optional[Depreciation] = None,
+        exchange_rate: Optional[ExchangeRate] = None
     ):
         super().__init__()
         self.capital_expenditure_items: CapitalExpenditureItems = CapitalExpenditureItems() if capital_expenditure_items is None else capital_expenditure_items

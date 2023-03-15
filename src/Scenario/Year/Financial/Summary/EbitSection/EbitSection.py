@@ -12,11 +12,11 @@ class EbitSection(QObject):
 
     def __init__(self,
         depreciation: Optional[Depreciation] = None,
-        ebitda: float = 299_357
+        ebit: float = 299_357
     ):
         super().__init__()
         self.depreciation_:Depreciation = Depreciation() if depreciation is None else depreciation
-        self.ebit_:float = ebitda
+        self.ebit_:float = ebit
 
     def emitUpdateSignals(self):    
         self.depreciationChanged.emit()
@@ -37,5 +37,7 @@ class EbitSection(QObject):
 
     @ebit.setter
     def ebit(self, ebit:float) -> None:
-        self.ebit_ = ebit
-        self.ebitChanged.emit()
+        if self.ebit_ != ebit:
+            self.ebit_ = ebit
+            self.ebitChanged.emit()
+

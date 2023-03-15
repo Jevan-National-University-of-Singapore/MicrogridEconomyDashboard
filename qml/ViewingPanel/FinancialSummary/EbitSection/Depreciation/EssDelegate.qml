@@ -8,7 +8,7 @@ Label {
 
     visible: row === 2 && column !== 0
 
-    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.ebitSection.depreciation.ess : ""
+    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.ebitSection.depreciation.ess.toFixed(2) : ""
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

@@ -5,20 +5,18 @@ from PySide6.QtGui import *
 class ExchangeRate(QObject):
     rmPerUsdChanged = Signal()
 
-    def __init__(self,
-        rm_per_usd: float = 4.18
-    ):
+    def __init__(self, rm_per_usd: float = 4.18):
         super().__init__()
-        self.rm_per_usd = rm_per_usd
+        self.rm_per_usd:float = rm_per_usd
 
     def emitUpdateSignals(self):
         self.rmPerUsdChanged.emit()       
 
-    @Property(str, notify=rmPerUsdChanged) #getter
-    def rmPerUsd(self) -> str:
-        return str(self.rm_per_usd)
+    @Property(float, notify=rmPerUsdChanged) #getter
+    def rmPerUsd(self) -> float:
+        return self.rm_per_usd
 
     @rmPerUsd.setter
-    def rmPerUsd(self, rm_per_usd:str) -> None:
-        self.rm_per_usd = round(float(rm_per_usd), 2)
+    def rmPerUsd(self, rm_per_usd:float) -> None:
+        self.rm_per_usd = rm_per_usd
         self.rmPerUsdChanged.emit()

@@ -8,7 +8,7 @@ Label {
 
     visible: row === 0 && column !== 0
 
-    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.freeCashFlowSection.operatingCashFlow : ""
+    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.freeCashFlowSection.operatingCashFlow.toFixed(2) : ""
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

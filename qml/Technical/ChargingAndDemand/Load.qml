@@ -24,7 +24,7 @@ Templates.Page{
             labelText: "Required energy / user"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerUser
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerUser.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -33,7 +33,7 @@ Templates.Page{
             labelText: "Required energy / day"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerDay
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerDay.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -42,7 +42,7 @@ Templates.Page{
             labelText: "Required energy / year"
             units: "kWh"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerYear
+            text: Scenario.years[Scenario.currentYearIndex].technical.chargingAndDemand.load.requiredEnergyPerYear.toFixed(2)
         }
 
     }

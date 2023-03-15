@@ -23,9 +23,9 @@ Templates.Page{
             label: "Installed Capacity"
             units: "kWp"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.installedCapacity.installedCapacity = installedCapacity.inputText
+            input.onEditingFinished: Scenario.years[0].technical.solarPowerGeneration.installedCapacity.installedCapacity = parseFloat(installedCapacity.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.installedCapacity.installedCapacity
+            inputText: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.installedCapacity.installedCapacity.toFixed(2)
         }
 
     }

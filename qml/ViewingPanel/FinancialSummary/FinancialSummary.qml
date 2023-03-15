@@ -9,20 +9,22 @@ import "EbitdaSection"
 import "EbitSection"
 import "NetIncomeSection"
 import "FreeCashFlowSection"
-import "PresentValueOfCashFlowSection"
+import "DiscountedCashFlowsSection"
 
+import "InternalRateOfReturnSection"
 
 Templates.Page{
     id: root
 
     Column {
+        id: cashFlow
 
-        id: tables
         EbitdaSection {
             id: ebitdaSection
 
             height: contentHeight
-            width: root.width// - label.font.pixelSize
+            width: root.width/3
+            // width: root.width// - label.font.pixelSize
         }
 
         EbitSection {
@@ -55,8 +57,8 @@ Templates.Page{
             syncDirection: Qt.Horizontal
         }
 
-        PresentValueOfCashFlowSection {
-            id: presentValueOfCashFlowSection
+        DiscountedCashFlowsSection {
+            id: discountedCashFlowsSection
 
             height: contentHeight
             width: ebitdaSection.width
@@ -66,6 +68,21 @@ Templates.Page{
         }
 
 
+    }
+
+    GroupBox {
+        id: summary
+
+        title: qsTr("Summary")
+        height: internalRateOfReturnSection.height + Qt.application.font.pointSize * 6
+        width: internalRateOfReturnSection.width
+        InternalRateOfReturnSection {
+            id: internalRateOfReturnSection
+            height: contentHeight
+            implicitWidth: root.width/3.4
+        }
+
+        anchors.left: cashFlow.right
     }
 
 

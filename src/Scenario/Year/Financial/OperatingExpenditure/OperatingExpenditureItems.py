@@ -16,17 +16,14 @@ class OperatingExpenditureItems(QObject):
         grid_electricity:float = 103_936
     ):
         super().__init__()
-        self.solar_pv_o_and_m = solar_pv_o_and_m
-        self.dc_chargers_o_and_m = dc_chargers_o_and_m
-        self.ess_o_and_m = ess_o_and_m
-        self.grid_electricity = grid_electricity
-        self.total_opex = round(
-                            solar_pv_o_and_m \
+        self.solar_pv_o_and_m:float = solar_pv_o_and_m
+        self.dc_chargers_o_and_m:float = dc_chargers_o_and_m
+        self.ess_o_and_m:float = ess_o_and_m
+        self.grid_electricity:float = grid_electricity
+        self.total_opex:float = solar_pv_o_and_m \
                                 + dc_chargers_o_and_m \
                                 + ess_o_and_m \
-                                + grid_electricity,
-                            2
-                        )
+                                + grid_electricity
 
         self.solarPvOAndMChanged.connect(self.updateTotalOpex)
         self.dcChargesOAndMChanged.connect(self.updateTotalOpex)
@@ -40,58 +37,63 @@ class OperatingExpenditureItems(QObject):
         self.gridElectricityChanged.emit()
         self.totalOpexChanged.emit()
 
-    @Property(str, notify=solarPvOAndMChanged) #getter
-    def solarPvOAndM(self) -> str:
-        return str(self.solar_pv_o_and_m)
+    @Property(float, notify=solarPvOAndMChanged) #getter
+    def solarPvOAndM(self) -> float:
+        return self.solar_pv_o_and_m
 
     @solarPvOAndM.setter
-    def solarPvOAndM(self, value:str) -> None:
-        self.solar_pv_o_and_m = round(float(value), 2)
-        self.solarPvOAndMChanged.emit()
+    def solarPvOAndM(self, value:float) -> None:
+        if self.solar_pv_o_and_m != value:
+            self.solar_pv_o_and_m = value
+            self.solarPvOAndMChanged.emit()
 
-    @Property(str, notify=dcChargesOAndMChanged) #getter
-    def dcChargesOAndM(self) -> str:
-        return str(self.dc_chargers_o_and_m)
+    @Property(float, notify=dcChargesOAndMChanged) #getter
+    def dcChargesOAndM(self) -> float:
+        return self.dc_chargers_o_and_m
 
     @dcChargesOAndM.setter
-    def dcChargesOAndM(self, value:str) -> None:
-        self.dc_chargers_o_and_m = round(float(value), 2)
-        self.dcChargesOAndMChanged.emit()
+    def dcChargesOAndM(self, value:float) -> None:
+        if self.dc_chargers_o_and_m != value:
+            self.dc_chargers_o_and_m = value
+            self.dcChargesOAndMChanged.emit()
 
-    @Property(str, notify=essOAndMChanged) #getter
-    def essOAndM(self) -> str:
-        return str(self.ess_o_and_m)
+    @Property(float, notify=essOAndMChanged) #getter
+    def essOAndM(self) -> float:
+        return self.ess_o_and_m
 
     @essOAndM.setter
-    def essOAndM(self, value:str) -> None:
-        self.ess_o_and_m = round(float(value), 2)
-        self.essOAndMChanged.emit()
+    def essOAndM(self, value:float) -> None:
+        if self.ess_o_and_m != value:
+            self.ess_o_and_m = value
+            self.essOAndMChanged.emit()
 
-    @Property(str, notify=gridElectricityChanged) #getter
-    def gridElectricity(self) -> str:
-        return str(self.grid_electricity)
+    @Property(float, notify=gridElectricityChanged) #getter
+    def gridElectricity(self) -> float:
+        return self.grid_electricity
 
     @gridElectricity.setter
-    def gridElectricity(self, value:str) -> None:
-        self.grid_electricity = round(float(value), 2)
-        self.gridElectricityChanged.emit()
+    def gridElectricity(self, value:float) -> None:
+        if self.grid_electricity != value:
+            self.grid_electricity = value
+            self.gridElectricityChanged.emit()
 
-    @Property(str, notify=totalOpexChanged) #getter
-    def totalOpex(self) -> str:
-        return str(self.total_opex)
+    @Property(float, notify=totalOpexChanged) #getter
+    def totalOpex(self) -> float:
+        return self.total_opex
 
     @totalOpex.setter
-    def totalOpex(self, value:str) -> None:
-        self.total_opex = round(float(value), 2)
-        self.totalOpexChanged.emit()
+    def totalOpex(self, value:float) -> None:
+        if self.total_opex != value:
+            self.total_opex = value
+            self.totalOpexChanged.emit()
 
     @Slot()
     def updateTotalOpex(self):
-        self.total_opex = round (
-                            self.solar_pv_o_and_m \
+        if (
+            new_value := self.solar_pv_o_and_m \
                             + self.dc_chargers_o_and_m \
                             + self.ess_o_and_m \
-                            + self.grid_electricity,
-                            2
-                        )
-        self.totalOpexChanged.emit()
+                            + self.grid_electricity 
+        ) != self.total_opex:
+            self.total_opex = new_value
+            self.totalOpexChanged.emit()

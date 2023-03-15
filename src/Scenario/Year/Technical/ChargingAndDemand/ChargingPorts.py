@@ -12,11 +12,6 @@ class ChargingPorts(QObject):
     dc2ChargingTimePerUserChanged = Signal()
 
     def __init__(self,
-        # required
-        dc_1_charging_time_per_user:float = 0.18,
-        dc_2_charging_time_per_user:float = 0.65,
-
-        # optional
         dc_charger_1_rating:float=180,
         num_of_dc_charger1:int=1,
 
@@ -26,11 +21,11 @@ class ChargingPorts(QObject):
         super().__init__()
         self.dc_charger_1_rating = dc_charger_1_rating
         self.num_of_dc_charger1 = num_of_dc_charger1
-        self.dc_1_charging_time_per_user = dc_1_charging_time_per_user
+        self.dc_1_charging_time_per_user = 0
 
         self.dc_charger_2_rating = dc_charger_2_rating
         self.num_of_dc_charger2 = num_of_dc_charger2
-        self.dc_2_charging_time_per_user = dc_2_charging_time_per_user
+        self.dc_2_charging_time_per_user = 0
 
     def emitUpdateSignals(self):
         self.dcCharger1RatingChanged.emit()
@@ -41,56 +36,62 @@ class ChargingPorts(QObject):
         self.numOfDcCharger2Changed.emit()
         self.dc2ChargingTimePerUserChanged.emit()
 
-    @Property(str, notify=dcCharger1RatingChanged) #getter
-    def dcCharger1Rating(self) -> str:
-        return str(self.dc_charger_1_rating)
+    @Property(float, notify=dcCharger1RatingChanged) #getter
+    def dcCharger1Rating(self) -> float:
+        return self.dc_charger_1_rating
 
     @dcCharger1Rating.setter #setter
-    def dcCharger1Rating(self, value:str) -> None:
-        self.dc_charger_1_rating = round(float(value), 2)
-        self.dcCharger1RatingChanged.emit()
+    def dcCharger1Rating(self, value:float) -> None:
+        if self.dc_charger_1_rating != value:
+            self.dc_charger_1_rating = value
+            self.dcCharger1RatingChanged.emit()
 
-    @Property(str, notify=numOfDcCharger1Changed) #getter
-    def numOfDcCharger1(self) -> str:
-        return str(self.num_of_dc_charger1)
+    @Property(float, notify=numOfDcCharger1Changed) #getter
+    def numOfDcCharger1(self) -> float:
+        return self.num_of_dc_charger1
 
     @numOfDcCharger1.setter #setter
-    def numOfDcCharger1(self, value:str) -> None:
-        self.num_of_dc_charger1 = int(value)
-        self.numOfDcCharger1Changed.emit()
+    def numOfDcCharger1(self, value:float) -> None:
+        if self.num_of_dc_charger1 != value:
+            self.num_of_dc_charger1 = value
+            self.numOfDcCharger1Changed.emit()
 
-    @Property(str, notify=dc1ChargingTimePerUserChanged) #getter
-    def dc1ChargingTimePerUser(self) -> str:
-        return str(self.dc_1_charging_time_per_user)
+    @Property(float, notify=dc1ChargingTimePerUserChanged) #getter
+    def dc1ChargingTimePerUser(self) -> float:
+        return self.dc_1_charging_time_per_user
 
     @dc1ChargingTimePerUser.setter #setter
-    def dc1ChargingTimePerUser(self, value:str) -> None:
-        self.dc_1_charging_time_per_user = round(float(value), 2)
-        self.dc1ChargingTimePerUserChanged.emit()
+    def dc1ChargingTimePerUser(self, value:float) -> None:
+        if self.dc_1_charging_time_per_user != value:
+            self.dc_1_charging_time_per_user = value
+            self.dc1ChargingTimePerUserChanged.emit()
 
-    @Property(str, notify=dcCharger2RatingChanged) #getter
-    def dcCharger2Rating(self) -> str:
-        return str(self.dc_charger_2_rating)
+    @Property(float, notify=dcCharger2RatingChanged) #getter
+    def dcCharger2Rating(self) -> float:
+        return self.dc_charger_2_rating
 
     @dcCharger2Rating.setter #setter
-    def dcCharger2Rating(self, value:str) -> None:
-        self.dc_charger_2_rating = round(float(value), 2)
-        self.dcCharger1RatingChanged.emit()
+    def dcCharger2Rating(self, value:float) -> None:
+        if self.dc_charger_2_rating != value:
+            self.dc_charger_2_rating = value
+            self.dcCharger1RatingChanged.emit()
 
-    @Property(str, notify=numOfDcCharger2Changed) #getter
-    def numOfDcCharger2(self) -> str:
-        return str(self.num_of_dc_charger2)
+    @Property(float, notify=numOfDcCharger2Changed) #getter
+    def numOfDcCharger2(self) -> float:
+        return self.num_of_dc_charger2
 
     @numOfDcCharger2.setter #setter
-    def numOfDcCharger2(self, value:str) -> None:
-        self.num_of_dc_charger2 = int(value)
-        self.numOfDcCharger2Changed.emit()
+    def numOfDcCharger2(self, value:float) -> None:
+        if self.num_of_dc_charger2 != value:
+            self.num_of_dc_charger2 = value
+            self.numOfDcCharger2Changed.emit()
     
-    @Property(str, notify=dc2ChargingTimePerUserChanged) #getter
-    def dc2ChargingTimePerUser(self) -> str:
-        return str(self.dc_2_charging_time_per_user)
+    @Property(float, notify=dc2ChargingTimePerUserChanged) #getter
+    def dc2ChargingTimePerUser(self) -> float:
+        return self.dc_2_charging_time_per_user
 
     @dc2ChargingTimePerUser.setter #setter
-    def dc2ChargingTimePerUser(self, value:str) -> None:
-        self.dc_2_charging_time_per_user = round(float(value), 2)
-        self.dc2ChargingTimePerUserChanged.emit()
+    def dc2ChargingTimePerUser(self, value:float) -> None:
+        if self.dc_2_charging_time_per_user != value:
+            self.dc_2_charging_time_per_user = value
+            self.dc2ChargingTimePerUserChanged.emit()

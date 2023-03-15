@@ -2,6 +2,8 @@ from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 
+from typing import Optional
+
 from .EssSystem import EssSystem
 from .Discharge import Discharge
 from .GridCharging import GridCharging
@@ -13,9 +15,9 @@ class BatteryStorage(QObject):
     gridChargingChanged = Signal()
 
     def __init__(self, 
-        ess_system: EssSystem|None = None,
-        discharge: Discharge|None = None,
-        grid_charging: GridCharging|None = None
+        ess_system: Optional[EssSystem] = None,
+        discharge: Optional[Discharge] = None,
+        grid_charging: Optional[GridCharging] = None
 
     ):
         super().__init__()
@@ -23,7 +25,9 @@ class BatteryStorage(QObject):
         self.discharge_:Discharge = Discharge() if discharge is None else discharge
         self.grid_charging:GridCharging = GridCharging() if grid_charging is None else grid_charging
 
-        self.discharge_.power_max = self.ess_system.installed_capacity_kwh
+        '''****************************************
+                    CONNECTIONS
+        ****************************************'''        
 
         self.ess_system.installedCapacityChanged.connect(self.updateDischargePowerMax)
 
@@ -47,5 +51,6 @@ class BatteryStorage(QObject):
 
     @Slot()
     def updateDischargePowerMax(self):
-        self.discharge_.power_max = self.ess_system.installed_capacity_kwh
-        self.discharge_.powerMaxChanged.emit()
+        if self.discharge_.power_max != self.ess_system.installed_capacity_kwh:
+            self.discharge_.power_max = self.ess_system.installed_capacity_kwh
+            self.discharge_.powerMaxChanged.emit()

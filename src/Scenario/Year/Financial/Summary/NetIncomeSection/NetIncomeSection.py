@@ -24,8 +24,9 @@ class NetIncomeSection(QObject):
 
     @taxExpense.setter
     def taxExpense(self, tax_expense:float) -> None:
-        self.tax_expense = tax_expense
-        self.taxExpenseChanged.emit()
+        if self.tax_expense != tax_expense:
+            self.tax_expense = tax_expense
+            self.taxExpenseChanged.emit()
 
     @Property(float, notify=netIncomeChanged) #getter
     def netIncome(self) -> float:
@@ -33,5 +34,6 @@ class NetIncomeSection(QObject):
 
     @netIncome.setter
     def netIncome(self, net_income:float) -> None:
-        self.net_income = net_income
-        self.netIncomeChanged.emit()
+        if self.net_income != net_income:
+            self.net_income = net_income
+            self.netIncomeChanged.emit()

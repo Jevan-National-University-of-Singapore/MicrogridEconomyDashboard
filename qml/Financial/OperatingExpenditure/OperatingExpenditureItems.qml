@@ -15,7 +15,7 @@ Templates.Page{
             labelText: "Solar PV O&M"
             units: "RM/year"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.solarPvOAndM
+            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.solarPvOAndM.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -24,7 +24,7 @@ Templates.Page{
             labelText: "DC Chargers O&M"
             units: "RM/year"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.dcChargesOAndM
+            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.dcChargesOAndM.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -33,7 +33,7 @@ Templates.Page{
             labelText: "ESS O&M"
             units: "RM/year"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.essOAndM
+            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.essOAndM.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -42,7 +42,7 @@ Templates.Page{
             labelText: "Grid electricity"
             units: "RM/year"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.gridElectricity
+            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.gridElectricity.toFixed(2)
         }
 
         Templates.LabelledText {
@@ -51,7 +51,7 @@ Templates.Page{
             labelText: "Total Opex"
             units: "RM/year"
 
-            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.totalOpex
+            text: Scenario.years[Scenario.currentYearIndex].financial.operatingExpenditure.operatingExpenditureItems.totalOpex.toFixed(2)
         }
     }
 }

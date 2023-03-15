@@ -34,45 +34,49 @@ class TariffAssumption(QObject):
         self.offPeakTariffRateChanged.emit()
 
     
-    @Property(str, notify=electricityTariffRateChanged) #getter
-    def electricityTariffRate(self) -> str:
-        return str(self.electricity_tariff_rate)
+    @Property(float, notify=electricityTariffRateChanged) #getter
+    def electricityTariffRate(self) -> float:
+        return self.electricity_tariff_rate
 
     @electricityTariffRate.setter
-    def electricityTariffRate(self, electricity_tariff_rate:str) -> None:
-        self.electricity_tariff_rate = round(float(electricity_tariff_rate), 2)
-        self.electricityTariffRateChanged.emit()
+    def electricityTariffRate(self, electricity_tariff_rate:float) -> None:
+        if self.electricity_tariff_rate != electricity_tariff_rate:
+            self.electricity_tariff_rate = electricity_tariff_rate
+            self.electricityTariffRateChanged.emit()
 
 
 
-    @Property(str, notify=marginOnElectricitySoldToFacilityChanged) #getter
-    def marginOnElectricitySoldToFacility(self) -> str:
-        return str(round(self.margin_on_electricity_sold_to_facility*100, 2))
+    @Property(float, notify=marginOnElectricitySoldToFacilityChanged) #getter
+    def marginOnElectricitySoldToFacility(self) -> float:
+        return self.margin_on_electricity_sold_to_facility
 
     @marginOnElectricitySoldToFacility.setter
     def marginOnElectricitySoldToFacility(self, margin_on_electricity_sold_to_facility:str) -> None:
-        self.margin_on_electricity_sold_to_facility = round(float(margin_on_electricity_sold_to_facility)/100, 4)
-        self.marginOnElectricitySoldToFacilityChanged.emit()
+        if self.margin_on_electricity_sold_to_facility != margin_on_electricity_sold_to_facility:
+            self.margin_on_electricity_sold_to_facility = margin_on_electricity_sold_to_facility
+            self.marginOnElectricitySoldToFacilityChanged.emit()
 
 
 
-    @Property(str, notify=peakTariffRateChanged) #getter
-    def peakTariffRate(self) -> str:
-        return str(self.peak_tariff_rate)
+    @Property(float, notify=peakTariffRateChanged) #getter
+    def peakTariffRate(self) -> float:
+        return self.peak_tariff_rate
 
     @peakTariffRate.setter
-    def peakTariffRate(self, peak_tariff_rate:str) -> None:
-        self.peak_tariff_rate = round(float(peak_tariff_rate), 2)
-        self.peakTariffRateChanged.emit()
+    def peakTariffRate(self, peak_tariff_rate:float) -> None:
+        if self.peak_tariff_rate != peak_tariff_rate:
+            self.peak_tariff_rate = peak_tariff_rate
+            self.peakTariffRateChanged.emit()
 
 
 
-    @Property(str, notify=offPeakTariffRateChanged) #getter
-    def offPeakTariffRate(self) -> str:
-        return str(self.off_peak_tariff_rate)
+    @Property(float, notify=offPeakTariffRateChanged) #getter
+    def offPeakTariffRate(self) -> float:
+        return self.off_peak_tariff_rate
 
     @offPeakTariffRate.setter
-    def offPeakTariffRate(self, off_peak_tariff_rate:str) -> None:
-        self.off_peak_tariff_rate = round(float(off_peak_tariff_rate), 2)
-        self.offPeakTariffRateChanged.emit()
+    def offPeakTariffRate(self, off_peak_tariff_rate:float) -> None:
+        if self.off_peak_tariff_rate != off_peak_tariff_rate:
+            self.off_peak_tariff_rate = off_peak_tariff_rate
+            self.offPeakTariffRateChanged.emit()
 

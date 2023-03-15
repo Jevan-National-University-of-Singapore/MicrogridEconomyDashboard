@@ -6,7 +6,7 @@ Item {
 
     property int currentYear: 0
 
-    implicitWidth: column === 0? 200:100
+    implicitWidth: column === 0? 250:100
 
     implicitHeight: 30
 
@@ -28,16 +28,22 @@ Item {
         foregroundColor : surface.Material.background
     }
 
-    DiscountedCashFlowsDelegate {
-        id: discountedCashFlowsDelegate
-
+    WeightedAverageCostOfCapital {
+        id: weightedAverageCostOfCapital
+        
         anchors.fill: parent
-    }  
+    }
 
     PresentValueOfCashFlowDelegate {
         id: presentValueOfCashFlowDelegate
 
         anchors.fill: parent
     }   
+
+    CumulativeCashFlowDelegate {
+        id: cumulativeCashFlowsDelegate
+
+        anchors.fill: parent
+    }  
 
 }

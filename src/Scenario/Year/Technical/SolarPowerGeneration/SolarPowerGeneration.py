@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -14,31 +16,16 @@ class SolarPowerGeneration(QObject):
     hourlySolarPowerGenerationChanged = Signal()
 
     def __init__(self,
-        installed_capacity: InstalledCapacity|None = None,
-        ayer_keroh_site_conditions: AyerKerohSiteConditions|None = None,
-        solar_energy_production: SolarEnergyProduction|None = None,
-        hourly_solar_power_generation: HourlySolarPowerGeneration = None
+        installed_capacity: Optional[InstalledCapacity] = None,
+        ayer_keroh_site_conditions: Optional[AyerKerohSiteConditions] = None,
+        solar_energy_production: Optional[SolarEnergyProduction] = None,
+        hourly_solar_power_generation: Optional[HourlySolarPowerGeneration] = None
     ):
         super().__init__()
         self.installed_capacity: InstalledCapacity = InstalledCapacity() if installed_capacity is None else installed_capacity
         self.ayer_keroh_site_conditions: AyerKerohSiteConditions = AyerKerohSiteConditions() if ayer_keroh_site_conditions is None else ayer_keroh_site_conditions
         self.solar_energy_production: SolarEnergyProduction = SolarEnergyProduction() if solar_energy_production is None else solar_energy_production
         self.hourly_solar_power_generation: HourlySolarPowerGeneration = HourlySolarPowerGeneration() if hourly_solar_power_generation is None else hourly_solar_power_generation
-
-        self.solar_energy_production.specific_yield = round(self.ayer_keroh_site_conditions.specific_pv_power_output_per_year, 2)
-
-        self.solar_energy_production.estimated_generation_per_day = round(
-            self.ayer_keroh_site_conditions.specific_pv_power_output_per_day
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
-
-
-        self.solar_energy_production.estimated_generation_per_year = round(
-            self.solar_energy_production.specific_yield
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
 
         self.ayer_keroh_site_conditions.specificPvPowerOutputPerYearChanged.connect(self.update_solarEnergyProduction_specificYield)
 
@@ -54,6 +41,7 @@ class SolarPowerGeneration(QObject):
         self.installed_capacity.emitUpdateSignals()
         self.ayer_keroh_site_conditions.emitUpdateSignals()
         self.solar_energy_production.emitUpdateSignals()
+        self.hourly_solar_power_generation.emitUpdateSignals()
 
     @Property(InstalledCapacity, notify=installedCapacityChanged) #getter
     def installedCapacity(self) -> InstalledCapacity:
@@ -73,29 +61,29 @@ class SolarPowerGeneration(QObject):
 
     @Slot()
     def update_solarEnergyProduction_specificYield(self):
-        self.solar_energy_production.specific_yield = round(self.ayer_keroh_site_conditions.specific_pv_power_output_per_year, 2)
-        self.solar_energy_production.specificYieldChanged.emit()
+        if self.solar_energy_production.specific_yield != self.ayer_keroh_site_conditions.specific_pv_power_output_per_year:
+            self.solar_energy_production.specific_yield = self.ayer_keroh_site_conditions.specific_pv_power_output_per_year
+            self.solar_energy_production.specificYieldChanged.emit()
 
     @Slot()
     def update_solarEnergyProduction_estimatedGenerationPerDay(self):
-        self.solar_energy_production.estimated_generation_per_day = round(
-            self.ayer_keroh_site_conditions.specific_pv_power_output_per_day
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
-        self.solar_energy_production.estimatedGenerationPerDayChanged.emit()
+        if (
+            new_value := \
+                self.ayer_keroh_site_conditions.specific_pv_power_output_per_day \
+                * self.installed_capacity.installed_capacity \
+                * self.solar_energy_production.boost_inverter_efficiency
+        ) != self.solar_energy_production.estimated_generation_per_day:
+            self.solar_energy_production.estimated_generation_per_day = new_value
+            self.solar_energy_production.estimatedGenerationPerDayChanged.emit()
 
 
     @Slot()
     def update_solarEnergyProduction_estimatedGenerationPerYear(self):
-        self.solar_energy_production.estimated_generation_per_year = round(
-            self.solar_energy_production.specific_yield
-                * self.installed_capacity.installed_capacity
-                * self.solar_energy_production.boost_inverter_efficiency,
-            2)
-        self.solar_energy_production.estimatedGenerationPerYearChanged.emit()
-
-    @Slot()
-    def update_hourlySolarPowerGeneration_dailyGeneration(self):
-        self.hourly_solar_power_generation.daily_generation = self.solar_energy_production.estimated_generation_per_day
-        self.hourly_solar_power_generation.dailyGenerationChanged.emit()
+        if (
+            new_value := \
+            self.solar_energy_production.specific_yield \
+            * self.installed_capacity.installed_capacity \
+            * self.solar_energy_production.boost_inverter_efficiency
+        ) != self.solar_energy_production.estimated_generation_per_year:
+            self.solar_energy_production.estimated_generation_per_year = new_value
+            self.solar_energy_production.estimatedGenerationPerYearChanged.emit()

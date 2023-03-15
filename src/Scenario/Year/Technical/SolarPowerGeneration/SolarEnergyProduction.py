@@ -9,56 +9,56 @@ class SolarEnergyProduction(QObject):
     estimatedGenerationPerYearChanged = Signal()
     hourlySolarPowerGenerationChanged = Signal()
 
-    def __init__(self,
-        specific_yield: float = 1_306.7,
-        boost_inverter_efficiency: float = 0.9,
-        estimated_generation_per_day: float = 86.99,
-        estimated_generation_per_year: float = 31_753,
-    ):
+    def __init__(self, boost_inverter_efficiency: float = 0.9, estimated_generation_per_day: float = 86.99):
         super().__init__()
-        self.specific_yield:float = specific_yield
+        self.specific_yield:float = 0
         self.boost_inverter_efficiency:float = boost_inverter_efficiency
         self.estimated_generation_per_day:float = estimated_generation_per_day
-        self.estimated_generation_per_year:float = estimated_generation_per_year
+        self.estimated_generation_per_year:float = 0
 
     def emitUpdateSignals(self):        
         self.specificYieldChanged.emit()
         self.boostInverterEfficiencyChanged.emit()
         self.estimatedGenerationPerDayChanged.emit()
         self.estimatedGenerationPerYearChanged.emit()
+        self.hourlySolarPowerGenerationChanged.emit()
 
-    @Property(str, notify=specificYieldChanged) #getter
-    def specificYield(self) -> str:
-        return str(self.specific_yield)
+    @Property(float, notify=specificYieldChanged) #getter
+    def specificYield(self) -> float:
+        return self.specific_yield
 
     @specificYield.setter
-    def specificYield(self, specific_yield:str) -> None:
-        self.specific_yield = round(float(specific_yield), 2)
-        self.specificYieldChanged.emit()
+    def specificYield(self, specific_yield:float) -> None:
+        if self.specific_yield != specific_yield:
+            self.specific_yield = specific_yield
+            self.specificYieldChanged.emit()
 
-    @Property(str, notify=boostInverterEfficiencyChanged) #getter
-    def boostInverterEfficiency(self) -> str:
-        return str(round(self.boost_inverter_efficiency*100, 2))
+    @Property(float, notify=boostInverterEfficiencyChanged) #getter
+    def boostInverterEfficiency(self) -> float:
+        return self.boost_inverter_efficiency
 
     @boostInverterEfficiency.setter
-    def boostInverterEfficiency(self, boost_inverter_efficiency:str) -> None:
-        self.boost_inverter_efficiency = round(float(boost_inverter_efficiency)/100, 4)
-        self.boostInverterEfficiencyChanged.emit()
+    def boostInverterEfficiency(self, boost_inverter_efficiency:float) -> None:
+        if self.boost_inverter_efficiency != boost_inverter_efficiency:
+            self.boost_inverter_efficiency = boost_inverter_efficiency
+            self.boostInverterEfficiencyChanged.emit()
 
-    @Property(str, notify=estimatedGenerationPerDayChanged) #getter
-    def estimatedGenerationPerDay(self) -> str:
-        return str(self.estimated_generation_per_day)
+    @Property(float, notify=estimatedGenerationPerDayChanged) #getter
+    def estimatedGenerationPerDay(self) -> float:
+        return self.estimated_generation_per_day
 
     @estimatedGenerationPerDay.setter
-    def estimatedGenerationPerDay(self, estimated_generation_per_day:str) -> None:
-        self.estimated_generation_per_day = round(float(estimated_generation_per_day), 2)
-        self.estimatedGenerationPerDayChanged.emit()
+    def estimatedGenerationPerDay(self, estimated_generation_per_day:float) -> None:
+        if self.estimated_generation_per_day != estimated_generation_per_day:
+            self.estimated_generation_per_day = estimated_generation_per_day
+            self.estimatedGenerationPerDayChanged.emit()
 
-    @Property(str, notify=estimatedGenerationPerYearChanged) #getter
-    def estimatedGenerationPerYear(self) -> str:
-        return str(self.estimated_generation_per_year)
+    @Property(float, notify=estimatedGenerationPerYearChanged) #getter
+    def estimatedGenerationPerYear(self) -> float:
+        return self.estimated_generation_per_year
 
     @estimatedGenerationPerYear.setter
-    def estimatedGenerationPerYear(self, estimated_generation_per_year:str) -> None:
-        self.estimated_generation_per_year = round(float(estimated_generation_per_year), 2)
-        self.estimatedGenerationPerYearChanged.emit()
+    def estimatedGenerationPerYear(self, estimated_generation_per_year:float) -> None:
+        if self.estimated_generation_per_year != estimated_generation_per_year:
+            self.estimated_generation_per_year = estimated_generation_per_year
+            self.estimatedGenerationPerYearChanged.emit()

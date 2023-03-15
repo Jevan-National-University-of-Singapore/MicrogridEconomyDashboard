@@ -20,10 +20,19 @@ class FreeCashFlowSection(QObject):
         self.change_in_net_working_capital:float = change_in_net_working_capital
         self.free_cash_flow:float = free_cash_flow
 
+        self.free_cash_flow = self.operating_cash_flow \
+                        - self.capex_ \
+                        - self.change_in_net_working_capital
+        
+        self.operatingCashFlowChanged.connect(self.update_freeCashFlow)
+        self.capexChanged.connect(self.update_freeCashFlow)
+        self.changeInNetWorkingCapitalChanged.connect(self.update_freeCashFlow)
+
     def emitUpdateSignals(self):    
         self.operatingCashFlowChanged.emit()
         self.capexChanged.emit()
         self.changeInNetWorkingCapitalChanged.emit()
+        self.freeCashFlowChanged.emit()
 
     @Property(float, notify=operatingCashFlowChanged) #getter
     def operatingCashFlow(self) -> float:
@@ -31,8 +40,9 @@ class FreeCashFlowSection(QObject):
 
     @operatingCashFlow.setter
     def operatingCashFlow(self, operating_cash_flow:float) -> None:
-        self.operating_cash_flow = operating_cash_flow
-        self.operatingCashFlowChanged.emit()
+        if self.operating_cash_flow != operating_cash_flow:
+            self.operating_cash_flow = operating_cash_flow
+            self.operatingCashFlowChanged.emit()
 
     @Property(float, notify=capexChanged) #getter
     def capex(self) -> float:
@@ -40,8 +50,9 @@ class FreeCashFlowSection(QObject):
 
     @capex.setter
     def capex(self, capex:float) -> None:
-        self.capex_ = capex
-        self.capexChanged.emit()
+        if self.capex_ != capex:
+            self.capex_ = capex
+            self.capexChanged.emit()
 
     @Property(float, notify=changeInNetWorkingCapitalChanged) #getter
     def changeInNetWorkingCapital(self) -> float:
@@ -49,8 +60,9 @@ class FreeCashFlowSection(QObject):
 
     @changeInNetWorkingCapital.setter
     def changeInNetWorkingCapital(self, change_in_net_working_capital:float) -> None:
-        self.change_in_net_working_capital = change_in_net_working_capital
-        self.changeInNetWorkingCapitalChanged.emit()
+        if self.change_in_net_working_capital != change_in_net_working_capital:
+            self.change_in_net_working_capital = change_in_net_working_capital
+            self.changeInNetWorkingCapitalChanged.emit()
 
     @Property(float, notify=freeCashFlowChanged) #getter
     def freeCashFlow(self) -> float:
@@ -58,5 +70,17 @@ class FreeCashFlowSection(QObject):
 
     @freeCashFlow.setter
     def freeCashFlow(self, free_cash_flow:float) -> None:
-        self.free_cash_flow = free_cash_flow
-        self.freeCashFlowChanged.emit()        
+        if self.free_cash_flow != free_cash_flow:
+            self.free_cash_flow = free_cash_flow
+            self.freeCashFlowChanged.emit()    
+
+
+    @Slot()
+    def update_freeCashFlow(self):
+        if (
+            new_value := self.operating_cash_flow \
+                                - self.capex_ \
+                                - self.change_in_net_working_capital
+        ) != self.free_cash_flow:
+            self.free_cash_flow = new_value
+            self.freeCashFlowChanged.emit()

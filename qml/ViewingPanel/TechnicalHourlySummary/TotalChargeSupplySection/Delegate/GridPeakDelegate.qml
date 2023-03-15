@@ -8,7 +8,7 @@ Label {
 
     property int currentYear: 0
 
-    text: visible? Scenario.years[Scenario.currentYearIndex].technical.hourlyBreakdown.totalChargeSupplySection.gridPeak[column -1] : ""
+    text: visible? Scenario.years[Scenario.currentYearIndex].technical.hourlyBreakdown.totalChargeSupplySection.gridPeak[column -1].toFixed(2) : ""
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

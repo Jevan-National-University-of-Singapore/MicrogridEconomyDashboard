@@ -108,7 +108,11 @@ ApplicationWindow {
                         }
                         // model: [0,1,2,3,4]
 
-                        onCurrentIndexChanged: Scenario.currentYearIndex = currentIndex
+                        onCurrentIndexChanged: {
+                            Scenario.currentYearIndex = currentIndex
+                            // console.log(Scenario.currentYearIndex)
+                            // console.log(Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.installedCapacity.installedCapacity)
+                        }
 
                     }
                     
@@ -171,8 +175,8 @@ ApplicationWindow {
                 }
 
                 revenue{
-                    onFiveYearsLifetimeSelected: financialWorkspace.goToFiveYearLifetime()
-                    onPerAnnumSelected: financialWorkspace.goToPerAnnum()
+                    onRevenueItemsSelected: financialWorkspace.goToRevenueItems()
+                    onPricingSelected: financialWorkspace.goToPricing()
                     onTariffAssumptionSelected: financialWorkspace.goToTariffAssumption()
                 }
             }

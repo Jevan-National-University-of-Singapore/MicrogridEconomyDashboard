@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -10,8 +12,8 @@ class OperatingExpenditure(QObject):
     fixedOAndMChanged = Signal()
 
     def __init__(self,
-        operating_expenditure_items: OperatingExpenditureItems|None = None,
-        fixed_o_and_m: FixedOAndM|None = None
+        operating_expenditure_items: Optional[OperatingExpenditureItems] = None,
+        fixed_o_and_m: Optional[FixedOAndM] = None
     ):
         super().__init__()
         self.operating_expenditure_items: OperatingExpenditureItems = OperatingExpenditureItems() if operating_expenditure_items is None else operating_expenditure_items

@@ -22,7 +22,7 @@ Item {
 
             labelText: "Total percentage of max kW"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.hourlySolarPowerGeneration.totalPercentageOfMaxKw
+            text: (Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.hourlySolarPowerGeneration.totalPercentageOfMaxKw * 100).toFixed(2)
 
         }
 
@@ -31,7 +31,7 @@ Item {
 
             labelText: "Daily generation (kWh)"
 
-            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.hourlySolarPowerGeneration.dailyGeneration
+            text: Scenario.years[Scenario.currentYearIndex].technical.solarPowerGeneration.hourlySolarPowerGeneration.dailyGeneration.toFixed(2)
 
         }
 

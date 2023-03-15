@@ -7,8 +7,8 @@ import "../Delegates"
 Item {
     id: root
 
-    signal fiveYearsLifetimeSelected
-    signal perAnnumSelected
+    signal revenueItemsSelected
+    signal pricingSelected
     signal tariffAssumptionSelected
 
     implicitHeight: parentView.height + subTreeViews.height
@@ -20,16 +20,16 @@ Item {
     visible: opacity    
 
     function deselectAll(){
-        fiveYearsLifetime.isSelected = false
-        perAnnum.isSelected = false
+        revenueItems.isSelected = false
+        pricing.isSelected = false
         tariffAssumption.isSelected = false
     }
 
     function collapseSubSection(){
         root.deselectAll()
         subTreeViews.state = "collapsed"
-        fiveYearsLifetime.state = "collapsed"
-        perAnnum.state = "collapsed"
+        revenueItems.state = "collapsed"
+        pricing.state = "collapsed"
         tariffAssumption.state = "collapsed"
     }
 
@@ -75,8 +75,8 @@ Item {
 
         onSubTreeExpand: {
             subTreeViews.state = "expanded"
-            fiveYearsLifetime.state = "expanded"
-            perAnnum.state = "expanded"
+            revenueItems.state = "expanded"
+            pricing.state = "expanded"
             tariffAssumption.state = "expanded"
         }
 
@@ -119,9 +119,9 @@ Item {
         }
 
         LeafDelegate{
-            id: fiveYearsLifetime
+            id: revenueItems
 
-            text: "5 Years Lifetime"
+            text: "revenue items"
             height: implicitHeight; width: implicitWidth
 
             anchors {
@@ -134,18 +134,18 @@ Item {
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                perAnnum.isSelected = false
+                pricing.isSelected = false
                 tariffAssumption.isSelected = false
-                root.fiveYearsLifetimeSelected()
+                root.revenueItemsSelected()
             }
 
 
         }
 
         LeafDelegate{
-            id: perAnnum
+            id: pricing
 
-            text: "Per Annum"
+            text: "pricing"
             height: implicitHeight; width: implicitWidth
             
             anchors {
@@ -154,13 +154,13 @@ Item {
                 top: subTreeViews.top
             }
 
-            expandedAnchor.anchors.top: fiveYearsLifetime.bottom
+            expandedAnchor.anchors.top: revenueItems.bottom
             collapsedAnchor.anchors.top: subTreeViews.top   
 
             onSelected: {
-                fiveYearsLifetime.isSelected = false
+                revenueItems.isSelected = false
                 tariffAssumption.isSelected = false
-                root.perAnnumSelected()
+                root.pricingSelected()
             }         
         }
 
@@ -176,12 +176,12 @@ Item {
                 top: subTreeViews.top
             }
             
-            expandedAnchor.anchors.top: perAnnum.bottom
+            expandedAnchor.anchors.top: pricing.bottom
             collapsedAnchor.anchors.top: subTreeViews.top
 
             onSelected: {
-                fiveYearsLifetime.isSelected = false
-                perAnnum.isSelected = false
+                revenueItems.isSelected = false
+                pricing.isSelected = false
                 root.tariffAssumptionSelected()
             }
         }

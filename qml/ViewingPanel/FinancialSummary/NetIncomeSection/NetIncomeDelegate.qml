@@ -8,7 +8,7 @@ Label {
 
     visible: row === 1 && column !== 0
 
-    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.netIncomeSection.netIncome : ""
+    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.netIncomeSection.netIncome.toFixed(2) : ""
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

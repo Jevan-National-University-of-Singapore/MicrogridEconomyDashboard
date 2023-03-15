@@ -9,7 +9,7 @@ Label {
     visible: row === 0 && column !== 0
 
 
-    text: visible? Scenario.years[Scenario.currentYearIndex].technical.hourlyBreakdown.dcChargerDemandSection.dcChargerDemand[column -1] : ""
+    text: visible? Scenario.years[Scenario.currentYearIndex].technical.hourlyBreakdown.dcChargerDemandSection.dcChargerDemand[column -1].toFixed(2) : ""
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

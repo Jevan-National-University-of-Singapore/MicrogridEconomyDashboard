@@ -7,17 +7,15 @@ class Load(QObject):
     requiredEnergyPerDayChanged = Signal()
     requiredEnergyPerYearChanged = Signal()
 
-    def __init__(self,
-        # required
-        required_energy_per_user:float = 32.4,
-        required_energy_per_day:float = 550.8
-    ):
+    def __init__(self):
         super().__init__()
-        self.required_energy_per_user = required_energy_per_user
-        self.required_energy_per_day = required_energy_per_day
-        
-        self.required_energy_per_year = round(required_energy_per_day * 365, 2)
+        self.required_energy_per_user:float = 0
+        self.required_energy_per_day:float = 0
+        self.required_energy_per_year:float = self.required_energy_per_day * 365
 
+        '''****************************************
+                    CONNECTIONS
+        ****************************************'''  
         self.requiredEnergyPerDayChanged.connect(self.updateRequiredEnergyPerYear)
 
     def emitUpdateSignals(self):
@@ -25,34 +23,38 @@ class Load(QObject):
         self.requiredEnergyPerDayChanged.emit()
         self.requiredEnergyPerYearChanged.emit()        
 
-    @Property(str, notify=requiredEnergyPerUserChanged) #getter
-    def requiredEnergyPerUser(self) -> str:
-        return str(self.required_energy_per_user)
+    @Property(float, notify=requiredEnergyPerUserChanged) #getter
+    def requiredEnergyPerUser(self) -> float:
+        return self.required_energy_per_user
 
     @requiredEnergyPerUser.setter
-    def requiredEnergyPerUser(self, required_energy_per_user:str):
-        self.required_energy_per_user = round(float(required_energy_per_user), 2)
-        self.requiredEnergyPerUserChanged.emit()
+    def requiredEnergyPerUser(self, required_energy_per_user:float):
+        if self.required_energy_per_user != required_energy_per_user:
+            self.required_energy_per_user = required_energy_per_user
+            self.requiredEnergyPerUserChanged.emit()
 
-    @Property(str, notify=requiredEnergyPerDayChanged) #getter
-    def requiredEnergyPerDay(self) -> str:
-        return str(self.required_energy_per_day)
+    @Property(float, notify=requiredEnergyPerDayChanged) #getter
+    def requiredEnergyPerDay(self) -> float:
+        return self.required_energy_per_day
 
     @requiredEnergyPerDay.setter
-    def requiredEnergyPerDay(self, required_energy_per_day:str):
-        self.required_energy_per_day = round(float(required_energy_per_day), 2)
-        self.requiredEnergyPerDayChanged.emit()
+    def requiredEnergyPerDay(self, required_energy_per_day:float):
+        if self.required_energy_per_day != required_energy_per_day:
+            self.required_energy_per_day = required_energy_per_day
+            self.requiredEnergyPerDayChanged.emit()
     
-    @Property(str, notify=requiredEnergyPerYearChanged) #getter
-    def requiredEnergyPerYear(self) -> str:
-        return str(self.required_energy_per_year)
+    @Property(float, notify=requiredEnergyPerYearChanged) #getter
+    def requiredEnergyPerYear(self) -> float:
+        return self.required_energy_per_year
 
     @requiredEnergyPerYear.setter
-    def requiredEnergyPerYear(self, required_energy_per_year:str):
-        self.required_energy_per_year = round(float(required_energy_per_year), 2)
-        self.requiredEnergyPerYearChanged.emit()
+    def requiredEnergyPerYear(self, required_energy_per_year:float):
+        if self.required_energy_per_year != required_energy_per_year:
+            self.required_energy_per_year = required_energy_per_year
+            self.requiredEnergyPerYearChanged.emit()
 
     @Slot()
     def updateRequiredEnergyPerYear(self):
-        self.required_energy_per_year = round(self.required_energy_per_day * 365, 2)
-        self.requiredEnergyPerYearChanged.emit()
+        if (new_value := self.required_energy_per_day * 365) != self.required_energy_per_year:
+            self.required_energy_per_year = new_value
+            self.requiredEnergyPerYearChanged.emit()

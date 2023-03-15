@@ -11,12 +11,14 @@ class Discharge(QObject):
     powerContinuousChanged = Signal()
     powerMaxChanged = Signal()
 
-    def __init__(self, power_max:float=354) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.power_max = power_max
+        self.power_max: float = 0
+        self.power_continuous: float = 0.75 * self.power_max
 
-        self.power_continuous = round(0.75 * power_max, 2)
-
+        '''****************************************
+                    CONNECTIONS
+        ****************************************'''   
         self.powerMaxChanged.connect(self.updatePowerContinuous)
 
     def emitUpdateSignals(self):
@@ -27,26 +29,29 @@ class Discharge(QObject):
                 QML(UI) getters and setters (front-end)
     ***************************************************** '''
     # ======== Power Continuous ========
-    @Property(str, notify=powerContinuousChanged) #getter
-    def powerContinuous(self) -> str:
-        return str(self.power_continuous)
+    @Property(float, notify=powerContinuousChanged) #getter
+    def powerContinuous(self) -> float:
+        return self.power_continuous
 
     @powerContinuous.setter #setter
-    def powerContinuous(self, value:str) -> None:
-        self.power_continuous = round(float(value), 2)
-        self.powerContinuousChanged.emit()
+    def powerContinuous(self, power_continuous:float) -> None:
+        if self.power_continuous != power_continuous:
+            self.power_continuous = power_continuous
+            self.powerContinuousChanged.emit()
 
     # ======== Power Max ========
-    @Property(str, notify=powerMaxChanged) #getter
-    def powerMax(self) -> str:
-        return str(self.power_max)
+    @Property(float, notify=powerMaxChanged) #getter
+    def powerMax(self) -> float:
+        return self.power_max
 
     @powerMax.setter #setter
-    def powerMax(self, value:str) -> None:
-        self.power_max = round(float(value),2)
-        self.powerMaxChanged.emit()
+    def powerMax(self, power_max:float) -> None:
+        if self.power_max != power_max:
+            self.power_max = power_max
+            self.powerMaxChanged.emit()
 
     @Slot()
     def updatePowerContinuous(self):
-        self.power_continuous = round(self.power_max * 0.75, 2)
-        self.powerContinuousChanged.emit()
+        if (new_value := self.power_max * 0.75) != self.power_continuous:
+            self.power_continuous = new_value
+            self.powerContinuousChanged.emit()

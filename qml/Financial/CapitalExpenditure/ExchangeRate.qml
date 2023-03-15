@@ -15,9 +15,9 @@ Templates.Page{
             label: "RM/USD"
             units: "RM"
 
-            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.exchangeRate.rmPerUsd = rmPerUsd.inputText
+            input.onEditingFinished: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.exchangeRate.rmPerUsd = parseFloat(rmPerUsd.inputText)
 
-            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.exchangeRate.rmPerUsd
+            inputText: Scenario.years[Scenario.currentYearIndex].financial.capitalExpenditure.exchangeRate.rmPerUsd.toFixed(2)
         }
 
     }

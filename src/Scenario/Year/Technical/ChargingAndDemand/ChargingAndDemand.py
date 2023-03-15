@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -16,11 +18,11 @@ class ChargingAndDemand(QObject):
     evCharacteristicsChanged = Signal()
 
     def __init__(self,
-        charging_ports = None,
-        demand = None,
-        load = None,
-        excess_to_facility = None,
-        ev_characteristics = None
+        charging_ports:Optional[ChargingPorts] = None,
+        demand:Optional[Demand] = None,
+        load:Optional[Load] = None,
+        excess_to_facility:Optional[ExcessToFacility] = None,
+        ev_characteristics:Optional[EvCharacteristics] = None
     ):
         super().__init__()
         self.charging_ports: ChargingPorts = ChargingPorts() if charging_ports is None else charging_ports
@@ -29,12 +31,9 @@ class ChargingAndDemand(QObject):
         self.excess_to_facility: ExcessToFacility = ExcessToFacility() if excess_to_facility is None else excess_to_facility
         self.ev_characteristics: EvCharacteristics = EvCharacteristics() if ev_characteristics is None else ev_characteristics
 
-        self.charging_ports.dc_1_charging_time_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_1_rating, 2)
-        self.charging_ports.dc_2_charging_time_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_2_rating, 2)
-        self.demand_.actual_energy_served_per_day = round(self.demand_.actual_users_served_per_day * self.load_.required_energy_per_user, 2)
-        self.load_.required_energy_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_, 2)
-        self.load_.required_energy_per_day = round(self.load_.required_energy_per_user * self.demand_.number_of_users_per_day, 2)
-
+        '''****************************************
+                    CONNECTIONS
+        ****************************************'''  
         self.demand_.stateOfChargeToBeChargedChanged.connect(self.updateDc1ChargingTimePerUser)
         self.ev_characteristics.capacityChanged.connect(self.updateDc1ChargingTimePerUser)
         self.charging_ports.dcCharger1RatingChanged.connect(self.updateDc1ChargingTimePerUser)
@@ -81,30 +80,40 @@ class ChargingAndDemand(QObject):
 
     @Slot()
     def updateDc1ChargingTimePerUser(self):
-        self.charging_ports.dc_1_charging_time_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_1_rating, 2)
-        self.charging_ports.dc1ChargingTimePerUserChanged.emit()
+        if (
+            new_value:=\
+                self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_1_rating \
+            if self.charging_ports.dc_charger_1_rating else 0
+        ) != self.charging_ports.dc_1_charging_time_per_user:
+            self.charging_ports.dc_1_charging_time_per_user = new_value
+            self.charging_ports.dc1ChargingTimePerUserChanged.emit()
 
 
     @Slot()
     def updateDc2ChargingTimePerUser(self):
-        self.charging_ports.dc_2_charging_time_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_2_rating, 2)
-        self.charging_ports.dc2ChargingTimePerUserChanged.emit()
-
+        if (
+            new_value:=\
+                self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_ / self.charging_ports.dc_charger_2_rating \
+            if self.charging_ports.dc_charger_2_rating else 0
+        ) != self.charging_ports.dc_2_charging_time_per_user:
+            self.charging_ports.dc_2_charging_time_per_user = new_value
+            self.charging_ports.dc2ChargingTimePerUserChanged.emit()
 
     @Slot()
     def updateActualEnergyServedPerDay(self):
-        self.demand_.actual_energy_served_per_day = round(self.demand_.actual_users_served_per_day * self.load_.required_energy_per_user, 2)
-        self.demand_.actualEnergyServedPerDayChanged.emit()
+        if (new_value := self.demand_.actual_users_served_per_day * self.load_.required_energy_per_user) != self.demand_.actual_energy_served_per_day:
+            self.demand_.actual_energy_served_per_day = new_value
+            self.demand_.actualEnergyServedPerDayChanged.emit()
 
     @Slot()
     def updateRequiredEnergyPerUser(self):
-        self.load_.required_energy_per_user = round(self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_, 2)
-        self.load_.requiredEnergyPerUserChanged.emit()
-
-
+        if (new_value := self.demand_.state_of_charge_to_be_charged * self.ev_characteristics.capacity_) != self.load_.required_energy_per_user:
+            self.load_.required_energy_per_user = new_value
+            self.load_.requiredEnergyPerUserChanged.emit()
 
     @Slot()
     def updateRequiredEnergyPerDay(self):
-        self.load_.required_energy_per_day = round(self.load_.required_energy_per_user * self.demand_.number_of_users_per_day, 2)
-        self.load_.requiredEnergyPerDayChanged.emit()
+        if (new_value := self.load_.required_energy_per_user * self.demand_.number_of_users_per_day) != self.load_.required_energy_per_day:
+            self.load_.required_energy_per_day = new_value
+            self.load_.requiredEnergyPerDayChanged.emit()
 

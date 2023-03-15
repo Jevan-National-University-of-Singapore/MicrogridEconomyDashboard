@@ -6,9 +6,9 @@ Label {
 
     property int currentYear: 0
 
-    visible: row === 1 && column !== 0
+    visible: row === 2 && column !== 0
 
-    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.freeCashFlowSection.capex : ""
+    text: visible? Scenario.years[Scenario.currentYearIndex].financial.summary.discountedCashFlowsSection.cumulativeCashFlow.toFixed(2) : ""
 
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter

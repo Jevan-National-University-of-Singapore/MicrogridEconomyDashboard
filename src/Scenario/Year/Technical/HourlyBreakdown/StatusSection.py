@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -18,20 +20,14 @@ class StatusSection(QObject):
     avilabilityChanged = Signal()
     avilabilityElementChanged = Signal(int)
 
-    def __init__(self,
-        charge_sufficiency: list|None = None,
-        charge_status: list|None = None,
-        charger_needed: list|None = None,
-        reached_ess_state_of_charge : list|None = None,
-        availability: list|None = None
-    ):
+    def __init__(self):
         super().__init__()
 
-        self.charge_sufficiency: list = [True]*24 if charge_sufficiency is None else charge_sufficiency
-        self.charge_status: list = (["Charge"]*5)+(["Discharge"]*17)+(["Charge", "Charge"]) if charge_status is None else charge_status
-        self.charger_needed: list = ([False]*5)+([True]*17)+([False, False]) if charger_needed is None else charger_needed
-        self.reached_ess_state_of_charge: list = [False]*24 if reached_ess_state_of_charge is None else reached_ess_state_of_charge
-        self.availability_: list = [True] *24 if availability is None else availability
+        self.charge_sufficiency: list[bool] = [True]*24
+        self.charge_status: list[str] = (["Charge"]*5)+(["Discharge"]*17)+(["Charge", "Charge"])
+        self.charger_needed: list[bool] = ([False]*5)+([True]*17)+([False, False])
+        self.reached_ess_state_of_charge: list[bool] = [False]*24
+        self.availability_: list[bool] = [True] *24
 
         self.chargerNeededElementChanged.connect(self.update_availability)
         self.chargeStatusElementChanged.connect(self.update_availability)
@@ -41,6 +37,7 @@ class StatusSection(QObject):
         self.chargeStatusChanged.emit()
         self.chargerNeededChanged.emit()
         self.reachedEssStateOfChargeChanged.emit()
+        self.avilabilityChanged.emit()
 
         for i in range(24):
             self.chargeSufficiencyElementChanged.emit(i)
@@ -78,9 +75,10 @@ class StatusSection(QObject):
 
     @Slot(int, float)
     def setChargeStatusElement(self, index:int, charge_status:float):
-        self.charge_status[index] = charge_status
-        self.chargeStatusElementChanged.emit(index)
-        self.chargeStatusChanged.emit()        
+        if self.charge_status[index] != charge_status:
+            self.charge_status[index] = charge_status
+            self.chargeStatusElementChanged.emit(index)
+            self.chargeStatusChanged.emit()        
 
     # ================================================================
     @Property(list, notify=chargerNeededChanged) #getter
@@ -94,9 +92,10 @@ class StatusSection(QObject):
 
     @Slot(int, float)
     def setChargerNeededElement(self, index:int, charger_needed:float):
-        self.charger_needed[index] = charger_needed
-        self.chargerNeededElementChanged.emit(index)
-        self.chargerNeededChanged.emit()        
+        if self.charger_needed[index] != charger_needed:
+            self.charger_needed[index] = charger_needed
+            self.chargerNeededElementChanged.emit(index)
+            self.chargerNeededChanged.emit()        
 
     # ================================================================
     @Property(list, notify=reachedEssStateOfChargeChanged) #getter
@@ -110,9 +109,10 @@ class StatusSection(QObject):
 
     @Slot(int, float)
     def setReachedEssStateOfChargeElement(self, index:int, reached_ess_state_of_charge:float):
-        self.reached_ess_state_of_charge[index] = reached_ess_state_of_charge
-        self.reachedEssStateOfChargeElementChanged.emit(index)
-        self.reachedEssStateOfChargeChanged.emit()        
+        if self.reached_ess_state_of_charge[index] != reached_ess_state_of_charge:
+            self.reached_ess_state_of_charge[index] = reached_ess_state_of_charge
+            self.reachedEssStateOfChargeElementChanged.emit(index)
+            self.reachedEssStateOfChargeChanged.emit()        
     # ================================================================
     @Property(list, notify=avilabilityChanged) #getter
     def availability(self) -> list:
@@ -125,9 +125,10 @@ class StatusSection(QObject):
 
     @Slot(int, float)
     def setAvailabilityElement(self, index:int, avilability_:float):
-        self.availability_[index] = avilability_
-        self.avilabilityElementChanged.emit(index)
-        self.avilabilityChanged.emit()        
+        if self.availability_[index] != avilability_:
+            self.availability_[index] = avilability_
+            self.avilabilityElementChanged.emit(index)
+            self.avilabilityChanged.emit()        
     # ================================================================
 
     @Slot(int)

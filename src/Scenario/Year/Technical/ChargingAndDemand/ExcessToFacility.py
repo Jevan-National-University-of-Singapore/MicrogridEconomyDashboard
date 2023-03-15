@@ -6,40 +6,42 @@ class ExcessToFacility(QObject):
     electricityPerDayChanged = Signal()
     electricityPerYearChanged = Signal()
 
-    def __init__(self,
-        # required
-        electricity_per_day:float = 87
-    ):
+    def __init__(self):
         super().__init__()
-        self.electricity_per_day = electricity_per_day
+        self.electricity_per_day = 0
+        self.electricity_per_year = self.electricity_per_day * 365
 
-        self.electricity_per_year = round(self.electricity_per_day * 365, 2)
-
+        '''****************************************
+                    CONNECTIONS
+        ****************************************'''  
         self.electricityPerDayChanged.connect(self.updateElectricityPerYear)
 
     def emitUpdateSignals(self):
         self.electricityPerDayChanged.emit()
         self.electricityPerYearChanged.emit()
 
-    @Property(str, notify=electricityPerDayChanged) #getter
-    def electricityPerDay(self) -> str:
-        return str(self.electricity_per_day)
+    @Property(float, notify=electricityPerDayChanged) #getter
+    def electricityPerDay(self) -> float:
+        return self.electricity_per_day
 
     @electricityPerDay.setter
-    def electricityPerDay(self, electricity_per_day:str):
-        self.electricity_per_day = round(float(electricity_per_day), 2)
-        self.electricityPerDayChanged.emit()
+    def electricityPerDay(self, electricity_per_day:float):
+        if self.electricity_per_day != electricity_per_day:
+            self.electricity_per_day = electricity_per_day
+            self.electricityPerDayChanged.emit()
 
-    @Property(str, notify=electricityPerYearChanged) #getter
-    def electricityPerYear(self) -> str:
-        return str(self.electricity_per_year)
+    @Property(float, notify=electricityPerYearChanged) #getter
+    def electricityPerYear(self) -> float:
+        return self.electricity_per_year
 
     @electricityPerYear.setter
-    def electricityPerYear(self, electricity_per_year:str):
-        self.electricity_per_year = round(float(electricity_per_year), 2)
-        self.electricityPerYearChanged.emit()
+    def electricityPerYear(self, electricity_per_year:float):
+        if self.electricity_per_year != electricity_per_year:
+            self.electricity_per_year = electricity_per_year
+            self.electricityPerYearChanged.emit()
 
     @Slot()
     def updateElectricityPerYear(self):
-        self.electricity_per_year = round(self.electricity_per_day * 365, 2)
-        self.electricityPerYearChanged.emit()
+        if (new_value := self.electricity_per_day * 365) != self.electricity_per_year:
+            self.electricity_per_year = new_value
+            self.electricityPerYearChanged.emit()
