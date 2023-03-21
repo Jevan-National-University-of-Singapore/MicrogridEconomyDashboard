@@ -14,10 +14,14 @@ class BatteryStorage(QObject):
     dischargeChanged = Signal()
     gridChargingChanged = Signal()
 
+    chargingStrategyChanged = Signal()
+
     def __init__(self, 
         ess_system: Optional[EssSystem] = None,
         discharge: Optional[Discharge] = None,
-        grid_charging: Optional[GridCharging] = None
+        grid_charging: Optional[GridCharging] = None,
+
+        charging_strategy: Optional[int] = None
 
     ):
         super().__init__()
@@ -25,6 +29,8 @@ class BatteryStorage(QObject):
         self.discharge_:Discharge = Discharge() if discharge is None else discharge
         self.grid_charging:GridCharging = GridCharging() if grid_charging is None else grid_charging
 
+        self.charging_strategy: int = 1 if charging_strategy is None else charging_strategy
+        assert self.charging_strategy in [1,2]
         '''****************************************
                     CONNECTIONS
         ****************************************'''        

@@ -43,48 +43,61 @@ Page {
     Templates.SubSection {
             id: subsectionItems
 
-            subsection: "Financial"
+            subsection: "Breakeven analysis"
 
             Templates.LabelledText {
-                id: netPresentValue
+                id: revenueRequiredFromChargers
 
-                labelText: "Net Present Value"
+                labelText: "Revenue required from chargers"
                 units: "RM"
 
-                text: Scenario.fiveYearAnalysis.netPresentValue
+                text: Scenario.fiveYearAnalysis.breakeven.revenueRequiredFromChargers.toFixed(2)
 
             }
 
             Templates.LabelledText {
-                id: internalRateOfReturn
+                id: revenueFromRetailToFacility
 
-                labelText: "Internal Rate Of Return"
+                labelText: "Revenue from retail to facility"
                 units: "RM"
 
-                text: Scenario.fiveYearAnalysis.internalRateOfReturn
+                text: Scenario.fiveYearAnalysis.breakeven.revenueFromRetailToFacility.toFixed(2)
 
             }
 
             Templates.LabelledText {
-                id: netProfits
+                id: totalRevenueRequired
 
-                labelText: "Net Profits"
+                labelText: "Total revenue required"
                 units: "RM"
 
-                text: Scenario.fiveYearAnalysis.netProfits
+                text: Scenario.fiveYearAnalysis.breakeven.totalRevenueRequired.toFixed(2)
 
             }
+        }
 
-            Templates.LabelledText {
-                id: initialInvestment
+        Templates.LabelledText {
+            id: evChargingPriceToBreakeven
 
-                labelText: "Initial Investment"
-                units: "RM"
+            anchors {
+                top: subsectionItems.bottom
+                topMargin: Qt.application.font.pixelSize
 
-                text: Scenario.fiveYearAnalysis.initialInvestment
-
+                left: subsectionItems.left
+                leftMargin: Qt.application.font.pixelSize
             }
 
+            labelText: "EV charging price to breakeven"
+            units: "RM"
 
+            text: Scenario.fiveYearAnalysis.breakeven.evChargingPriceToBreakeven.toFixed(2)
+
+        }
+
+        Frame {
+            anchors.centerIn: evChargingPriceToBreakeven
+
+            height: evChargingPriceToBreakeven.height + Qt.application.font.pixelSize
+            width: evChargingPriceToBreakeven.width + (Qt.application.font.pixelSize * 2)
         }
 }

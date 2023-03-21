@@ -9,6 +9,7 @@ from PySide6.QtGui import *
 from .Year.Year import Year
 from .FiveYearAnalysis.FiveYearAnalysis import FiveYearAnalysis
 
+
 class Scenario(QObject):
     yearsChanged = Signal()
     currentYearIndexChanged = Signal()
@@ -24,44 +25,6 @@ class Scenario(QObject):
         
         self.years_: list[Year] = [Year(), Year(), Year(), Year(), Year(), Year()] if years is None else years
         self.five_year_analysis: FiveYearAnalysis = FiveYearAnalysis() if five_year_analysis is None else five_year_analysis
-
-        '''****************************************
-                POST ASSIGNMENT UPDATE
-        ****************************************'''
-
-        self.years_[0].financial_.capital_expenditure.depreciation_.ess_depreciation = \
-            self.years_[0].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh \
-            + self.years_[0].financial_.capital_expenditure.depreciation_.actual_ess_lifecycle
-        
-
-        '''------- capital expenditure -------''' 
-        self.years_[0].financial_.capital_expenditure.depreciation_.actual_ess_lifecycle = \
-            self.years_[0].technical_.battery_storage.ess_system.ess_nameplate_lifecycle \
-            * self.years_[0].technical_.battery_storage.ess_system.depth_of_discharge_percentage \
-            * ( 1 + self.years_[0].technical_.battery_storage.ess_system.end_of_life_capacity_percentage)/2
-
-        self.years_[0].financial_.capital_expenditure.depreciation_.ess_capex_per_kwh = \
-            self.years_[0].financial_.capital_expenditure.capital_expenditure_items.ess_301kwh \
-            / self.years_[0].technical_.battery_storage.ess_system.installed_capacity_kwh \
-        if self.years_[0].technical_.battery_storage.ess_system.installed_capacity_kwh else 0
-        
-
-        self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity = \
-            4 * 365 * 10 * 0.9 \
-            * self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
-        if self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating else 0
-
-        self.years_[0].financial_.capital_expenditure.depreciation_.charger_capex_per_kw = \
-            self.years_[0].financial_.capital_expenditure.capital_expenditure_items.dc_chargers \
-            /self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
-        if self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating else 0
-
-        self.years_[0].financial_.capital_expenditure.depreciation_.charger_depreciation = \
-            self.years_[0].financial_.capital_expenditure.depreciation_.charger_capex_per_kw \
-            * self.years_[0].technical_.charging_and_demand.charging_ports.dc_charger_1_rating \
-            / self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity \
-        if self.years_[0].financial_.capital_expenditure.depreciation_.charger_lifecycle_capacity else 0
-
 
         '''****************************************
                     CONNECTIONS
@@ -206,10 +169,61 @@ class Scenario(QObject):
         self.years_[4].financial_.summary_.free_cash_flow_section.freeCashFlowChanged.connect(self.update_year5_financial_summary_internalRateOfReturnSection_internalRateOfReturn)
         self.years_[5].financial_.summary_.free_cash_flow_section.freeCashFlowChanged.connect(self.update_year5_financial_summary_internalRateOfReturnSection_internalRateOfReturn)        
            
+
+        '''--------- FIVE YEAR ANALYSIS ----------'''
+        self.years_[0].technical_.charging_and_demand.excess_to_facility.electricityPerYearChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[0].financial_.revenue_.tariff_assumption.electricityTariffRateChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[0].financial_.revenue_.tariff_assumption.marginOnElectricitySoldToFacilityChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+
+        self.years_[1].technical_.charging_and_demand.excess_to_facility.electricityPerYearChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[1].financial_.revenue_.tariff_assumption.electricityTariffRateChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[1].financial_.revenue_.tariff_assumption.marginOnElectricitySoldToFacilityChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+
+        self.years_[2].technical_.charging_and_demand.excess_to_facility.electricityPerYearChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[2].financial_.revenue_.tariff_assumption.electricityTariffRateChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[2].financial_.revenue_.tariff_assumption.marginOnElectricitySoldToFacilityChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+
+        self.years_[3].technical_.charging_and_demand.excess_to_facility.electricityPerYearChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[3].financial_.revenue_.tariff_assumption.electricityTariffRateChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[3].financial_.revenue_.tariff_assumption.marginOnElectricitySoldToFacilityChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+
+        self.years_[4].technical_.charging_and_demand.excess_to_facility.electricityPerYearChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[4].financial_.revenue_.tariff_assumption.electricityTariffRateChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[4].financial_.revenue_.tariff_assumption.marginOnElectricitySoldToFacilityChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+
+        self.years_[5].technical_.charging_and_demand.excess_to_facility.electricityPerYearChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[5].financial_.revenue_.tariff_assumption.electricityTariffRateChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+        self.years_[5].financial_.revenue_.tariff_assumption.marginOnElectricitySoldToFacilityChanged.connect(self.update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility)
+
+        self.years_[0].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+        self.years_[0].financial_.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+
+        self.years_[1].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+        self.years_[1].financial_.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+
+        self.years_[2].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+        self.years_[2].financial_.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+
+        self.years_[3].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+        self.years_[3].financial_.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+
+        self.years_[4].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+        self.years_[4].financial_.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+
+        self.years_[5].financial_.capital_expenditure.capital_expenditure_items.totalCapexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+        self.years_[5].financial_.operating_expenditure.operating_expenditure_items.totalOpexChanged.connect(self.update_fiveYearAnalysis_breakeven_totalRevenueRequired)
+
+        '''update five years analysis ev charging price'''
+        self.five_year_analysis.breakeven_.totalRevenueRequiredChanged.connect(self.update_fiveYearAnalysis_breakeven_evChargingPriceToBreakeven)
+        for year in self.years_:
+            year.technical_.battery_storage.ess_system.operationalTimeChanged.connect(self.update_fiveYearAnalysis_breakeven_evChargingPriceToBreakeven)
+            year.technical_.charging_and_demand.demand_.actualEnergyServedPerDayChanged.connect(self.update_fiveYearAnalysis_breakeven_evChargingPriceToBreakeven)
+
         self.emitUpdateSignals()
 
     def emitUpdateSignals(self):
         self.yearsChanged.emit()
+        self.five_year_analysis.emitUpdateSignals()
         for year in self.years_:
             year.emitUpdateSignals()
 
@@ -500,3 +514,46 @@ class Scenario(QObject):
     @Slot()
     def update_year5_financial_summary_internalRateOfReturnSection_internalRateOfReturn(self):
         self._update_year_financial_summary_internalRateOfReturnSection_internalRateOfReturn(year_index=5)    
+
+
+    '''---------- FIVE YEAR ANALYSIS ------------'''
+    @Slot()
+    def update_fiveYearAnalysis_breakeven_revenueFromRetailToFacility(self):
+        new_value: float = 0
+        for year in self.years_:
+            new_value += \
+                year.technical_.charging_and_demand.excess_to_facility.electricity_per_year \
+                * year.financial_.revenue_.tariff_assumption.electricity_tariff_rate \
+                * year.financial_.revenue_.tariff_assumption.margin_on_electricity_sold_to_facility
+        if new_value != self.five_year_analysis.breakeven_.revenue_from_retail_to_facility:
+            self.five_year_analysis.breakeven_.revenueFromRetailToFacility = new_value
+
+    @Slot()
+    def update_fiveYearAnalysis_breakeven_totalRevenueRequired(self):
+        new_value: float = 0
+        for year in self.years_:
+            new_value += \
+                year.financial_.capital_expenditure.capital_expenditure_items.total_capex \
+                + year.financial_.operating_expenditure.operating_expenditure_items.total_opex
+        if new_value != self.five_year_analysis.breakeven_.total_revenue_required:
+            self.five_year_analysis.breakeven_.totalRevenueRequired = new_value
+
+
+    @Slot()
+    def update_fiveYearAnalysis_breakeven_evChargingPriceToBreakeven(self):
+        denominator: float = 0
+        for year in self.years_:
+            denominator += \
+                year.technical_.battery_storage.ess_system.operational_time_percentage \
+                * 365 * year.technical_.charging_and_demand.demand_.actual_energy_served_per_day
+        if (
+            new_value := self.five_year_analysis.breakeven_.total_revenue_required/denominator
+        ) != self.five_year_analysis.breakeven_.ev_charging_price_to_breakeven:
+            self.five_year_analysis.breakeven_.evChargingPriceToBreakeven = new_value
+
+
+
+'''
+=(revenueRequiredtobreakeven
+/sum_of_all_years(operational_time*365*actual_energy_served_per_day)
+'''

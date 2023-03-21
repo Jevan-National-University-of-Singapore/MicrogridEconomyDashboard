@@ -86,7 +86,6 @@ class HourlyBreakdown(QObject):
         new_value:float = previous_hour_value
 
         if self.dc_charger_demand_section.load_on_ess[hour_index] > 0:
-            #here
             if self.status_section.charge_sufficiency[hour_index]:
                 if self.status_section.reached_ess_state_of_charge[hour_index]:
                     new_value = previous_hour_value + total_charge_supply
@@ -102,29 +101,9 @@ class HourlyBreakdown(QObject):
             new_value = previous_hour_value + total_charge_supply
            
         self.dc_charger_demand_section.setEssChargeElement(hour_index, new_value)
-        '''
-        S45: load_on_ess
-        S50: insufficient_charge
-        S53: reached_ess_soc
-        R46: previous_ess_charge_with_load
-        S41: total_charge_supply
 
-        IF(S45>0,
-            IF(S50="NO",
-                IF(S53="NO",
-                    R46-S45,
-                else
-                    R46+S41),
-            else
-                R46+S41),
-        else 
-            IF(S53="NO",
-                R46+S41,
-            else 
-                R46))
-
-        =IF(S45>0,IF(S50="NO",IF(S53="NO",R46-S45,R46+S41),R46+S41),IF(S53="NO",R46+S41,R46))
-        '''
+        
+    
 
     @Slot(int)
     def update_dcChargerDemandSection_essChargeWithLoad(self, _: int):

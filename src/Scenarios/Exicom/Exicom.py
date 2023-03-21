@@ -19,11 +19,6 @@ from .Year5 import year5
 
 exicom = Scenario(
         years = [year0,year1,year2,year3,year4,year5],
-        five_year_analysis=FiveYearAnalysis(
-                net_present_value = 0,
-                internal_rate_of_return = 0,
-                net_profits = 0,
-                initial_investment = 0
-        )
+        five_year_analysis=FiveYearAnalysis()
     
 )
