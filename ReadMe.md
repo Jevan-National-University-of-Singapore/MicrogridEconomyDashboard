@@ -25,7 +25,8 @@ entry: `main.py`
 entry point is `main.py` which can be found in src.
 
 ## TO DO
-1. Move hourly solar charging and hourly charging demand into the technical section under their respecitve sections
-2. Perhaps make the model as a single year first then for the five year anaylsis create 5 of it.
+1. Set cost/kWh for ESS for the ESS optimisation
+
+
 
 <!-- diagram for software architecture and features -->

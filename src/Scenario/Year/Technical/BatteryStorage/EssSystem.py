@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6.QtWidgets import *
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -21,6 +23,8 @@ class EssSystem(QObject):
     endOfLifeCapacityChanged = Signal()
     essNameplateLifecycleChanged = Signal()
 
+    chargingStrategyChanged = Signal()
+
     # read only signals
     chargeRateChanged = Signal()
     maximumPowerChanged = Signal()
@@ -35,7 +39,9 @@ class EssSystem(QObject):
         state_of_charge_upper_limit: float = 0.9,
         state_of_charge_lower_limit: float = 0.1,
         end_of_life_capacity_percentage: float = 0.8,
-        ess_nameplate_lifecycle: float = 3059.51
+        ess_nameplate_lifecycle: float = 3059.51,
+
+        charging_strategy: int = 1
     ):
         super().__init__()
         self.installed_capacity_kwh:float = installed_capacity
@@ -44,6 +50,8 @@ class EssSystem(QObject):
         self.state_of_charge_lower_limit_percentage:float = state_of_charge_lower_limit
         self.end_of_life_capacity_percentage:float = end_of_life_capacity_percentage
         self.ess_nameplate_lifecycle:float = ess_nameplate_lifecycle
+
+        self.charging_strategy: int = charging_strategy
 
         self.charge_rate_cRate: float = 0
         self.maximum_power_kw: float = 0
@@ -66,6 +74,7 @@ class EssSystem(QObject):
         self.chargeRateChanged.emit()
         self.maximumPowerChanged.emit()
         self.depthOfDischargePercentageChanged.emit()
+        self.chargingStrategyChanged.emit()
         
     ''' *****************************************************
                 QML(UI) getters and setters (front-end)
@@ -170,6 +179,26 @@ class EssSystem(QObject):
         if self.depth_of_discharge_percentage != depth_of_discharge_percentage:
             self.depth_of_discharge_percentage = depth_of_discharge_percentage
             self.depthOfDischargePercentageChanged.emit()
+
+    @Property(int, notify=chargingStrategyChanged) #getter
+    def chargingStrategy(self) -> int:
+        return self.charging_strategy
+    
+    @chargingStrategy.setter
+    def chargingStrategy(self, charging_strategy:int):
+        if charging_strategy != self.charging_strategy and charging_strategy:
+            self.charging_strategy = charging_strategy
+            self.chargingStrategyChanged.emit()
+
+    # @Property(float, notify=chargingStrategyChanged) #getter
+    # def powerContinuous(self) -> float:
+    #     return self.power_continuous
+
+    # @powerContinuous.setter #setter
+    # def powerContinuous(self, power_continuous:float) -> None:
+    #     if self.power_continuous != power_continuous:
+    #         self.power_continuous = power_continuous
+    #         self.powerContinuousChanged.emit()
 
     @Slot()
     def updateDepthOfDischarge(self):

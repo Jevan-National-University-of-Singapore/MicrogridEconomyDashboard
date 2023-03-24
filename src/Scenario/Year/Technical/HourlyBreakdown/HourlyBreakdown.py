@@ -29,11 +29,11 @@ class HourlyBreakdown(QObject):
         self.dc_charger_demand_section.dcChargerDemandElementChanged.connect(self.update_dcChargerDemandSection_loadOnEss)
         self.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_dcChargerDemandSection_loadOnEss)
 
-        self.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
-        self.dc_charger_demand_section.loadOnEssElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
-        self.status_section.chargeSufficiencyElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
-        self.status_section. reachedEssStateOfChargeElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
-        self.dc_charger_demand_section.essChargeElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
+        # self.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
+        # self.dc_charger_demand_section.loadOnEssElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
+        # self.status_section.chargeSufficiencyElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
+        # self.status_section. reachedEssStateOfChargeElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
+        # self.dc_charger_demand_section.essChargeElementChanged.connect(self.update_dcChargerDemandSection_essChargeWithLoad)
 
         self.dc_charger_demand_section.essChargeElementChanged.connect(self.update_statusSection_chargeSufficiency)
         self.dc_charger_demand_section.essStateOfChargeElementChanged.connect(self.update_statusSection_chargeSufficiency)
@@ -74,42 +74,42 @@ class HourlyBreakdown(QObject):
         else:
             self.dc_charger_demand_section.setLoadOnEssElement(hour_index, 0)
 
-    def _update_dcChargerDemandSection_essChargeWithLoad_firstHour(self, hour_index:int):
-        new_value = self.total_charge_supply_section.total_charge_supply[hour_index] - self.dc_charger_demand_section.dc_charger_demand[hour_index]
+    # def _update_dcChargerDemandSection_essChargeWithLoad_firstHour(self, hour_index:int):
+    #     new_value = self.total_charge_supply_section.total_charge_supply[hour_index] - self.dc_charger_demand_section.dc_charger_demand[hour_index]
 
-        self.dc_charger_demand_section.setEssChargeElement(hour_index, new_value)
+    #     self.dc_charger_demand_section.setEssChargeElement(hour_index, new_value)
 
-    def _update_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(self, hour_index: int):
-        total_charge_supply:float = self.total_charge_supply_section.total_charge_supply[hour_index]
-        previous_hour_value:float = self.dc_charger_demand_section.ess_charge[hour_index-1]
+    # def _update_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(self, hour_index: int):
+    #     total_charge_supply:float = self.total_charge_supply_section.total_charge_supply[hour_index]
+    #     previous_hour_value:float = self.dc_charger_demand_section.ess_charge[hour_index-1]
 
-        new_value:float = previous_hour_value
+    #     new_value:float = previous_hour_value
 
-        if self.dc_charger_demand_section.load_on_ess[hour_index] > 0:
-            if self.status_section.charge_sufficiency[hour_index]:
-                if self.status_section.reached_ess_state_of_charge[hour_index]:
-                    new_value = previous_hour_value + total_charge_supply
-                else:
-                    new_value = previous_hour_value - self.dc_charger_demand_section.load_on_ess[hour_index]
+    #     if self.dc_charger_demand_section.load_on_ess[hour_index] > 0:
+    #         if self.status_section.charge_sufficiency[hour_index]:
+    #             if self.status_section.reached_ess_state_of_charge[hour_index]:
+    #                 new_value = previous_hour_value + total_charge_supply
+    #             else:
+    #                 new_value = previous_hour_value - self.dc_charger_demand_section.load_on_ess[hour_index]
 
-            else:
-                new_value = previous_hour_value + total_charge_supply
+    #         else:
+    #             new_value = previous_hour_value + total_charge_supply
 
-        elif self.status_section.reached_ess_state_of_charge[hour_index]:
-            new_value = previous_hour_value
-        else:
-            new_value = previous_hour_value + total_charge_supply
+    #     elif self.status_section.reached_ess_state_of_charge[hour_index]:
+    #         new_value = previous_hour_value
+    #     else:
+    #         new_value = previous_hour_value + total_charge_supply
            
-        self.dc_charger_demand_section.setEssChargeElement(hour_index, new_value)
+    #     self.dc_charger_demand_section.setEssChargeElement(hour_index, new_value)
 
         
     
 
-    @Slot(int)
-    def update_dcChargerDemandSection_essChargeWithLoad(self, _: int):
-        self._update_dcChargerDemandSection_essChargeWithLoad_firstHour(0)
-        for hour_index in range(23):
-            self._update_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(hour_index+1)
+    # @Slot(int)
+    # def update_dcChargerDemandSection_essChargeWithLoad(self, _: int):
+    #     self._update_dcChargerDemandSection_essChargeWithLoad_firstHour(0)
+    #     for hour_index in range(23):
+    #         self._update_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(hour_index+1)
 
     @Slot(int)
     def update_statusSection_chargeSufficiency(self, hour_index:int):

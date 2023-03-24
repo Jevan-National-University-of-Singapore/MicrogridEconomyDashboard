@@ -18,7 +18,7 @@ class Scenario(QObject):
     def __init__(self, 
         name: str = None,
         years: Optional[list[Year]] = None,
-        five_year_analysis: Optional[FiveYearAnalysis] = None,
+        five_year_analysis: Optional[FiveYearAnalysis] = None
     ):
         super().__init__()
         self.current_year_index:int = 0
@@ -551,9 +551,11 @@ class Scenario(QObject):
         ) != self.five_year_analysis.breakeven_.ev_charging_price_to_breakeven:
             self.five_year_analysis.breakeven_.evChargingPriceToBreakeven = new_value
 
+    ''' API '''
+    def set_allYears_technical_batteryStorage_essSystem_installedCapacity(self, installed_capacity: float):
+        for year in self.years_:
+            year.technical_.battery_storage.ess_system.installedCapacity = installed_capacity
 
-
-'''
-=(revenueRequiredtobreakeven
-/sum_of_all_years(operational_time*365*actual_energy_served_per_day)
-'''
+    def set_allYears_technical_batteryStorage_essSystem_chargingStrategy(self, charging_strategy: int):
+        for year in self.years_:
+            year.technical_.battery_storage.ess_system.chargingStrategy = charging_strategy            

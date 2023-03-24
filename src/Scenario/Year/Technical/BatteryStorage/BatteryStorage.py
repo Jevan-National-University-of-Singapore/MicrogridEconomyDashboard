@@ -14,23 +14,17 @@ class BatteryStorage(QObject):
     dischargeChanged = Signal()
     gridChargingChanged = Signal()
 
-    chargingStrategyChanged = Signal()
-
     def __init__(self, 
         ess_system: Optional[EssSystem] = None,
         discharge: Optional[Discharge] = None,
-        grid_charging: Optional[GridCharging] = None,
-
-        charging_strategy: Optional[int] = None
+        grid_charging: Optional[GridCharging] = None
 
     ):
         super().__init__()
         self.ess_system:EssSystem = EssSystem() if ess_system is None else ess_system
         self.discharge_:Discharge = Discharge() if discharge is None else discharge
         self.grid_charging:GridCharging = GridCharging() if grid_charging is None else grid_charging
-
-        self.charging_strategy: int = 1 if charging_strategy is None else charging_strategy
-        assert self.charging_strategy in [1,2]
+        
         '''****************************************
                     CONNECTIONS
         ****************************************'''        
@@ -54,7 +48,7 @@ class BatteryStorage(QObject):
     @Property(GridCharging, notify=gridChargingChanged) #getter
     def gridCharging(self) -> GridCharging:
         return self.grid_charging
-
+    
     @Slot()
     def updateDischargePowerMax(self):
         if self.discharge_.power_max != self.ess_system.installed_capacity_kwh:

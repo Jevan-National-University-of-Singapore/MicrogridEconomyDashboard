@@ -88,6 +88,17 @@ class Technical(QObject):
         self.hourly_breakdown.status_section.chargeSufficiencyElementChanged.connect(self.update_chargingAndDemand_demand_totalWaitingTime)
         self.hourly_breakdown.status_section.chargeStatusElementChanged.connect(self.update_chargingAndDemand_demand_actualUsersServedPerDay)
 
+        '''
+        update_HourlyBreakdown_statusSection_essChargeWithLoad -> CHARGING STRATEGY
+        '''
+        self.hourly_breakdown.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad)
+        self.hourly_breakdown.dc_charger_demand_section.loadOnEssElementChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad)
+        self.hourly_breakdown.status_section.chargeSufficiencyElementChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad)
+        self.hourly_breakdown.status_section. reachedEssStateOfChargeElementChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad)
+        self.hourly_breakdown.dc_charger_demand_section.essChargeElementChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad)
+
+        self.hourly_breakdown.total_charge_supply_section.totalChargeSupplyElementChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad)
+        self.battery_storage.ess_system.chargingStrategyChanged.connect(self.update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad_)
 
     def emitUpdateSignals(self):
         self.battery_storage.emitUpdateSignals()
@@ -215,6 +226,56 @@ class Technical(QObject):
                 new_value:float = (ess_charge+total_charge_supply) > (soc_upper_limit*installed_capacity)
                 self.hourly_breakdown.status_section.setReachedEssStateOfChargeElement(hour_index, new_value)
 
+
+    '''=============== CHARGING STRATEGY ================='''
+    def _update_dcChargerDemandSection_essChargeWithLoad_firstHour(self):
+        new_value = self.hourly_breakdown.total_charge_supply_section.total_charge_supply[0] - self.hourly_breakdown.dc_charger_demand_section.dc_charger_demand[0]
+
+        self.hourly_breakdown.dc_charger_demand_section.setEssChargeElement(0, new_value)
+       
+
+
+    def _update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(self, hour_index: int):
+        total_charge_supply:float = self.hourly_breakdown.total_charge_supply_section.total_charge_supply[hour_index]
+        previous_hour_value:float = self.hourly_breakdown.dc_charger_demand_section.ess_charge[hour_index-1]
+
+        new_value:float = previous_hour_value
+
+        if self.hourly_breakdown.dc_charger_demand_section.load_on_ess[hour_index] > 0:
+            if self.hourly_breakdown.status_section.charge_sufficiency[hour_index]:
+                if self.hourly_breakdown.status_section.reached_ess_state_of_charge[hour_index]:
+                    new_value = previous_hour_value + total_charge_supply
+                elif self.battery_storage.ess_system.charging_strategy == 1:
+                    new_value = previous_hour_value - self.hourly_breakdown.dc_charger_demand_section.load_on_ess[hour_index]
+                elif self.battery_storage.ess_system.charging_strategy == 2:
+                    new_value = previous_hour_value \
+                        - (
+                            self.hourly_breakdown.total_charge_supply_section.total_charge_supply[hour_index]
+                            - self.hourly_breakdown.dc_charger_demand_section.load_on_ess[hour_index]    
+                        )
+
+            else:
+                new_value = previous_hour_value + total_charge_supply
+
+        elif self.hourly_breakdown.status_section.reached_ess_state_of_charge[hour_index]:
+            new_value = previous_hour_value
+        else:
+            new_value = previous_hour_value + total_charge_supply
+           
+        self.hourly_breakdown.dc_charger_demand_section.setEssChargeElement(hour_index, new_value)          
+
+    @Slot(int)
+    def update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad(self, _: int):
+        self._update_dcChargerDemandSection_essChargeWithLoad_firstHour()
+        for hour_index in range(23):
+            self._update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(hour_index+1)        
+
+    @Slot()
+    def update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad_(self):
+        self._update_dcChargerDemandSection_essChargeWithLoad_firstHour()
+        for hour_index in range(23):
+            self._update_hourlyBreakdown_dcChargerDemandSection_essChargeWithLoad_nonFirstHour(hour_index+1)                       
+'''============================================================'''
 
 
 

@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls.Material
 import "../../Templates" as Templates
 
 Templates.Page{
@@ -110,6 +111,65 @@ Templates.Page{
             inputText: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.essNameplateLifecycle.toFixed(2)
         }
 
-
     }
+
+    Row {
+        id: chargingStrategy
+        anchors {
+            top: subsectionItems.bottom
+            topMargin: Qt.application.font.pixelSize
+
+            left: subsectionItems.left
+            leftMargin: Qt.application.font.pixelSize/2
+        }
+
+        spacing: Qt.application.font.pixelSize/2
+
+        // height: chargingStrategySelector.height
+
+        Label {
+            id: label
+
+            text: "Charging strategy"
+            verticalAlignment: Text.AlignVCenter
+            height: font.pixelSize
+
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Label {
+            id: text
+
+            text: ":"
+
+            verticalAlignment: Text.AlignVCenter
+            height: label.height
+
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        ComboBox {
+            id: chargingStrategySelector
+
+            currentIndex: Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.chargingStrategy - 1
+
+            model: ListModel {
+                ListElement { text: "1" }
+                ListElement { text: "2" }
+            }
+
+            Material.background: Material.primaryColor
+            // Material.primary: "#303030"//#181818"
+            // Material.primary: "#303030"//"#4a4a4e"            
+
+            onCurrentIndexChanged: {
+                Scenario.years[Scenario.currentYearIndex].technical.batteryStorage.essSystem.chargingStrategy = currentIndex + 1
+                
+            }
+
+        }
+
+    }    
+
+
 }
