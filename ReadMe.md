@@ -25,7 +25,7 @@ entry: `main.py`
 entry point is `main.py` which can be found in src.
 
 ## TO DO
-1. Set cost/kWh for ESS for the ESS optimisation
+1. Set cost/kWh for lfp and nmc ESS for the ESS optimisation
 
 
 
